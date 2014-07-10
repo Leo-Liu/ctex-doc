@@ -21,44 +21,74 @@
 \cts lineskiplimit {\param{dimen}}
 \cts lineskip {\param{glue}}
 \explain
+%^^{line spacing}
+%\bix^^{interline glue}
+%\bix^^|\baselineskip|
+%\bix^^|\lineskip|
+%\bix^^|\lineskiplimit|
+%These three parameters jointly determine how much space \TeX\ leaves between
+%consecutive \minref{box}es of an ordinary \minref{vertical list},
+%e.g., the lines of a paragraph.
+%This space is called ``\minref{interline glue}''.
+%It is also inserted between the component boxes of a vbox constructed in
+%internal vertical mode.
+%^^{vboxes//interline glue for}
+%
+%In the usual case, when the boxes aren't abnormally high or deep, \TeX\
+%makes the distance from the baseline of one box to the baseline of the
+%next one equal to |\baselineskip|.  It does this by inserting interline
+%glue equal to |\baselineskip| minus the depth of the upper box (as given
+%by ^|\prevdepth|) and the height of the lower box.  But if this
+%interline glue would be less than |\lineskiplimit|, indicating that the
+%two boxes are too close together, \TeX\ inserts the |\lineskip| glue
+%instead.\footnote
+%{\TeX\ actually accounts for the beginning of a
+%vertical list by setting |\prevdepth| to $-1000$\pt\ and testing
+%|\prevdepth| before \emph{every} box.  If |\prevdepth|$\>\le-1000$\pt\
+%it does not insert any interline glue.} See \knuth{pages~79--80} for a
+%precise description.
+%
+%Note that |\baselineskip| and |\lineskip| measure \emph{different
+%things}: the distance between baselines on the one hand and the distance
+%between the bottom of one box and the top of the next box on the other
+%hand.  See \knuth{page~78} for further details.  The first example below
+%shows the effects of |\lineskiplimit|.
+%
+%You can obtain the effect of ^{double spacing} by doubling the value
+%of |\baselineskip| as illustrated in the second example below.
+%A change to |\baselineskip| at any point before the end of a paragraph affects
+%the entire paragraph.
 ^^{line spacing}
 \bix^^{interline glue}
 \bix^^|\baselineskip|
 \bix^^|\lineskip|
 \bix^^|\lineskiplimit|
-These three parameters jointly determine how much space \TeX\ leaves between
-consecutive \minref{box}es of an ordinary \minref{vertical list},
-e.g., the lines of a paragraph.
-This space is called ``\minref{interline glue}''.
-It is also inserted between the component boxes of a vbox constructed in
-internal vertical mode.
+在一个普通\minref{垂直列}（例如段落各行）中，
+这三个参数共同确定了 \TeX\ 在相邻两个\minref{盒子}间插入的间隔。
+这个间隔称为“\minref{行间\zglue}”。
+对于内部垂直模式中构造的 vbox 垂直列，其中的组成盒子间同样会有此间隔。
 ^^{vboxes//interline glue for}
 
-In the usual case, when the boxes aren't abnormally high or deep, \TeX\
-makes the distance from the baseline of one box to the baseline of the
-next one equal to |\baselineskip|.  It does this by inserting interline
-glue equal to |\baselineskip| minus the depth of the upper box (as given
-by ^|\prevdepth|) and the height of the lower box.  But if this
-interline glue would be less than |\lineskiplimit|, indicating that the
-two boxes are too close together, \TeX\ inserts the |\lineskip| glue
-instead.\footnote
-{\TeX\ actually accounts for the beginning of a
-vertical list by setting |\prevdepth| to $-1000$\pt\ and testing
-|\prevdepth| before \emph{every} box.  If |\prevdepth|$\>\le-1000$\pt\
-it does not insert any interline glue.} See \knuth{pages~79--80} for a
-precise description.
+在通常情况下，盒子的高度和深度不会太大，
+此时 \TeX\ 让相邻盒子的两基线距离等于 |\baselineskip|。
+为此可以让行间\zglue 等于 |\baselineskip| 减去上盒子深度（由 ^|\prevdepth| 给出）%
+和下盒子高度。
+但如果两个盒子靠得太近，即行间\zglue 小于 |\lineskiplimit|，
+\TeX\ 将改为插入 |\lineskip| 大小的间距。\negthinspace\footnote
+{\TeX\ 实际上在垂直列开头设定 |\prevdepth| 为 $-1000$\pt ，
+从而可以测定\emph{每个}盒子的 |\prevdepth|。
+若 |\prevdepth|$\>\le-1000$\pt ，
+它就不会插入任何行间\zglue 。}详情可见 \knuth{第~79--80~页}。
 
-Note that |\baselineskip| and |\lineskip| measure \emph{different
-things}: the distance between baselines on the one hand and the distance
-between the bottom of one box and the top of the next box on the other
-hand.  See \knuth{page~78} for further details.  The first example below
-shows the effects of |\lineskiplimit|.
+注意 |\baselineskip| 和 |\lineskip| 测量\emph{不同的东西}：
+前者为两盒子基线之间的距离，
+而后者为上盒子底部和下盒子顶部的距离。
+详情可看 \knuth{第~78~页}。
+下面第一个例子展示了|\lineskiplimit| 的作用。
 
-You can obtain the effect of ^{double spacing} by doubling the value
-of |\baselineskip| as illustrated in the second example below.
-A change to |\baselineskip| at any point before the end of a paragraph affects
-the entire paragraph.
-
+如下面第二个例子所示，将 |\baselineskip| 加倍，
+就能得到^{双倍行距}的效果。
+在段落结束前任何位置改变 |\baselineskip|，都会影响整个段落。
 \example
 \baselineskip = 11pt \lineskiplimit = 1pt
 \lineskip = 2pt plus .5pt
@@ -96,10 +126,12 @@ we'd only get extra space above the line.)
 \begindesc
 \cts prevdepth {\param{dimen}}
 \explain
-When \TeX\ adds a box to a vertical list, it sets |\prevdepth| to the
-depth of that box.  \TeX\ sets |\prevdepth| to $-1000$\pt\ at the start
-of a vertical list, indicating that the usual interline glue should be
-suppressed.
+%When \TeX\ adds a box to a vertical list, it sets |\prevdepth| to the
+%depth of that box.  \TeX\ sets |\prevdepth| to $-1000$\pt\ at the start
+%of a vertical list, indicating that the usual interline glue should be
+%suppressed.
+当 \TeX\ 将盒子添加到垂直列时，它设定 |\prevdepth| 为该盒子的深度。
+在垂直列的开始， \TeX\ 设定 |\prevdepth| 为 $-1000$\pt\ ，这表示不添加行间\zglue 。
 \enddesc
 
 \begindesc
@@ -108,26 +140,35 @@ suppressed.
 \cts normallineskip {\param{glue}}
 \cts normalbaselines {}
 \explain
-The three parameters contain values for |\base!-line!-skip|,
-|\line!-skip|, and |\line!-skip!-limit| respectively.
+%The three parameters contain values for |\base!-line!-skip|,
+%|\line!-skip|, and |\line!-skip!-limit| respectively.
+%^^|\baselineskip| ^^|\lineskip| ^^|\lineskiplimit|
+%The |\normalbaselines| command sets |\base!-line!-skip|,
+%|\line!-skip|, and |\line!-skip!-limit| to the values contained in the
+%three parameters.
+前三个参数分别包含 |\base!-line!-skip|，|\line!-skip| 和 |\line!-skip!-limit| 的值。
 ^^|\baselineskip| ^^|\lineskip| ^^|\lineskiplimit|
-The |\normalbaselines| command sets |\base!-line!-skip|,
-|\line!-skip|, and |\line!-skip!-limit| to the values contained in the
-three parameters.
+而 |\normalbaselines| 命令将 |\base!-line!-skip|，|\line!-skip| 和 |\line!-skip!-limit|
+分别设定为这三个参数的值。
 \enddesc
 
 \begindesc
 \cts offinterlineskip {}
 \explain
-This command tells \TeX\ to stop inserting interline glue from
-now on.  Unless you want it to be in effect for the rest of the document
-(which you probably don't), you should enclose it in a group
-together with the text you want it to affect.
-Its main purpose is to let you do interline spacing yourself,
-e.g., using ^{struts},
-without interference from \TeX's normal interline glue.
-|\offinterlineskip| is often useful when
-you're constructing a horizontal \minref{alignment}.
+%This command tells \TeX\ to stop inserting interline glue from
+%now on.  Unless you want it to be in effect for the rest of the document
+%(which you probably don't), you should enclose it in a group
+%together with the text you want it to affect.
+%Its main purpose is to let you do interline spacing yourself,
+%e.g., using ^{struts},
+%without interference from \TeX's normal interline glue.
+%|\offinterlineskip| is often useful when
+%you're constructing a horizontal \minref{alignment}.
+%^^{alignments//using \b\tt\\offinterlineskip\e\ in}
+此命令让 \TeX\ 从此之后停止插入行间\zglue 。除非你希望对文档的剩余部分都生效（你多半不希望），
+你应该将此命令和你希望生效的文本放在一个\zgroup 中。
+它的主要用处在于可以让你自己处理行间空隙，比如用支架（^{struts}），
+而不影响 \TeX\ 的正常行间\zglue 。在构造水平对齐时经常会用到|\offinterlineskip|。
 ^^{alignments//using \b\tt\\offinterlineskip\e\ in}
 \example
 \def\entry#1:#2 {\strut\quad#1\quad&\quad#2\quad\cr}
@@ -165,20 +206,26 @@ you're constructing a horizontal \minref{alignment}.
 \begindesc
 \cts nointerlineskip {}
 \explain
-This command tells \TeX\ not to insert interline glue in front of the
-next line.
-It has no effect on subsequent lines.
+%This command tells \TeX\ not to insert interline glue in front of the
+%next line.
+%It has no effect on subsequent lines.
+此命令让 \TeX\ 停止在下一行插入行间\zglue 。它不影响后续其他行。
 \enddesc
 
 \begindesc
 \cts openup {\<dimen>}
 \explain
-This command increases ^|\baselineskip| by \<dimen>.
-An |\openup| command before the end of a paragraph affects
-the entire paragraph, so you shouldn't use |\openup| to
-change |\baseline!-skip| within a paragraph.  |\openup| is
-most useful for typesetting tables and math displays---a
-little extra space between rows often makes them more readable.
+%This command increases ^|\baselineskip| by \<dimen>.
+%An |\openup| command before the end of a paragraph affects
+%the entire paragraph, so you shouldn't use |\openup| to
+%change |\baseline!-skip| within a paragraph.  |\openup| is
+%most useful for typesetting tables and math displays---a
+%little extra space between rows often makes them more readable.
+%^^{alignments//space between rows of}
+此命令让 ^|\baselineskip| 增加 \<dimen>。
+在段尾之前的 |\openup| 命令将影响整个段落，
+因此想在段落中间改变 |\baseline!-skip| 时不要用 |\openup| 命令。
+在排版表格和展示公式时 |\openup| 非常有用——多点间隔将会增加它们的可读性。
 ^^{alignments//space between rows of}
 \example
 Alice picked up the White King very gently, and lifted him
@@ -196,10 +243,11 @@ him a little, he was so covered with ashes.
 \endexample\enddesc
 
 %==========================================================================
-\section {Page breaks}
+\section{分页} %\section {Page breaks}
 
 %==========================================================================
-\subsection {Encouraging or discouraging page breaks}
+%\subsection {Encouraging or discouraging page breaks}
+\subsection{鼓励或阻碍分页}
 
 \begindesc
 \bix^^{page breaks}
@@ -210,39 +258,51 @@ him a little, he was so covered with ashes.
 \margin{Four commands identical to ones for line breaks (\xref{hbreak})
 have been added to correct an omission. The descriptions are exactly parallel.}
 %
-This command forces a page break.
-Unless you do something to fill out the page, you're likely to
-get an underfull vbox.
-|\break| can also be used in horizontal mode.
+%This command forces a page break.
+%Unless you do something to fill out the page, you're likely to
+%get an underfull vbox.
+%|\break| can also be used in horizontal mode.
+此命令强制在此处分页。除非用某种方式填满该页，你将得到一个松散的 vbox。
+|\break| 也能用在水平模式中。
 \enddesc
 
 \begindesc
 \ctspecial nobreak {} \xrdef{vnobreak}
 \explain
-This command prevents a page break where it
-otherwise might occur.
-|\nobreak| can also be used in horizontal mode.
+%This command prevents a page break where it
+%otherwise might occur.
+%|\nobreak| can also be used in horizontal mode.
+此命令阻止在此处分页。
+|\nobreak| 也能用在水平模式中。
 \enddesc
 
 \begindesc
 \ctspecial allowbreak {} \xrdef{vallowbreak}
 \explain
-This command tells \TeX\ to
-allow a page break where one could not ordinarily occur.
-|\allowbreak| can also be used in horizontal mode.
+%This command tells \TeX\ to
+%allow a page break where one could not ordinarily occur.
+%|\allowbreak| can also be used in horizontal mode.
+在通常不分页的地方允许 \TeX\ 分页。
+|\allowbreak| 也能用在水平模式中。
 \enddesc
 
 \begindesc
 \ctspecial penalty {\<number>} \xrdef{vpenalty}
 \explain
-This command produces a \minref{penalty} item.
-The penalty item makes \TeX\ more or less willing to break a page
-at the point where that item occurs.
-A negative penalty, i.e., a bonus, encourages a page break;
-a positive penalty discourages a page break.
-A penalty of $10000$ or more prevents a break altogether,
-while a penalty of $-10000$ or less forces a break.
-|\penalty| can also be used in horizontal mode.
+%This command produces a \minref{penalty} item.
+%The penalty item makes \TeX\ more or less willing to break a page
+%at the point where that item occurs.
+%A negative penalty, i.e., a bonus, encourages a page break;
+%a positive penalty discourages a page break.
+%A penalty of $10000$ or more prevents a break altogether,
+%while a penalty of $-10000$ or less forces a break.
+%|\penalty| can also be used in horizontal mode.
+此命令生成一个惩罚（\minref{penalty}）项。
+惩罚项使得 \TeX\ 或多或少愿意在此处分页。
+负惩罚值，实际上是奖励值，鼓励分页；正惩罚值阻碍分页。
+大于或等于 $10000$ 的惩罚值彻底阻止分页，
+而小于或等于 $-10000$ 的惩罚值强制分页。
+此命令也能用于水平模式。
 \example
 \def\break{\penalty-10000 } % as in plain TeX
 \def\nobreak{\penalty10000 } % as in plain TeX
@@ -254,8 +314,9 @@ while a penalty of $-10000$ or less forces a break.
 \begindesc
 \cts goodbreak {}
 \explain
-This command ends a paragraph and also indicates to \TeX\ that
-this is a good place to break the page.
+%This command ends a paragraph and also indicates to \TeX\ that
+%this is a good place to break the page.
+此命令结束当前段落，并告诉 \TeX\ 这里是一个合适的分页位置。
 \enddesc
 
 \begindesc
@@ -263,218 +324,291 @@ this is a good place to break the page.
 \cts medbreak {}
 \cts bigbreak {}
 \explain
-These commands indicate increasingly desirable places for \TeX\ to
-break a page.  They also cause \TeX\ to
-insert a ^|\smallskip|, ^|\medskip|, or
-^|\bigskip| (\xref \smallskip) if the page break doesn't actually
-happen.  \TeX\ suppresses this skip if it occurs just after an
-equal or larger skip.
+%These commands indicate increasingly desirable places for \TeX\ to
+%break a page.  They also cause \TeX\ to
+%insert a ^|\smallskip|, ^|\medskip|, or
+%^|\bigskip| (\xref \smallskip) if the page break doesn't actually
+%happen.  \TeX\ suppresses this skip if it occurs just after an
+%equal or larger skip.
+这些命令指明了越来越合适的分页位置。如果实际上没在此处分页，\TeX\ 将分别
+插入大小为 ^|\smallskip|，^|\medskip| 或 ^|\bigskip| 的间距（\xref \smallskip ）。
+但如果此位置之前已经有大于或等于此值的间距，\TeX\ 就不会再插入间距。
 \enddesc
 
 \begindesc
 \easy\cts eject {}
 \cts supereject {}
 \explain
-These commands force a page break at the current position
-and end the current paragraph.
-If you don't precede them with |\vfil| (\xref \vfil),
-^^|\vfil//needed with {\tt\\eject}|
-\TeX\ will try to stretch out the page contents
-(and will probably complain about an underfull vbox).
-The |\supereject| command, in addition,
-instructs the \plainTeX\ output routine to
-force out any leftover insertions,
-^^{insertions//forced out by \b\tt\\supereject\e}
-such as long footnotes,
-so that they are produced before any more input
-is processed. Thus |\supereject| is a good command to use at the end of each
-chapter or other major unit of your document.
+%These commands force a page break at the current position
+%and end the current paragraph.
+%If you don't precede them with |\vfil| (\xref \vfil),
+%^^|\vfil//needed with {\tt\\eject}|
+%\TeX\ will try to stretch out the page contents
+%(and will probably complain about an underfull vbox).
+%The |\supereject| command, in addition,
+%instructs the \plainTeX\ output routine to
+%force out any leftover insertions,
+%^^{insertions//forced out by \b\tt\\supereject\e}
+%such as long footnotes,
+%so that they are produced before any more input
+%is processed. Thus |\supereject| is a good command to use at the end of each
+%chapter or other major unit of your document.
+这两个命令将结束当前段落并强制在当前位置分页。如果你不在前面加上
+|\vfil| (\xref \vfil)，^^|\vfil//needed with {\tt\\eject}|
+\TeX\ 将试着将伸展页面内容（很可能会警告有松散的垂直盒子）。
+|\supereject| 命令还让 \plainTeX\ 输出例行程序处理剩下的插入项，
+^^{insertions//forced out by \b\tt\\supereject\e}例如长脚注，
+在处理其他输入之前生成它们。因而，
+|\supereject| 更适合在文档各章或主要单元结束时使用。
 \enddesc
 
 \begindesc
 \cts filbreak {}
 \explain
-This command provides a kind of conditional page break.
-It tells \TeX\ to
-break the page---but not if the text up to a later |\filbreak| also
-fits on the same page.
-By enclosing a paragraph in a pair of |\filbreak|s,
-you can ensure that \TeX\ will keep a paragraph on a single page if it can.
-You should not use |\filbreak| within a paragraph, since it
-forces \TeX\ into vertical mode and thus ends the paragraph.
-See \xrefpg{filbreak} for more advice on this subject.
+%This command provides a kind of conditional page break.
+%It tells \TeX\ to
+%break the page---but not if the text up to a later |\filbreak| also
+%fits on the same page.
+%By enclosing a paragraph in a pair of |\filbreak|s,
+%you can ensure that \TeX\ will keep a paragraph on a single page if it can.
+%You should not use |\filbreak| within a paragraph, since it
+%forces \TeX\ into vertical mode and thus ends the paragraph.
+%See \xrefpg{filbreak} for more advice on this subject.
+此命令规定了有条件的分页。它告诉 \TeX\ ，如果后面的 |\filbreak| 不能放在同一页，就在此处分页。
+用一对 |\filbreak| 将一个段落围起来，就可以确保 \TeX\ 尽量将该段落放在同一页。
+不要在段落中间使用 |\filbreak|，因为这将让 \TeX\ 进入垂直模式，从而结束该段落。
+在 \xrefpg{filbreak} 中有此主题的更多建议。
 \enddesc
 
 \begindesc
 \cts raggedbottom {}
 \cts normalbottom {}
 \explain
-Normally \TeX\ tries hard to ensure that all pages have the same depth,
-i.e., that their bottom margins are equal.
-The |\raggedbottom| command tells \TeX\ to
-allow some variability among the bottom margins on different pages.
-It's often appropriate to use |\raggedbottom| when you have material that
-contains large blocks of material that should not be split across pages.
-The |\normalbottom| command cancels the effect of |\raggedbottom|.
-
+%Normally \TeX\ tries hard to ensure that all pages have the same depth,
+%i.e., that their bottom margins are equal.
+%The |\raggedbottom| command tells \TeX\ to
+%allow some variability among the bottom margins on different pages.
+%It's often appropriate to use |\raggedbottom| when you have material that
+%contains large blocks of material that should not be split across pages.
+%The |\normalbottom| command cancels the effect of |\raggedbottom|.
+%\eix^^{page breaks//encouraging or discouraging}
+通常 \TeX\ 会尽全力让每页都一样高，即让它们的下边距相等。
+|\raggedbottom| 命令允许 \TeX\ 给不同页面的下边距一些差别。
+如果文档中有些不能跨页的大型内容，用 |\raggedbottom| 就比较合适。
+用 |\normalbottom| 命令可以取消 |\raggedbottom| 的效果.
 \eix^^{page breaks//encouraging or discouraging}
 \enddesc
 
 %==========================================================================
-\subsection {Page breaking parameters}
+%\subsection {Page breaking parameters}
+\subsection{分页参数}
 
 \bix^^{page breaks//parameters for}
 \begindesc
 \cts interlinepenalty {\param{number}}
 \explain
-This parameter specifies the \minref{penalty} for
-breaking a page between the lines of a paragraph.
-By setting it to $10000$ you can force all page breaks to occur
-between paragraphs, provided that the pages have enough stretch so
-that \TeX\ can still compose them decently.
-\PlainTeX\ leaves |\inter!-linepenalty| at~$0$.
+%This parameter specifies the \minref{penalty} for
+%breaking a page between the lines of a paragraph.
+%By setting it to $10000$ you can force all page breaks to occur
+%between paragraphs, provided that the pages have enough stretch so
+%that \TeX\ can still compose them decently.
+%\PlainTeX\ leaves |\inter!-linepenalty| at~$0$.
+此参数设定在段落内部各行间分页时的\minref{惩罚}值。
+将它设为 $10000$ 将强制在段落之间分页，
+只要页面中有足够的伸展值让 \TeX\ 排版。
+\PlainTeX\ 设定 |\inter!-linepenalty| 为 ~$0$。
 \enddesc
 
 \begindesc
 \cts clubpenalty {\param{number}}
 \explain
-^^{club line}
-This parameter specifies the \minref{penalty} for
-breaking a page just after the first line of a paragraph.
-A line by itself at the bottom of a page is called a ``club line''.
-\PlainTeX\ sets |\clubpenalty| to $150$.
+%^^{club line}
+%This parameter specifies the \minref{penalty} for
+%breaking a page just after the first line of a paragraph.
+%A line by itself at the bottom of a page is called a ``club line''.
+%\PlainTeX\ sets |\clubpenalty| to $150$.
+^^{孤行}
+此参数设定在段落首行之后分页的\minref{惩罚}值。
+页面底部的单独一行称为``孤行''。
+\PlainTeX\ 设定 |\clubpenalty| 为 $150$。
 \enddesc
 
 \begindesc
 \cts widowpenalty {\param{number}}
 \explain
-^^{widow line}
-This parameter specifies the \minref{penalty} for
-breaking a page just before the last line of a paragraph.
-A line by itself at the top of a page is called a ``widow line''.
-\PlainTeX\ sets |\widowpenalty| to $150$.
+%^^{widow line}
+%This parameter specifies the \minref{penalty} for
+%breaking a page just before the last line of a paragraph.
+%A line by itself at the top of a page is called a ``widow line''.
+%\PlainTeX\ sets |\widowpenalty| to $150$.
+^^{寡行}
+此参数设定在段落尾行之前分页的\minref{惩罚}值。
+页面顶部的单独一行称为``寡行''。
+\PlainTeX\ 设定 |\widowpenalty| 为 $150$。
 \enddesc
 
 \begindesc
 \cts displaywidowpenalty {\param{number}}
 \explain
-^^{widow line}^^{math display}
-This parameter specifies the \minref{penalty} for
-breaking a page just before the last line of a partial paragraph
-that immediately precedes a math display.
-\PlainTeX\ sets |\displaywidowpenalty| to $50$.
-
+%^^{widow line}^^{math display}
+%This parameter specifies the \minref{penalty} for
+%breaking a page just before the last line of a partial paragraph
+%that immediately precedes a math display.
+%\PlainTeX\ sets |\displaywidowpenalty| to $50$.
+^^{寡行}^^{展示公式}
+此参数设定在展示公式上一行同时也是段落尾行之前分页的\minref{惩罚}值。
+\PlainTeX\ 设定 |\displaywidowpenalty| 为 $50$.
 \enddesc
 
 \begindesc
 \cts predisplaypenalty {\param{number}}
 \explain
-^^{math display}
-This parameter specifies the \minref{penalty} for
-breaking a page just before a math display.
-\PlainTeX\ sets |\predisplaypenalty| to $10000$.
+%^^{math display}
+%This parameter specifies the \minref{penalty} for
+%breaking a page just before a math display.
+%\PlainTeX\ sets |\predisplaypenalty| to $10000$.
+^^{展示公式}
+此参数设定在展示公式之前分页的\minref{惩罚}值。
+\PlainTeX\ 设定\break |\pre!-display!-penalty| 为 $10000$。
 \enddesc
 
 \begindesc
 \cts postdisplaypenalty {\param{number}}
 \explain
-^^{math display}
-This parameter specifies the \minref{penalty} for
-breaking a page just after a math display.
-\PlainTeX\ leaves |\postdisplaypenalty| at $0$.
+%^^{math display}
+%This parameter specifies the \minref{penalty} for
+%breaking a page just after a math display.
+%\PlainTeX\ leaves |\postdisplaypenalty| at $0$.
+^^{展示公式}
+此参数设定在展示公式之后分页的\minref{惩罚}值。
+\PlainTeX\ 设定\break |\postdisplaypenalty| 为 $0$。
 \enddesc
 
 \begindesc
 \cts brokenpenalty {\param{number}}
 \explain
-This parameter specifies the \minref{penalty} for
-breaking a page just after a line  that ends in
-a discretionary item (usually a hyphen).
-^^{hyphenation}
-|\brokenpenalty| applies to page breaking, while
-^|\hyphenpenalty| \ctsref{\hyphenpenalty} applies to line breaking.
-\PlainTeX\ sets |\brokenpenalty| to $100$.
+%This parameter specifies the \minref{penalty} for
+%breaking a page just after a line  that ends in
+%a discretionary item (usually a hyphen).
+%^^{hyphenation}
+%|\brokenpenalty| applies to page breaking, while
+%^|\hyphenpenalty| \ctsref{\hyphenpenalty} applies to line breaking.
+%\PlainTeX\ sets |\brokenpenalty| to $100$.
+此参数设定在以自定连字项（通常是一个连字符）结尾的一行之后分页的\minref{惩罚}值。
+^^{连字}
+|\brokenpenalty| 用于分页, 而 ^|\hyphenpenalty| \ctsref{\hyphenpenalty} 用于断行。
+\PlainTeX\ 设定 |\brokenpenalty| 为 $100$.
 \enddesc
 
 \begindesc
 \cts insertpenalties {\param{number}}
 \explain
+%\bix^^{insertions//penalties for}
+%\bix^^{floating material}
+%This parameter contains the sum of certain penalties \minrefs{penalty}
+%that \TeX\ accumulates as it is placing insertions onto the
+%current page.
+%These penalties are incurred when \TeX\ is processing an |\insert|
+%command
+%and discovers that a previous insertion  of the same kind on this page has
+%been split, leaving part of it for subsequent pages.
+%See \knuth{pages~123--125} for the details of this
+%calculation.
+%
+%\margin{Material moved from a footnote to the main text.}
+%|\insertpenalties| has an entirely different meaning during an
+%^^{output routine//meaning of \b\tt\\insertpenalties\e\ in}
+%output routine---it's the number of insertions that have been seen
+%but that don't fit on the current page (see \knuth{page~125}).
 \bix^^{insertions//penalties for}
 \bix^^{floating material}
-This parameter contains the sum of certain penalties \minrefs{penalty}
-that \TeX\ accumulates as it is placing insertions onto the
-current page.
-These penalties are incurred when \TeX\ is processing an |\insert|
-command
-and discovers that a previous insertion  of the same kind on this page has
-been split, leaving part of it for subsequent pages.
-See \knuth{pages~123--125} for the details of this
-calculation.
+此参数包含 \TeX\ 放置插入项到当前页面时所累积的某些\minref{惩罚}值之和。
+在 \TeX\ 处理 |\insert| 命令时，
+如果发现前面有同类型插入项被分开，留下一部分到之后的页面，
+就会算上这些惩罚值。
+详细的计算过程可以见 \knuth{第~123--125~页}。
 
 \margin{Material moved from a footnote to the main text.}
-|\insertpenalties| has an entirely different meaning during an
+在输出例行程序中，
 ^^{output routine//meaning of \b\tt\\insertpenalties\e\ in}
-output routine---it's the number of insertions that have been seen
-but that don't fit on the current page (see \knuth{page~125}).
+|\insertpenalties| 有完全不同的意义——
+它表示已经见到但未能放入当前页的插入项的总数（见 \knuth{第~125~页}）。
 \enddesc
 
 \begindesc
 \cts floatingpenalty {\param{number}}
 \explain
-This parameter specifies the \minref{penalty} that
-\TeX\ adds to |\insertpenalties|
-^^|\insertpenalties|
-when the page builder is adding an insertion to the current page
-and discovers that a previous insertion  of the same kind on this page has
-been split, leaving part of it for subsequent pages.
-\PlainTeX\ leaves |\floatingpenalty| at~$0$.
+%This parameter specifies the \minref{penalty} that
+%\TeX\ adds to |\insertpenalties|
+%^^|\insertpenalties|
+%when the page builder is adding an insertion to the current page
+%and discovers that a previous insertion  of the same kind on this page has
+%been split, leaving part of it for subsequent pages.
+%\PlainTeX\ leaves |\floatingpenalty| at~$0$.
+%\eix^^{insertions//penalties for}
+%\eix^^{floating material}
+在 \TeX\ 处理插入项时，
+如果发现前面有同类型插入项被分开，留下一部分到之后的页面，
+就会添加 |\floatingpenalty| \minref{惩罚}值到|\insertpenalties|
+^^|\insertpenalties|。
+\PlainTeX\ 设定 |\floatingpenalty| 为 $0$。
 \eix^^{insertions//penalties for}
 \eix^^{floating material}
-
 \enddesc
 
 \begindesc
 \cts pagegoal {\param{dimen}}
 \explain
-This parameter specifies the
-desired height for the current page.
-\TeX\  sets
-|\pagegoal| to the current value of |\vsize|
-when it first puts a box or an insertion on the current page.
-You can shorten a page while \TeX\ is working on it by
-changing the value of |\pagegoal|---even if the new value is
-less than the height of the material already on that page.
-\TeX\ will just put the extra material on the next page.
-But remember---|\pagegoal| is reset to |\vsize| again when \TeX\
-starts the next page.
+%This parameter specifies the
+%desired height for the current page.
+%\TeX\  sets
+%|\pagegoal| to the current value of |\vsize|
+%when it first puts a box or an insertion on the current page.
+%You can shorten a page while \TeX\ is working on it by
+%changing the value of |\pagegoal|---even if the new value is
+%less than the height of the material already on that page.
+%\TeX\ will just put the extra material on the next page.
+%But remember---|\pagegoal| is reset to |\vsize| again when \TeX\
+%starts the next page.
+此参数设定当前页面所需的高度。
+当放入第一个盒子或者插入项到当前页面时，
+\TeX\ 设定 |\pagegoal| 等于 |\vsize| 的当前值。
+改变 |\pagegoal| 的值可以让 \TeX\ 排版时缩短该页面的高度。
+即使新的值比页面已有内容的高度还小也可以，
+此时 \TeX\ 将把多余的内容放在下一页。
+但记住——在下一页 \TeX\ 还是会重置 |\pagegoal| 为 |\vsize|。
 \enddesc
 
 \begindesc
 \cts pagetotal {\param{dimen}}
 \explain
-This parameter specifies the
-accumulated natural height of the current page.
-\TeX\ updates |\pagetotal| as it adds
-items to the main \minref{vertical list}.
-
-
+%This parameter specifies the
+%accumulated natural height of the current page.
+%\TeX\ updates |\pagetotal| as it adds
+%items to the main \minref{vertical list}.
+此参数表示当前页面累积的自然高度。
+\TeX\ 添加内容到\minref{垂直列}时会更新 |\pagetotal| 的值。
 \enddesc
 
 \begindesc
 \cts pagedepth {\param{dimen}}
 \explain
-This parameter specifies the depth of the current page.
-\TeX\ updates |\pagedepth| as it adds
-items to the main \minref{vertical list}.
+%This parameter specifies the depth of the current page.
+%\TeX\ updates |\pagedepth| as it adds
+%items to the main \minref{vertical list}.
+此参数表示当前页面的深度。
+\TeX\ 添加内容到\minref{垂直列}时会更新 |\pagedepth| 的值。
 \enddesc
 
 \begindesc
 \cts pageshrink {\param{dimen}}
 \explain
-This parameter specifies the amount of \minref{shrink}
-in the accumulated \minref{glue} on the current page.
-\TeX\ updates |\pageshrink| as it adds
-items to the main \minref{vertical list}.
+%This parameter specifies the amount of \minref{shrink}
+%in the accumulated \minref{glue} on the current page.
+%\TeX\ updates |\pageshrink| as it adds
+%items to the main \minref{vertical list}.
+此参数表示当前页面累积的\zglue 的可收缩量。
+\TeX\ 添加内容到\minref{垂直列}时会更新 |\pageshrink| 的值。
 \enddesc
 
 \begindesc
@@ -483,23 +617,32 @@ items to the main \minref{vertical list}.
 \cts pagefillstretch {\param{dimen}}
 \cts pagefilllstretch {\param{dimen}}
 \explain
-These four parameters together specify the amount of \minref{stretch}
-in the \minref{glue} on the current page.  The amount of stretch has
-the form
-{\def\f#1{\hbox{\tt fi#1}}%
-$n_0 + n_1\f{l} + n_2\f{ll} + n_3\f{lll}$}, with the four parameters
-giving the values of the four $n_i$.
-\TeX\ updates these parameters as it adds
-items to the main \minref{vertical list}.
-
+%These four parameters together specify the amount of \minref{stretch}
+%in the \minref{glue} on the current page.  The amount of stretch has
+%the form
+%{\def\f#1{\hbox{\tt fi#1}}%
+%$n_0 + n_1\f{l} + n_2\f{ll} + n_3\f{lll}$}, with the four parameters
+%giving the values of the four $n_i$.
+%\TeX\ updates these parameters as it adds
+%items to the main \minref{vertical list}.
+%
+%\eix^^{page breaks//parameters for}
+%\eix^^{page breaks}
+这四个参数合起来表示当前页面累积的\zglue 的可伸长量。可伸长量总共等于
+{\def\f#1{\hbox{\tt fi#1}}
+$n_0 + n_1\f{l} + n_2\f{ll} + n_3\f{lll}$}，
+其中四个参数给出四个$n_i$的值。
+\TeX\ 添加内容到\minref{垂直列}时会更新这些参数的值。
 \eix^^{page breaks//parameters for}
 \eix^^{page breaks}
 \enddesc
 
 %==========================================================================
-\section{Page layout}
+%\section{Page layout}
+\section{页面布局}
 
-\subsection {Page description parameters}
+%\subsection {Page description parameters}
+\subsection {页面描述参数}
 
 \begindesc
 \bix^^{page dimensions}
@@ -507,23 +650,32 @@ items to the main \minref{vertical list}.
 The combined description now appears there.}
 \aux\cts hsize {\param{dimen}}
 \explain
-This parameter specifies the current line length.
-See \xrefpg{\hsize} for a more complete explanation.
+%This parameter specifies the current line length.
+%See \xrefpg{\hsize} for a more complete explanation.
+此参数指定当前行的长度。\PlainTeX\ 设定 |\hsize| 为 |6.5in|。
+在\xrefpg{\hsize} 有完整的解释。
 \enddesc
 
 \begindesc
 \cts vsize {\param{dimen}}
 \explain
-This parameter specifies the current vertical extent of a page.
-\TeX\ examines it only when it is starting a page.  Thus if you change
-|\vsize| in the
-middle of a page, your change won't affect anything until the following page.
-If you want to change the vertical extent of a page when
-you're in the middle of it, you  should assign the new
-height to ^|\pagegoal| (\xref \pagegoal) instead.  (If you
-want the change to affect the following pages too, you should
-change \emph{both} |\vsize| and |\pagegoal|.)
-\PlainTeX\ sets |\vsize| to |8.9in|.
+%This parameter specifies the current vertical extent of a page.
+%\TeX\ examines it only when it is starting a page.  Thus if you change
+%|\vsize| in the
+%middle of a page, your change won't affect anything until the following page.
+%If you want to change the vertical extent of a page when
+%you're in the middle of it, you  should assign the new
+%height to ^|\pagegoal| (\xref \pagegoal) instead.  (If you
+%want the change to affect the following pages too, you should
+%change \emph{both} |\vsize| and |\pagegoal|.)
+%\PlainTeX\ sets |\vsize| to |8.9in|.
+%\eix^^{page dimensions}
+此参数指定页面的竖直长度。
+\TeX\ 仅在页面开始时检查此值。
+因此，在页面中间改变 |\vsize| 到下一页才会生效。
+若要在页面中间改变其竖直长度，应该修改 ^|\pagegoal|（\xref \pagegoal ）的值。%
+（若要改变当前页面开始的所有页面，你需要\emph{同时}修改 |\vsize| 和 |\pagegoal|。）
+\PlainTeX\ 设定 |\vsize| 为 |8.9in|。
 \eix^^{page dimensions}
 \enddesc
 
@@ -534,18 +686,25 @@ change \emph{both} |\vsize| and |\pagegoal|.)
 ^^{page origin}
 \idxsee{origin}{page origin}
 \explain
-\TeX\ normally takes the ``origin'' of a page, that is, the point where
-it starts printing, as being one inch down from the top of the page and one
-inch to the right of the left end of the page.\footnote{
-\TeX\ itself is indifferent to where the origin of the page is,
-but this information has to be built into the device drivers
-^^{device drivers//page origin known to}
-that convert \dvifile s into printable form so that different devices
-will yield the same results.}
-The values of |\hoffset| and
-|\voffset| give the horizontal and vertical offset of the actual origin
-from this point.  Thus if |\hoffset| and |\voffset| are both
-zero, \TeX\ uses its normal origin.
+%\TeX\ normally takes the ``origin'' of a page, that is, the point where
+%it starts printing, as being one inch down from the top of the page and one
+%inch to the right of the left end of the page.\footnote{
+%\TeX\ itself is indifferent to where the origin of the page is,
+%but this information has to be built into the device drivers
+%^^{device drivers//page origin known to}
+%that convert \dvifile s into printable form so that different devices
+%will yield the same results.}
+%The values of |\hoffset| and
+%|\voffset| give the horizontal and vertical offset of the actual origin
+%from this point.  Thus if |\hoffset| and |\voffset| are both
+%zero, \TeX\ uses its normal origin.
+\TeX\ 通常设定页面的“起点”——即它开始打印的地方——在离上页边和左页边均为一英寸的地方。\footnote{
+\TeX\ 本身并不关心页面起点的位置，
+但设备驱动程序将 \dvifile 转换为可打印形式时要用到，
+此位置信息使得在不同的设备中能得到相同的结果。
+^^{device drivers//page origin known to}}
+|\hoffset| 和 |\voffset| 的值分别给出实际起点相对该点的水平和竖直偏移量。
+因此，若 |\hoffset| 和 |\voffset| 均为零，\TeX\ 就使用正常起点。
 \example
 \hoffset = -.3in
    % Start printing .7 inches from left edge of paper.
@@ -558,87 +717,126 @@ zero, \TeX\ uses its normal origin.
 \begindesc
 \cts topskip {\param{glue}}
 \explain
-\TeX\ inserts glue at the top of each
-page in order to ensure that the baseline of the first box on the page
-always is the same distance $d$ from the top of the page.
-|\topskip| determines the amount of that glue,
-called the ``|\topskip| glue'', by specifying
-what $d$ should be (provided that the first box
-on the page isn't too tall).
-$d$ is given by the natural size of the |\topskip| glue.
-If the height of the first box on the page exceeds $d$,
-so that the glue would be negative, \TeX\ simply inserts no
-|\topskip| glue at all on that page.
+%\TeX\ inserts glue at the top of each
+%page in order to ensure that the baseline of the first box on the page
+%always is the same distance $d$ from the top of the page.
+%|\topskip| determines the amount of that glue,
+%called the ``|\topskip| glue'', by specifying
+%what $d$ should be (provided that the first box
+%on the page isn't too tall).
+%$d$ is given by the natural size of the |\topskip| glue.
+%If the height of the first box on the page exceeds $d$,
+%so that the glue would be negative, \TeX\ simply inserts no
+%|\topskip| glue at all on that page.
+为确保页面第一个盒子的基线到上页边的距离总是 $d$，
+\TeX\ 在每个页面顶部都插入\zglue 。
+|\topskip| 给出了 $d$ 的值，以此确定该\zglue 大小
+（只要页面第一个盒子不会太高）。
+$d$ 等于 |\topskip| \zglue 的自然大小。
+如果页面第一个盒子的高度超过 $d$，
+计算出的粘连将为负值，此时在该页顶部 \TeX\ 不插入|\topskip|\zglue 。
 
-To understand better the effect of these rules, assume that |\topskip|
-has no stretch or shrink and that the first item on the page is indeed a box.
-Then if the height of that box is no greater than |\topskip|,
-its baseline will be |\topskip|
-from the top of the page independently of its height.  On the other hand,
-if the height of the box is $e$ greater than |\topskip|, its baseline will be
-|\topskip|\tplus$e$ from the top of the page.
-See \knuth{pages~113--114} for the remaining details of how
-|\topskip| works.
-\PlainTeX\ sets |\topskip| to |10pt|.
+%To understand better the effect of these rules, assume that |\topskip|
+%has no stretch or shrink and that the first item on the page is indeed a box.
+%Then if the height of that box is no greater than |\topskip|,
+%its baseline will be |\topskip|
+%from the top of the page independently of its height.  On the other hand,
+%if the height of the box is $e$ greater than |\topskip|, its baseline will be
+%|\topskip|\tplus$e$ from the top of the page.
+%See \knuth{pages~113--114} for the remaining details of how
+%|\topskip| works.
+%\PlainTeX\ sets |\topskip| to |10pt|.
+为更好地理解这些规则，我们假设 |\topskip| 无伸长量也无收缩量，且页面第一项就是个盒子。
+如果该盒子的高度不大于 |\topskip|，不管高度为多少，
+它的基线和上页边的距离就始终等于 |\topskip|。
+反过来，如果该盒子的高度比 |\topskip| 大 $e$，
+它的基线和上页边的距离就是 |\topskip|\tplus$e$。
+在 \knuth{第~113--114~页} 中详细解释了 |\topskip| 的作用。
+\PlainTeX\ 设定 |\topskip| 为 |10pt|。
 \enddesc
-
 
 \begindesc
 \cts parskip {\param{glue}}
 \explain
-This parameter specifies the ``^{paragraph skip}'', i.e., the
-vertical glue that \TeX\ inserts at the start of a paragraph.
+%This parameter specifies the ``^{paragraph skip}'', i.e., the
+%vertical glue that \TeX\ inserts at the start of a paragraph.
+%^^{paragraphs//glue between}
+%See |\par| (\xref{\@par}) for more information about what happens
+%when \TeX\ starts a paragraph.
+%\PlainTeX\ sets |\parskip| to |0pt plus 0.1pt|.
+此参数设定“^{段落间距}”，即 \TeX\ 在段落开头插入的竖直\zglue 。
 ^^{paragraphs//glue between}
-See |\par| (\xref{\@par}) for more information about what happens
-when \TeX\ starts a paragraph.
-\PlainTeX\ sets |\parskip| to |0pt plus 0.1pt|.
+在 |\par| (\xref{\@par}) 那里介绍了 \TeX\ 开始新段落时所作的事情。
+\PlainTeX\ 设定 |\parskip| 为 |0pt plus 0.1pt|。
 \enddesc
 
 \begindesc
 \cts maxdepth {\param{dimen}}
 \explain
-This parameter specifies the maximum depth of the bottom \minref{box} on
-a page.  It is related to |\boxmaxdepth| (\xref \boxmaxdepth).  If the
-depth of the bottom box on a page exceeds |\maxdepth|, \TeX\ moves the
-box's reference point down so that it's
-|\maxdepth| from the bottom of that box.
-Without this adjustment, the bottom box on
-a page could extend well into the bottom margin or even off
-the page entirely.  \PlainTeX\ sets |\maxdepth| to |4pt|.
+%This parameter specifies the maximum depth of the bottom \minref{box} on
+%a page.  It is related to |\boxmaxdepth| (\xref \boxmaxdepth).  If the
+%depth of the bottom box on a page exceeds |\maxdepth|, \TeX\ moves the
+%box's reference point down so that it's
+%|\maxdepth| from the bottom of that box.
+%Without this adjustment, the bottom box on
+%a page could extend well into the bottom margin or even off
+%the page entirely.  \PlainTeX\ sets |\maxdepth| to |4pt|.
+此参数设定页面底部\minref{盒子}的最大深度。
+它和 |\boxmaxdepth| 参数（\xref \boxmaxdepth ）也有关系.
+如果底部盒子的深度超过 |\maxdepth|，
+\TeX\ 下移该盒子的基准点，让深度就等于 |\maxdepth|。
+若不作此调整，页面底部盒子可能大大超出下边距，甚至超出页面，
+PlainTeX\ 设定 |\maxdepth| 为 |4pt|。
 \enddesc
 
 %==========================================================================
-\subsection{Page numbers}
+%\subsection{Page numbers}
+\subsection{页码}
 
 \begindesc
 \bix^^{page numbering}
 \cts pageno {\param{number}}
 \explain
-This parameter contains the current page number as an integer.  The page
-number is normally negative for front-matter pages that are numbered
-with small roman numerals instead of arabic numerals.  If you change the
-page number within a page,
-the changed number will be used in any headers or footers that
-appear on that page.
-The actual
-printing of page numbers is handled by \TeX's \minref{output routine},
-which you can modify.
+%This parameter contains the current page number as an integer.  The page
+%number is normally negative for front-matter pages that are numbered
+%with small roman numerals instead of arabic numerals.  If you change the
+%page number within a page,
+%the changed number will be used in any headers or footers that
+%appear on that page.
+%The actual
+%printing of page numbers is handled by \TeX's \minref{output routine},
+%which you can modify.
+此参数以整数值记录当前页码。
+在前页（front matter）中页码通常是负数，我们用小写罗马数字而不用阿拉伯数字编号。
+在页面中间对页码的改动，会在该页的页眉和页脚中用到。
+页码事实上由 \TeX\ 的\minref{输出例行程序}打印，你可以修改它们。
 
-\PlainTeX\ keeps the page number in the \minref{register} ^|\count0|.
-(|\pageno| is, in fact, a synonym for |\count0|.)
-Whenever it ships out a page to the \dvifile,
+%\PlainTeX\ keeps the page number in the \minref{register} ^|\count0|.
+%(|\pageno| is, in fact, a synonym for |\count0|.)
+%Whenever it ships out a page to the \dvifile,
+%^^|\shipout//{\tt\\count} registers displayed at|
+%\TeX\ displays the current value of |\count0| on your
+%terminal so that you can tell which page it is working on.
+%It's possible to use registers |\count1|--|\count9| for nested
+%levels of page numbers (you must program this yourself).
+%If any of these registers are nonzero, \TeX\ displays them on your
+%terminal also.\footnote{
+%More precisely, it displays all registers in sequence from
+%|\count0| to |\count9|, but omits trailing zero registers.
+%For instance, if the values of |\count0|--|\count3|
+%are $(17, 0 , 0, 7)$ and the others are $0$,
+%\TeX\ displays the page number as {\tt [17.0.0.7]}.}
+\PlainTeX\ 将页码记录在\minref{寄存器} ^|\count0| 中。%
+（|\pageno| 实际上就是|\count0|的别名。）
+当它输出一个页面到 \dvifile 时，
 ^^|\shipout//{\tt\\count} registers displayed at|
-\TeX\ displays the current value of |\count0| on your
-terminal so that you can tell which page it is working on.
-It's possible to use registers |\count1|--|\count9| for nested
-levels of page numbers (you must program this yourself).
-If any of these registers are nonzero, \TeX\ displays them on your
-terminal also.\footnote{
-More precisely, it displays all registers in sequence from
-|\count0| to |\count9|, but omits trailing zero registers.
-For instance, if the values of |\count0|--|\count3|
-are $(17, 0 , 0, 7)$ and the others are $0$,
-\TeX\ displays the page number as {\tt [17.0.0.7]}.}
+\TeX\ 在终端中显示  |\count0| 的值，让你知道它在排版哪一页。
+也可以把寄存器 |\count1|--|\count9| 用于嵌套的多级页码
+（但你必须自己编程）。
+如果这些寄存器的值非零，\TeX\ 在终端中也显示它们的值。\footnote{
+更准确来说，它从 |\count0| 到 |\count9| 依次显示各寄存器的值，但忽略末尾的零值。
+比如，若 |\count0| 到 |\count3| 为 $(17, 0 , 0, 7)$ 而其他值都为 $0$，
+则 \TeX\ 显示页码为 {\tt [17.0.0.7]}。}
 \example
 This explanation appears on page \number\pageno\
 of our book.
@@ -659,27 +857,34 @@ Don't look for this explanation on page 30.
 \begindesc
 \cts advancepageno {}
 \explain
-This command adds $1$ to the page number
-$n$ in |\pageno| if $n\ge0$
-and subtracts $1$ from it if $n<0$.
+%This command adds $1$ to the page number
+%$n$ in |\pageno| if $n\ge0$
+%and subtracts $1$ from it if $n<0$.
+如果页码 $n\ge0$，此命令给 $n$ 加上 $1$；
+如果 $n<0$ 则给 $n$ 减去 $1$。
 \enddesc
 
 \begindesc
 \easy\cts nopagenumbers {}
 \explain
-By default, \plainTeX\ produces a footer containing a centered page number.
-This command tells \TeX\ to produce a blank footer instead.
+%By default, \plainTeX\ produces a footer containing a centered page number.
+%This command tells \TeX\ to produce a blank footer instead.
+默认情况下，\plainTeX\ 会在页面的页脚生成居中的页码。
+此命令让 \TeX\ 生成空的页脚.
 \enddesc
 
 \begindesc
 \cts folio {}
 \explain
-This command produces the current page number, whose value is the number
-$n$ contained in ^|\pageno|.
-If  $n\ge0$,
-\TeX\ produces $n$ as a decimal number,
-while if $n<0$,
-\TeX\ produces $-n$ in lowercase roman numerals.
+%This command produces the current page number, whose value is the number
+%$n$ contained in ^|\pageno|.
+%If  $n\ge0$,
+%\TeX\ produces $n$ as a decimal number,
+%while if $n<0$,
+%\TeX\ produces $-n$ in lowercase roman numerals.
+此命令生成当前页码，它的值等于记录在 ^|\pageno| 中的 $n$。
+若 $n\ge0$，\TeX\ 用十进制数形式生成 $n$；
+若 $n<0$，\TeX\ 用小写罗马数字形式生成 $-n$。
 \example
 This explanation appears on page \folio\ of the book.
 |
@@ -692,34 +897,45 @@ This explanation appears on page \folio\ of the book.
 
 
 %==========================================================================
-\subsection{Header and footer lines}
+%\subsection{Header and footer lines}
+\subsection{页眉和页脚}
 
 \begindesc\secondprinting{\vglue-.75\baselineskip\vskip0pt}
 \cts headline {\param{token list}}
 \cts footline {\param{token list}}
 \explain
-These parameters
-contain, respectively, the current headline (header) and the current
-footline (footer).
-The \plainTeX\ output routine
-places the headline at the top of each page and the footline
-at the bottom of each page.
-The default headline is empty and the default footline is a centered
-page number.
+%These parameters
+%contain, respectively, the current headline (header) and the current
+%footline (footer).
+%The \plainTeX\ output routine
+%places the headline at the top of each page and the footline
+%at the bottom of each page.
+%The default headline is empty and the default footline is a centered
+%page number.
+这两个参数分别指定当前的页眉和页脚。
+\PlainTeX\ 输出例行程序将把页眉放在各页顶部，页脚放在各页底部。
+默认的页眉为空，而默认的页脚为居中的页码。
 
-The headline and footline should both
-be as wide as |\hsize| (use |\hfil|, \xref{\hfil}, for this
-if necessary).
-You should always include a font-setting command in these lines, since
-the current font is unpredictable when \TeX\ is calling the
-output routine.  If you don't set the font explicitly,
-you'll get whatever font \TeX\ was using when it broke the page.
+%The headline and footline should both
+%be as wide as |\hsize| (use |\hfil|, \xref{\hfil}, for this
+%if necessary).
+%You should always include a font-setting command in these lines, since
+%the current font is unpredictable when \TeX\ is calling the
+%output routine.  If you don't set the font explicitly,
+%you'll get whatever font \TeX\ was using when it broke the page.
+页眉和页脚的宽度应该和 |\hsize| 相等（必要时可以用 |\hfil|，\xref{\hfil}）。
+在页眉和页脚中你永远应该加上字体设定命令，
+因为你无法预知 \TeX\ 调用输出例行程序时的当前字体。
+如果你不明确指明字体，\TeX\ 将使用分页时所用的字体。
 
-You shouldn't try to use |\headline| or |\footline|
-to produce multiline headers or footers.
-Although \TeX\ won't complain, it will give you something that's very ugly.
-See \xrefpg{bighead} for a method of creating multiline headers or
-footers.
+%You shouldn't try to use |\headline| or |\footline|
+%to produce multiline headers or footers.
+%Although \TeX\ won't complain, it will give you something that's very ugly.
+%See \xrefpg{bighead} for a method of creating multiline headers or
+%footers.
+不要试图用 |\headline| 或 |\footline| 生成多行的页眉或页脚。
+即使 \TeX\ 不会报错，它也只会出很难看的结果。
+在\xrefpg{bighead}中有生成多行页眉或页脚的方法。
 \example
 \headline = {\tenrm My First Reader\hfil Page \folio}
 |
@@ -739,24 +955,34 @@ footers.
 
 
 %==========================================================================
-\subsection {Marks}
+%\subsection {Marks}
+\subsection {标记}
 
 \begindesc
 \cts mark {\rqbraces{\<text>}}
 \explain
-\bix^^{marks}
-This command causes \TeX\ to append a mark
-containing \<mark text>
-to whatever list it is currently constructing.
-Generally you shouldn't use |\mark| within an
-``inner'' construct such as a math formula or a \minref{box}
-you've built with an |\hbox|, |\vbox|, or |\vtop| command, because
-\TeX\ won't see the mark when it's constructing the main box of the page.  But
-if you use |\mark| in ordinary horizontal \minref{mode}
-or directly in an hbox that's part of the main vertical list,
-the mark migrates out
-to the main \minref{vertical list}.
-See \knuth{pages~259--260} for examples showing how |\mark| can be used.
+%\bix^^{marks}
+%This command causes \TeX\ to append a mark
+%containing \<mark text>
+%to whatever list it is currently constructing.
+%Generally you shouldn't use |\mark| within an
+%``inner'' construct such as a math formula or a \minref{box}
+%you've built with an |\hbox|, |\vbox|, or |\vtop| command, because
+%\TeX\ won't see the mark when it's constructing the main box of the page.  But
+%if you use |\mark| in ordinary horizontal \minref{mode}
+%or directly in an hbox that's part of the main vertical list,
+%the mark migrates out
+%to the main \minref{vertical list}.
+%See \knuth{pages~259--260} for examples showing how |\mark| can be used.
+\bix^^{标记}
+此命令让 \TeX\ 添加内容为 \<mark text> 的标记到当前正构造的列表中。
+一般地，此标记命令不应该在 “内部”构造中使用，
+例如数学公式或者用 |\hbox|、|\vbox| 或 |\vtop| 构造的\minref{盒子}。
+这是因为 \TeX\ 构造页面主盒子时将看不到这样的标记。
+但是，若你在普通水平\minref{模式}中用 |\mark|，
+或者在主垂直列的 hbox 中直接使用 |\mark|，
+该标记将会被转移到主\minref{垂直列}。
+在\knuth{第~259--260~页}中有如何使用 |\mark| 的例子。
 \enddesc
 
 \begindesc
@@ -764,91 +990,137 @@ See \knuth{pages~259--260} for examples showing how |\mark| can be used.
 \cts botmark {}
 \cts topmark {}
 \explain
-These commands expand to the mark text in an item generated by an earlier
-^|\mark| command.
-The mark text has the form of a token list.
-\TeX\ sets the values of these commands when it
-finishes placing the contents of a page into ^|\box255|,
-just before calling the \minref{output routine}
-as part of its \minref{page break}ing actions.  \TeX\ determines
-these values as follows:
+%These commands expand to the mark text in an item generated by an earlier
+%^|\mark| command.
+%The mark text has the form of a token list.
+%\TeX\ sets the values of these commands when it
+%finishes placing the contents of a page into ^|\box255|,
+%just before calling the \minref{output routine}
+%as part of its \minref{page break}ing actions.  \TeX\ determines
+%these values as follows:
+%\ulist\compact
+%\li |\firstmark| contains the tokens of the first mark on the page.
+%\li |\botmark| contains the tokens of the last mark on the page.
+%\li |\topmark| contains the tokens of the mark that is in effect at
+%the very top of the page.
+%That mark is the last mark
+%that \emph{preceded} the page,
+%i.e., the |\botmark| of the previous page.
+%It is empty if no marks preceded the page.
+%\endulist
+%\noindent
+%If a page has no marks on it, \TeX\ will set |\firstmark| and |\botmark| to
+%the same mark as |\topmark|, i.e., the most recent preceding mark.
+%The table at the bottom of \knuth{page~258} illustrates the relation among
+%|\firstmark|, |\botmark|, and |\topmark|.
+这些命令展开为之前用 ^|\mark| 生成的标记项的标记文本。
+标记文本以记号列形式表示。
+执行分页工作时，\TeX\ 需要将页面内容放入 ^|\box255|，
+然后调用\minref{输出例行程序}；
+在这两个步骤之间 \TeX\ 设定这些命令的值如下：
 \ulist\compact
-\li |\firstmark| contains the tokens of the first mark on the page.
-\li |\botmark| contains the tokens of the last mark on the page.
-\li |\topmark| contains the tokens of the mark that is in effect at
-the very top of the page.
-That mark is the last mark
-that \emph{preceded} the page,
-i.e., the |\botmark| of the previous page.
-It is empty if no marks preceded the page.
+\li |\firstmark| 包含页面第一个标记的记号列。
+\li |\botmark| 包含页面最后一个标记的记号列。
+\li |\topmark| 包含紧跟在页面上边的那个标记的记号列。
+这个标记就是\emph{上一个}页面的最后一个标记，即上一页的 |\botmark|。
+如果上一页没有标记此命令为空。
 \endulist
 \noindent
-If a page has no marks on it, \TeX\ will set |\firstmark| and |\botmark| to
-the same mark as |\topmark|, i.e., the most recent preceding mark.
-The table at the bottom of \knuth{page~258} illustrates the relation among
-|\firstmark|, |\botmark|, and |\topmark|.
+如果此页面没有任何标记，\TeX\ 设定 |\firstmark| 和 |\botmark| 都等于 |\topmark|，
+即前面最近的那个标记。
+\knuth{第~258~页}底部的表格说明了 |\firstmark|、|\botmark| 和 |\topmark| 这三者的关系。
 \enddesc
 
 \begindesc
 \cts splitfirstmark {}
 \cts splitbotmark {}
 \explain
+%^^{marks//for split lists}
+%These commands expand to the ^{mark text} generated by an earlier
+%^|\mark| command that produced an item in the item list of a vbox $V$.
+%The mark text has the form of a token list.
+%When \TeX\
+%splits $V$ in response to a ^|\vsplit| command (\xref \vsplit),
+%it sets the values of these commands as follows:
+%\ulist\compact
+%\li |\splitfirstmark| contains the tokens of the first mark in
+%the item list of $V$.
+%\li |\splitbotmark| contains the tokens of the last mark in
+%the item list of $V$.
+%\endulist
+%These commands produce no tokens if there was no preceding |\vsplit|,
+%or if the most recent preceding |\vsplit| didn't contain any marks.
+%\eix^^{marks}
 ^^{marks//for split lists}
-These commands expand to the ^{mark text} generated by an earlier
-^|\mark| command that produced an item in the item list of a vbox $V$.
-The mark text has the form of a token list.
-When \TeX\
-splits $V$ in response to a ^|\vsplit| command (\xref \vsplit),
-it sets the values of these commands as follows:
+这两个命令展开为之前用 ^|\mark| 在 vbox $V$ 中生成的标记项的标记文本。
+标记文本以记号列形式表示。
+当你用 ^|\vsplit| 命令（\xref \vsplit ）分割 $V$ 时，
+\TeX\ 按如下方式设定这两个命令的值：
 \ulist\compact
-\li |\splitfirstmark| contains the tokens of the first mark in
-the item list of $V$.
-\li |\splitbotmark| contains the tokens of the last mark in
-the item list of $V$.
+\li |\splitfirstmark| 包含 $V$ 中第一个标记的记号列。
+\li |\splitbotmark| 包含 $V$ 中最后一个标记的记号列。
 \endulist
-These commands produce no tokens if there was no preceding |\vsplit|,
-or if the most recent preceding |\vsplit| didn't contain any marks.
-\eix^^{marks}
+如果没有 |\vsplit| 命令，或者前面最近的 |\vsplit| 不包含任何标记，
+这两个命令不生成记号列。
+\eix^^{标记}
 \enddesc
 
 %==========================================================================
-\section {Insertions}
+%\section {Insertions}
+\section {插入项}
 
-\subsection {Footnotes}
+%\subsection {Footnotes}
+\subsection {脚注}
 
 \begindesc
 \easy\cts footnote {\<argument$_1$> \<argument$_2$>}
 \cts vfootnote {\<argument$_1$> \<argument$_2$>}
 \explain
-These commands produce footnotes.
-\<argument$_1$> is the ``^{reference mark}''
-for the footnote and \<argument$_2$> is its text.
-The text can be several paragraphs long if necessary and can contain
-constructs such as math displays, but it shouldn't contain any
-\minref{insertion}s (such as other footnotes).
+%These commands produce footnotes.
+%\<argument$_1$> is the ``^{reference mark}''
+%for the footnote and \<argument$_2$> is its text.
+%The text can be several paragraphs long if necessary and can contain
+%constructs such as math displays, but it shouldn't contain any
+%\minref{insertion}s (such as other footnotes).
+这两个命令用于生成脚注。
+其中 \<argument$_1$> 是脚注的“^{参考符号}”，
+而 \<argument$_2$> 是脚注文本。
+脚注文本必要时可以包含多个段落，也可以包含展示公式等其他构造，
+但不应该包含任何\minref{插入项}（比如其他脚注）。
 
-You shouldn't use these commands inside a subformula of a math formula,
-in a box within a box being contributed to a page,
-or in an insertion of any kind.
-If you're unsure whether these restrictions apply, you can be safe by
-only using |\footnote| and |\vfootnote| directly within a paragraph or
-between paragraphs.
+%You shouldn't use these commands inside a subformula of a math formula,
+%in a box within a box being contributed to a page,
+%or in an insertion of any kind.
+%If you're unsure whether these restrictions apply, you can be safe by
+%only using |\footnote| and |\vfootnote| directly within a paragraph or
+%between paragraphs.
+在数学公式的子公式中，或者组成页面的盒子的子盒子中，
+或者任何形式的插入项中，你都不应该使用这些命令。
+如果你不确定这些限制出现在哪里，为安全起见，
+你可以只在段落内或者段落间直接使用 |\footnote| 和 |\vfootnote|。
 
-These restrictions aren't as severe as they seem because you can use
-|\vfootnote| to footnote most anything.
-Both |\foot!-note| and |\vfoot!-note| insert the reference mark in front of the
-footnote itself, but |\vfoot!-note| doesn't insert the reference mark into the
-text.
-Thus, when you use |\vfoot!-note| you can
-explicitly insert the reference mark
-wherever it belongs without concern about the context
-and place the |\vfootnote| in the next paragraph.
-If you find that the footnote lands on
-the page following the one where it belongs, move the |\vfootnote| back
-to the previous paragraph.
-There are rare circumstances where you'll need to
-alter the text of your document in order to get a footnote to appear on
-the same page as its reference mark.
+%These restrictions aren't as severe as they seem because you can use
+%|\vfootnote| to footnote most anything.
+%Both |\foot!-note| and |\vfoot!-note| insert the reference mark in front of the
+%footnote itself, but |\vfoot!-note| doesn't insert the reference mark into the
+%text.
+%Thus, when you use |\vfoot!-note| you can
+%explicitly insert the reference mark
+%wherever it belongs without concern about the context
+%and place the |\vfootnote| in the next paragraph.
+%If you find that the footnote lands on
+%the page following the one where it belongs, move the |\vfootnote| back
+%to the previous paragraph.
+%There are rare circumstances where you'll need to
+%alter the text of your document in order to get a footnote to appear on
+%the same page as its reference mark.
+这些限制没看起来那么严重，因为你可以用 |\vfootnote| 命令添加几乎任何内容的脚注。
+|\foot!-note| 和 |\vfoot!-note| 都会在脚注前面插入参考符号，
+区别在于 |\vfoot!-note| 不会在正文中插入参考符号。
+因此，你可以不用考虑上下文的限制，
+显式地将参考符号放到它应该在的地方，然后在下一个段落使用 |\vfootnote| 命令。
+这可能会导致脚注跑到下一页去，此时你可以将 |\vfootnote| 命令移动到上一个段落中。
+在极少情况下，你需要修改文档正文，以让脚注和参考符号出现在同一页中。
 \example
 To quote the mathematician P\'olya is a ploy.\footnote
 *{This is an example of an anagram, but not a strict one.}
@@ -877,7 +1149,8 @@ the previous section.}
 \enddesc
 
 %==========================================================================
-\subsection {General insertions}
+%\subsection {General insertions}
+\subsection {一般插入项}
 
 \begindesc
 \bix^^{insertions//commands for}
@@ -885,35 +1158,54 @@ the previous section.}
 \cts midinsert {\<vertical mode material> {\bt \\endinsert}}
 \cts pageinsert {\<vertical mode material> {\bt \\endinsert}}
 \explain
-These commands produce different forms of insertions that
-instruct
-(or allow) \TeX\ to relocate the \<vertical mode material>:
+%These commands produce different forms of insertions that
+%instruct
+%(or allow) \TeX\ to relocate the \<vertical mode material>:
+%\ulist
+%\li |\topinsert| attempts to put the material at the top of the current page.
+%If it won't fit there, |\topinsert|
+%will move the material to the next available top of page.
+%\li |\midinsert| attempts to put the material at the current position.
+%If it won't fit there, |\midinsert|
+%will move the material to the next available top of page.
+%\li |\pageinsert| puts the material by itself on the next page.
+%To avoid an underfull page, be sure to end the inserted material with
+%|\vfil| or fill out the excess space some other way.
+%% Knuth doesn't say this, but I tried an experiment that verified it.
+%% Nor does he say explicitly that an insertion does a \par.
+%\endulist
+%\noindent
+%The \<vertical mode material>
+%is said to be ``floating'' ^^{floating material} because \TeX\
+%can move it from one place to another.
+%Insertions are very useful for material such as figures and tables because
+%you can position such material where you want it without knowing where the
+%page breaks will fall.
+这些命令生成不同形式的插入项，
+它们指示（或者允许）\TeX\ 重新放置 \<vertical mode material>：
 \ulist
-\li |\topinsert| attempts to put the material at the top of the current page.
-If it won't fit there, |\topinsert|
-will move the material to the next available top of page.
-\li |\midinsert| attempts to put the material at the current position.
-If it won't fit there, |\midinsert|
-will move the material to the next available top of page.
-\li |\pageinsert| puts the material by itself on the next page.
-To avoid an underfull page, be sure to end the inserted material with
-|\vfil| or fill out the excess space some other way.
+\li |\topinsert| 试图将内容放在当前页的顶部。
+如果那里放不下，|\topinsert| 将把该内容移动到顶部可放下的下一个页面。
+\li |\midinsert| 试图将内容放在当前位置，
+如果当前位置放不下，|\midinsert| 将把该内容移动到顶部可放下的下一个页面。
+\li |\pageinsert| 将把内容单独放在下一页。
+为免得到松散页面，不要忘记在内容最后用 |\vfil| 命令或者其他方式填满页面。
 % Knuth doesn't say this, but I tried an experiment that verified it.
 % Nor does he say explicitly that an insertion does a \par.
 \endulist
 \noindent
-The \<vertical mode material>
-is said to be ``floating'' ^^{floating material} because \TeX\
-can move it from one place to another.
-Insertions are very useful for material such as figures and tables because
-you can position such material where you want it without knowing where the
-page breaks will fall.
+由于 \TeX\ 可以移动\<vertical mode material>的位置，我们称它为“浮动体”。^^{浮动体}
+插入项对于图形和表格非常有用，
+因为你可以将它们放在所需的地方，而不用管哪里会分页。
 
-Each of these commands implicitly ends the current paragraph, so
-you should use them only between paragraphs.
-You should not use them within a box or within another insertion.
-If you have several insertions competing for
-the same space, \TeX\ will retain their relative order.
+%Each of these commands implicitly ends the current paragraph, so
+%you should use them only between paragraphs.
+%You should not use them within a box or within another insertion.
+%If you have several insertions competing for
+%the same space, \TeX\ will retain their relative order.
+这些命令每个都会结束当前段落，因此你应该仅在段落之间使用它们。
+你也不要在盒子内部或者另一个插入项内部使用它们。
+如果有多个插入项要放在同一个位置，\TeX\ 将保持它们的先后顺序。
 \example
 \pageinsert
 % This text will appear on the following page, by itself.
@@ -928,70 +1220,106 @@ the Carpenter.
 \begindesc
 \cts endinsert {}
 \explain
-This command ends an insertion started by
-|\topinsert|, |\midinsert|, or |\pageinsert|.
+%This command ends an insertion started by
+%|\topinsert|, |\midinsert|, or |\pageinsert|.
+此命令结束由 |\topinsert|、|\midinsert| 或 |\pageinsert| 命令开始的插入项。
 \enddesc
 
 \begindesc
 \cts insert {\<number> \rqbraces{\<vertical mode material>}}
 \explain
+%\minrefs{insertion}
+%This primitive command provides the
+%underlying mechanism for constructing insertions, but
+%it is hardly ever used outside of a \minref{macro} definition.
+%The definitions of the
+%|\foot!-note|, |\vfoot!-note|,
+%|\top!-insert|, |\mid!-insert|, and |\page!-insert| commands are
+%all built around |\insert|.
+%^^|\topinsert|
+%^^|\midinsert| ^^|\pageinsert| ^^|\footnote| ^^|\vfootnote|
 \minrefs{insertion}
-This primitive command provides the
-underlying mechanism for constructing insertions, but
-it is hardly ever used outside of a \minref{macro} definition.
-The definitions of the
-|\foot!-note|, |\vfoot!-note|,
-|\top!-insert|, |\mid!-insert|, and |\page!-insert| commands are
-all built around |\insert|.
+这个原始命令提供了构造插入项的内部机制，
+但除了在定义\minref{宏}时会用到，其他时候很少用到它。
+|\foot!-note|、|\vfoot!-note|、|\top!-insert|、|\mid!-insert| 和
+|\page!-insert| 命令的定义都建立在 |\insert| 命令之上。
 ^^|\topinsert|
 ^^|\midinsert| ^^|\pageinsert| ^^|\footnote| ^^|\vfootnote|
 
-When you design insertions for a document, you should assign a different
-integer code\footnote
-{\texbook{} uses the term ``class'' for a code.
-We use a different term to avoid confusion with the other meaning of
-``class'' (\xref{class}).}
-$n$ to each kind of insertion,
-using the ^|\newinsert| command (\xref{\@newinsert}) to obtain the
-integer codes.
-The |\insert| command itself appends the \<vertical mode material>
-to the current horizontal or \minref{vertical list}.
-Your \minref{output routine} is responsible for
-moving the inserted material from where it resides in |\box|$\,n$
-to an output page.
-^^{output routine}
+%When you design insertions for a document, you should assign a different
+%integer code\footnote
+%{\texbook{} uses the term ``class'' for a code.
+%We use a different term to avoid confusion with the other meaning of
+%``class'' (\xref{class}).}
+%$n$ to each kind of insertion,
+%using the ^|\newinsert| command (\xref{\@newinsert}) to obtain the
+%integer codes.
+%The |\insert| command itself appends the \<vertical mode material>
+%to the current horizontal or \minref{vertical list}.
+%Your \minref{output routine} is responsible for
+%moving the inserted material from where it resides in |\box|$\,n$
+%to an output page.
+%^^{output routine}
+设计文档的插入项时，不同的插入项需要分配不同的整数代码\footnote
+{\texbook{} 用“类别”这个术语称呼此代码。
+我们用不同的术语，以免和“类别”（\xref{class}）的其他意思混淆。}
+$n$，这个代码可以用 ^|\newinsert| 命令（\xref{\@newinsert}）得到。
+|\insert|命令本身仅添加 \<vertical mode material> 到当前水平列或\minref{垂直列}。
+而\minref{输出例行程序}负责移动|\box|$\,n$中的插入内容到输出页面。
+^^{输出例行程序}
 
-\TeX\ groups together all insertions having the same code
-number.  Each insertion
-code $n$ has four \minref{register}s associated with it:
+%\TeX\ groups together all insertions having the same code
+%number.  Each insertion
+%code $n$ has four \minref{register}s associated with it:
+%\ulist
+%\li |\box|$\,n$ is where \TeX\ accumulates the material for insertions
+%with code $n$.  When \TeX\ breaks a page, it puts into |\box|$\,n$
+%as much insertion $n$ material as will fit on the page.
+%Your output routine should then move this material to the actual page.
+%You can use ^|\ifvoid| \ctsref{\@ifvoid}
+%to test if there is any material in |\box|$\,n$.
+%If not all the material fits, \TeX\ saves the leftovers for the next page.
+%\li |\count|$\,n$ is a magnification factor $f.$  When \TeX\ is computing
+%the vertical space occupied on the page
+%by insertion $n$ material, it multiplies the
+%vertical extent of this material by $f/1000$.
+%Thus you would ordinarily set $f$ to $500$ for a double-column insertion
+%and to $0$ for a marginal~note.
+%\li |\dimen|$\,n$ specifies the maximum amount
+%of insertion $n$ material that \TeX\ will put on a single page.
+%\li |\skip|$\,n$ specifies extra space that \TeX\ allocates on the page
+%if the page contains any insertion $n$ material.
+%This space is in addition to the space occupied by the insertion itself.
+%For example, it would account for the space on a page above the footnotes
+%(if there are~any).
+%\endulist
+%\noindent
+%\TeX\ sets |\box|$\,n$, and you should set the other three registers
+%so that \TeX\ can correctly compute the vertical space required by the
+%insertion.
+%See \knuth{pages~122--125} for further details of how \TeX\ processes this
+%command and of how insertions interact with page breaking.
+%\xrdef{endofinsert}
+\TeX\ 将所有插入项按照它们的代码分组。每个插入代码关联四个\minref{寄存器}：
 \ulist
-\li |\box|$\,n$ is where \TeX\ accumulates the material for insertions
-with code $n$.  When \TeX\ breaks a page, it puts into |\box|$\,n$
-as much insertion $n$ material as will fit on the page.
-Your output routine should then move this material to the actual page.
-You can use ^|\ifvoid| \ctsref{\@ifvoid}
-to test if there is any material in |\box|$\,n$.
-If not all the material fits, \TeX\ saves the leftovers for the next page.
-\li |\count|$\,n$ is a magnification factor $f.$  When \TeX\ is computing
-the vertical space occupied on the page
-by insertion $n$ material, it multiplies the
-vertical extent of this material by $f/1000$.
-Thus you would ordinarily set $f$ to $500$ for a double-column insertion
-and to $0$ for a marginal~note.
-\li |\dimen|$\,n$ specifies the maximum amount
-of insertion $n$ material that \TeX\ will put on a single page.
-\li |\skip|$\,n$ specifies extra space that \TeX\ allocates on the page
-if the page contains any insertion $n$ material.
-This space is in addition to the space occupied by the insertion itself.
-For example, it would account for the space on a page above the footnotes
-(if there are~any).
+\li |\box|$\,n$ 给 \TeX\ 用于累积第 $n$ 种插入内容。
+\TeX\ 分页时会尽可能多地往 |\box|$\,n$ 中放入第$n$ 种插入项。
+然后输出例行程序将把这些内容移动了实际页面上。
+你可以用 ^|\ifvoid| 命令\ctsref{\@ifvoid}检查 |\box|$\,n$ 中是否有任何内容。
+如果不能放下全部内容，\TeX\ 将把剩下内容留到下一页。
+\li |\count|$\,n$ 为放大因子 $f$。
+\TeX\ 计算第$n$种插入项所占用的页面纵向空间时，将把插入内容的纵向长度乘以$f/1000$。
+因此对双栏插入项通常设 $f$ 为 $500$，而对边注项设为 $0$。
+\li |\dimen|$\,n$ 设定每页放置的第$n$种插入项的最大数目。
+\li |\skip|$\,n$ 设定页面包含第 $n$ 种插入项时 \TeX\ 添加的额外间隔。
+这个间隔不包含该插入项本身占用的空间。
+例如，当页面包含脚注时，就会用到此间隔。
 \endulist
 \noindent
-\TeX\ sets |\box|$\,n$, and you should set the other three registers
-so that \TeX\ can correctly compute the vertical space required by the
-insertion.
-See \knuth{pages~122--125} for further details of how \TeX\ processes this
-command and of how insertions interact with page breaking.
+\TeX\ 只设定 |\box|$\,n$，你需要设定其他三个寄存器，
+以让 \TeX\ 正确计算插入项所需的竖直空间。
+\knuth{第~122--125~页} 中详细介绍了 \TeX\ 如何处理此命令，
+以及插入项和分页方式之间的关系。
 \xrdef{endofinsert}
 \enddesc
 

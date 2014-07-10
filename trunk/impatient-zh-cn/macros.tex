@@ -136,6 +136,7 @@
 
 % Parameters.
 %
+\baselineskip = 14pt
 \parskip = 0pt plus 0.3pt
 \newdimen\codefuzz \codefuzz = 10pt % for \csdisplay, \example
 \hbadness = 4000
@@ -276,7 +277,7 @@
 \setskip small = .25
 \setskip tiny = .125
 
-\parindent = 1em
+\parindent = 2em
 \newdimen\normalindent \normalindent = \parindent
 
 \footnotemarkseparation = .16666em
@@ -284,7 +285,7 @@
 \abovelistskip = \smallskipamount
 \interitemskip = \tinyskipamount
 \belowlistskip = \smallskipamount
-\listleftindent = \parindent
+\listleftindent = 0pt
 
 % Displays involve text and math.  We don't want as much flexibility in
 % the glue as plain.tex sets.
@@ -1556,7 +1557,7 @@
    \endit{COMMANDS}%
    \nobreak \vskip\explainskip
    \interlinepenalty = 50
-   \nobreak \noindent
+   \nobreak %\noindent
    \ignorespaces
 }
 
@@ -1588,7 +1589,7 @@
    \nobreak % At the interline glue.
    \beginit{EXAMPLE}%
    \parfillskip = 0pt plus 1fil
-   \hbox\bgroup\hskip\parindent\vtop\bgroup
+   \hbox\bgroup\hskip.5\parindent\vtop\bgroup
       \begincs
       \let | = \endcode
       \advance\hsize by -\parindent
@@ -1630,7 +1631,7 @@
       \advance\hsize by -\parindent
       \savedepth = \prevdepth
       \nointerlineskip
-      \hbox\bgroup\hskip\normalindent
+      \hbox\bgroup\hskip.5\normalindent
          \vtop\bgroup \restoreplainTeX \parindent = 0pt
          \prevdepth = \savedepth
    \fi
