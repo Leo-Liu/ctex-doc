@@ -45,8 +45,9 @@
 \newif\ifmsdos
 \newif\ifedgetabs \edgetabstrue
 \newif\ifdvi \dvitrue % true if we want a .dvi file
-\newif\ifadobefont \adobefonttrue
-\newif\ifxecjk \xecjktrue
+\newif\iftrimpage
+\newif\ifadobefont
+\newif\ifxecjk
 
 %\xrefwarningfalse
 
@@ -249,6 +250,17 @@
 
 \topskip = 2pc        % Distance from headline to first line of text.
 
+\iftrimpage
+  \pdfpagewidth=7.375in \pdfpageheight=9.25in
+  %\hsize=7.375in \vsize=9.25in
+  %\advance \hsize by -18pc
+  %\advance \vsize by -10pc
+  \outsidemargin = 9pc \insidemargin = 9pc
+  \oddoffset = -1in \advance\oddoffset by \insidemargin
+  \evenoffset = -1in \advance\evenoffset by \outsidemargin
+  \hoffset = \oddoffset
+  \voffset = -1in \advance \voffset by 4pc
+\fi
 
 % Other formatting parameters.
 %
@@ -669,6 +681,26 @@
   \def\linebreak{}\def\TeX{TeX}\def\vtop##1{##1}\def\noindent{}\def\\{}\def\hfil{}\def\quad{}%
   \special{pdf:out #1 << /Title (#2) /Dest [ @thispage /FitH @ypos ] >>}%
   \endgroup%
+}
+
+% for including artwork images
+%
+\newdimen\oldhoffset
+\newdimen\oldvoffset
+\newdimen\oldparindent
+\def\includeartwork#1{%
+  \oldhoffset=\hoffset
+  \oldvoffset=\voffset
+  \oldparindent=\parindent
+  \hoffset=-1in\voffset=-1in\parindent=0pt%
+  \iftrimpage
+    \special{pdf:image width 7.375in depth 9.25in (artwork/#1-l.png)}%
+  \else
+    \special{pdf:image width 210mm depth 297mm (artwork/#1.png)}%
+  \fi\pagebreak
+  \hoffset=\oldhoffset
+  \voffset=\oldvoffset
+  \parindent=\oldparindent
 }
 
 
@@ -1343,11 +1375,12 @@
 % in xmptext.tex.
 %
 \def\xmpheader #1/#2{%
-   {\exampletitlefonts \leftline{Example #1:\quad \bi#2}}%
+   \bookmark{2}{例#1：#2}%
+   {\exampletitlefonts \leftline{例#1:\quad \bi#2}}%
    \vglue .5\baselineskip
    \count255 = \pageno
    \xdef\examplepage{\number\count255}%
-   \markinfo{Example #1: #2}
+   \markinfo{例#1: #2}
    \ifrewritetocfile
       \write\tocfile{\string\tocsectionentry{#2}{}{\examplepage}}%
    \fi
@@ -1364,7 +1397,7 @@
 
 \def\negthin{\ifmmode \mskip-\thinmuskip \else \char`\\ \char`\! \fi}
 
-\def\xmpheaddef{see \xref{xmphead}}
+\def\xmpheaddef{见 \xref{xmphead}}
 
 \def\restoreplainTeX{%
    % Restore plain TeX's parameters (except for \hsize and \hoffset).
