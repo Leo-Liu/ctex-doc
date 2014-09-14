@@ -730,7 +730,7 @@
    \def\chaptername{#1}%
    \advance\chapterno by 1
    %
-   \bookmark{1}{\the\chapterno\ \chaptername}
+   \bookmark{1}{\ifback\else\the\chapterno\ \fi\chaptername}
    %
    \setbox0 = \hbox{\chapternumeralfont
                     \kern1pt
@@ -1507,6 +1507,7 @@
    \noheadlinetrue
    \advance\hsize by 2pc
    \vglue2pc % Plus a \topskip of 2pc.
+   \bookmark{1}{概念列表}%
    {\sectionfonts \leftline{概念列表}}%
    \vskip\belowsectionskip
    {\conceptpagefonts
@@ -2100,7 +2101,7 @@
 
 % Some miscellanous macros.
 %
-\def\anatomy{anatomy of \TeX}
+\def\anatomy{\TeX\ 剖析}
 \def\ascii{{\ninerm ASCII}}
 \def\asciichar#1{$\langle \rm #1\rangle$}
 \def\bblfile{{\tt .bbl} 文件}
@@ -2126,7 +2127,7 @@
 \def\pkfile{{\tt .pk} file}
 \def\plainTeX{plain \TeX}
 \def\PlainTeX{Plain \TeX}
-\def\pp{p\p}
+\def\pp{页}
 \def\pt{\thinspace {\rm 点}}
 \def\pxlfile{{\tt .pxl} 文件}
 \def\tequiv{\unskip $\>\equiv\>$} % equivalence in text
@@ -2144,6 +2145,7 @@
 \def\visiblespace{{\tentt \char'040}}
 \def\Vperiod.{$V$\kern-2pt.}
 \let\vs=\visiblespace
+\def\xref#1{第~\xrefn{#1}~页} % 覆盖 eplain 中的定义
 \def\xrefpg#1{第~\xrefn{#1}~页}
 
 % \tighten attempts to shorten the number of lines occupied by a paragraph.
@@ -2204,7 +2206,7 @@
 % sequence.
 %
 \def\ctsref{\begingroup \catcode`\@ = \letter \@ctsref}
-\def\@ctsref#1{(\xref{#1})\endgroup}
+\def\@ctsref#1{（\xref{#1}）\endgroup}
 
 \def\xrefdelim[#1]{page~\xrefn{#1}} % this form doesn't need braces
 
@@ -2232,11 +2234,11 @@
 
 \def\chapterref#1{第~\chapternum{#1}~章}
 
-\def\headcit#1#2{``{\rm #1}'' (\xref{#2})}
+\def\headcit#1#2{“{\rm #1}”（\xref{#2}）}
 
 \def\conceptcit#1{\headcit{#1}{#1}}
 
-\def\seeconcept#1{(see ``{\rm #1}'', \xref{#1})}
+\def\seeconcept#1{（见“{\rm #1}”，\xref{#1}）}
 
 
 

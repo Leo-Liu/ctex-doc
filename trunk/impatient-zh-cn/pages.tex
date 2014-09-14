@@ -63,22 +63,22 @@
 \bix^^|\baselineskip|
 \bix^^|\lineskip|
 \bix^^|\lineskiplimit|
-在一个普通\minref{垂直列}（例如段落各行）中，
+在一个普通\minref{竖直列}（例如段落各行）中，
 这三个参数共同确定了 \TeX\ 在相邻两个\minref{盒子}间插入的间隔。
-这个间隔称为“\minref{行间\zglue}”。
-对于内部垂直模式中构造的 vbox 垂直列，其中的组成盒子间同样会有此间隔。
+这个间隔称为“\minref{行间粘连}”。
+对于内部竖直模式中构造的 vbox 竖直列，其中的组成盒子间同样会有此间隔。
 ^^{vboxes//interline glue for}
 
 在通常情况下，盒子的高度和深度不会太大，
 此时 \TeX\ 让相邻盒子的两基线距离等于 |\baselineskip|。
-为此可以让行间\zglue 等于 |\baselineskip| 减去上盒子深度（由 ^|\prevdepth| 给出）%
+为此可以让行间粘连等于 |\baselineskip| 减去上盒子深度（由 ^|\prevdepth| 给出）%
 和下盒子高度。
-但如果两个盒子靠得太近，即行间\zglue 小于 |\lineskiplimit|，
+但如果两个盒子靠得太近，即行间粘连小于 |\lineskiplimit|，
 \TeX\ 将改为插入 |\lineskip| 大小的间距。\negthinspace\footnote
-{\TeX\ 实际上在垂直列开头设定 |\prevdepth| 为 $-1000$\pt ，
+{\TeX\ 实际上在竖直列开头设定 |\prevdepth| 为 $-1000$\pt ，
 从而可以测定\emph{每个}盒子的 |\prevdepth|。
 若 |\prevdepth|$\>\le-1000$\pt ，
-它就不会插入任何行间\zglue 。}详情可见 \knuth{第~79--80~页}。
+它就不会插入任何行间粘连。}详情可见 \knuth{第~79--80~页}。
 
 注意 |\baselineskip| 和 |\lineskip| 测量\emph{不同的东西}：
 前者为两盒子基线之间的距离，
@@ -130,8 +130,8 @@ we'd only get extra space above the line.)
 %depth of that box.  \TeX\ sets |\prevdepth| to $-1000$\pt\ at the start
 %of a vertical list, indicating that the usual interline glue should be
 %suppressed.
-当 \TeX\ 将盒子添加到垂直列时，它设定 |\prevdepth| 为该盒子的深度。
-在垂直列的开始， \TeX\ 设定 |\prevdepth| 为 $-1000$\pt\ ，这表示不添加行间\zglue 。
+当 \TeX\ 将盒子添加到竖直列时，它设定 |\prevdepth| 为该盒子的深度。
+在竖直列的开始， \TeX\ 设定 |\prevdepth| 为 $-1000$\pt\ ，这表示不添加行间粘连。
 \enddesc
 
 \begindesc
@@ -165,10 +165,10 @@ we'd only get extra space above the line.)
 %|\offinterlineskip| is often useful when
 %you're constructing a horizontal \minref{alignment}.
 %^^{alignments//using \b\tt\\offinterlineskip\e\ in}
-此命令让 \TeX\ 从此之后停止插入行间\zglue 。除非你希望对文档的剩余部分都生效（你多半不希望），
-你应该将此命令和你希望生效的文本放在一个\zgroup 中。
+此命令让 \TeX\ 从此之后停止插入行间粘连。除非你希望对文档的剩余部分都生效（你多半不希望），
+你应该将此命令和你希望生效的文本放在一个编组中。
 它的主要用处在于可以让你自己处理行间空隙，比如用支架（^{struts}），
-而不影响 \TeX\ 的正常行间\zglue 。在构造水平对齐时经常会用到|\offinterlineskip|。
+而不影响 \TeX\ 的正常行间粘连。在构造水平对齐时经常会用到|\offinterlineskip|。
 ^^{alignments//using \b\tt\\offinterlineskip\e\ in}
 \example
 \def\entry#1:#2 {\strut\quad#1\quad&\quad#2\quad\cr}
@@ -209,7 +209,7 @@ we'd only get extra space above the line.)
 %This command tells \TeX\ not to insert interline glue in front of the
 %next line.
 %It has no effect on subsequent lines.
-此命令让 \TeX\ 停止在下一行插入行间\zglue 。它不影响后续其他行。
+此命令让 \TeX\ 停止在下一行插入行间粘连。它不影响后续其他行。
 \enddesc
 
 \begindesc
@@ -225,7 +225,7 @@ we'd only get extra space above the line.)
 此命令让 ^|\baselineskip| 增加 \<dimen>。
 在段尾之前的 |\openup| 命令将影响整个段落，
 因此想在段落中间改变 |\baseline!-skip| 时不要用 |\openup| 命令。
-在排版表格和展示公式时 |\openup| 非常有用——多点间隔将会增加它们的可读性。
+在排版表格和陈列公式时 |\openup| 非常有用——多点间隔将会增加它们的可读性。
 ^^{alignments//space between rows of}
 \example
 Alice picked up the White King very gently, and lifted him
@@ -355,7 +355,7 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %chapter or other major unit of your document.
 这两个命令将结束当前段落并强制在当前位置分页。如果你不在前面加上
 |\vfil| (\xref \vfil)，^^|\vfil//needed with {\tt\\eject}|
-\TeX\ 将试着将伸展页面内容（很可能会警告有松散的垂直盒子）。
+\TeX\ 将试着将伸展页面内容（很可能会警告有松散的竖直盒子）。
 |\supereject| 命令还让 \plainTeX\ 输出例行程序处理剩下的插入项，
 ^^{insertions//forced out by \b\tt\\supereject\e}例如长脚注，
 在处理其他输入之前生成它们。因而，
@@ -376,7 +376,7 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %See \xrefpg{filbreak} for more advice on this subject.
 此命令规定了有条件的分页。它告诉 \TeX\ ，如果后面的 |\filbreak| 不能放在同一页，就在此处分页。
 用一对 |\filbreak| 将一个段落围起来，就可以确保 \TeX\ 尽量将该段落放在同一页。
-不要在段落中间使用 |\filbreak|，因为这将让 \TeX\ 进入垂直模式，从而结束该段落。
+不要在段落中间使用 |\filbreak|，因为这将让 \TeX\ 进入竖直模式，从而结束该段落。
 在 \xrefpg{filbreak} 中有此主题的更多建议。
 \enddesc
 
@@ -455,8 +455,8 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %breaking a page just before the last line of a partial paragraph
 %that immediately precedes a math display.
 %\PlainTeX\ sets |\displaywidowpenalty| to $50$.
-^^{寡行}^^{展示公式}
-此参数设定在展示公式上一行同时也是段落尾行之前分页的\minref{惩罚}值。
+^^{寡行}^^{陈列公式}
+此参数设定在陈列公式上一行同时也是段落尾行之前分页的\minref{惩罚}值。
 \PlainTeX\ 设定 |\displaywidowpenalty| 为 $50$.
 \enddesc
 
@@ -467,8 +467,8 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %This parameter specifies the \minref{penalty} for
 %breaking a page just before a math display.
 %\PlainTeX\ sets |\predisplaypenalty| to $10000$.
-^^{展示公式}
-此参数设定在展示公式之前分页的\minref{惩罚}值。
+^^{陈列公式}
+此参数设定在陈列公式之前分页的\minref{惩罚}值。
 \PlainTeX\ 设定\break |\pre!-display!-penalty| 为 $10000$。
 \enddesc
 
@@ -479,8 +479,8 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %This parameter specifies the \minref{penalty} for
 %breaking a page just after a math display.
 %\PlainTeX\ leaves |\postdisplaypenalty| at $0$.
-^^{展示公式}
-此参数设定在展示公式之后分页的\minref{惩罚}值。
+^^{陈列公式}
+此参数设定在陈列公式之后分页的\minref{惩罚}值。
 \PlainTeX\ 设定\break |\postdisplaypenalty| 为 $0$。
 \enddesc
 
@@ -587,7 +587,7 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %\TeX\ updates |\pagetotal| as it adds
 %items to the main \minref{vertical list}.
 此参数表示当前页面累积的自然高度。
-\TeX\ 添加内容到\minref{垂直列}时会更新 |\pagetotal| 的值。
+\TeX\ 添加内容到\minref{竖直列}时会更新 |\pagetotal| 的值。
 \enddesc
 
 \begindesc
@@ -597,7 +597,7 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %\TeX\ updates |\pagedepth| as it adds
 %items to the main \minref{vertical list}.
 此参数表示当前页面的深度。
-\TeX\ 添加内容到\minref{垂直列}时会更新 |\pagedepth| 的值。
+\TeX\ 添加内容到\minref{竖直列}时会更新 |\pagedepth| 的值。
 \enddesc
 
 \begindesc
@@ -607,8 +607,8 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %in the accumulated \minref{glue} on the current page.
 %\TeX\ updates |\pageshrink| as it adds
 %items to the main \minref{vertical list}.
-此参数表示当前页面累积的\zglue 的可收缩量。
-\TeX\ 添加内容到\minref{垂直列}时会更新 |\pageshrink| 的值。
+此参数表示当前页面累积的粘连的可收缩量。
+\TeX\ 添加内容到\minref{竖直列}时会更新 |\pageshrink| 的值。
 \enddesc
 
 \begindesc
@@ -628,11 +628,11 @@ have been added to correct an omission. The descriptions are exactly parallel.}
 %
 %\eix^^{page breaks//parameters for}
 %\eix^^{page breaks}
-这四个参数合起来表示当前页面累积的\zglue 的可伸长量。可伸长量总共等于
+这四个参数合起来表示当前页面累积的粘连的可伸长量。可伸长量总共等于
 {\def\f#1{\hbox{\tt fi#1}}
 $n_0 + n_1\f{l} + n_2\f{ll} + n_3\f{lll}$}，
 其中四个参数给出四个$n_i$的值。
-\TeX\ 添加内容到\minref{垂直列}时会更新这些参数的值。
+\TeX\ 添加内容到\minref{竖直列}时会更新这些参数的值。
 \eix^^{page breaks//parameters for}
 \eix^^{page breaks}
 \enddesc
@@ -729,12 +729,12 @@ The combined description now appears there.}
 %so that the glue would be negative, \TeX\ simply inserts no
 %|\topskip| glue at all on that page.
 为确保页面第一个盒子的基线到上页边的距离总是 $d$，
-\TeX\ 在每个页面顶部都插入\zglue 。
-|\topskip| 给出了 $d$ 的值，以此确定该\zglue 大小
+\TeX\ 在每个页面顶部都插入粘连。
+|\topskip| 给出了 $d$ 的值，以此确定该粘连大小
 （只要页面第一个盒子不会太高）。
-$d$ 等于 |\topskip| \zglue 的自然大小。
+$d$ 等于 |\topskip| 粘连的自然大小。
 如果页面第一个盒子的高度超过 $d$，
-计算出的粘连将为负值，此时在该页顶部 \TeX\ 不插入|\topskip|\zglue 。
+计算出的粘连将为负值，此时在该页顶部 \TeX\ 不插入|\topskip|粘连。
 
 %To understand better the effect of these rules, assume that |\topskip|
 %has no stretch or shrink and that the first item on the page is indeed a box.
@@ -764,7 +764,7 @@ $d$ 等于 |\topskip| \zglue 的自然大小。
 %See |\par| (\xref{\@par}) for more information about what happens
 %when \TeX\ starts a paragraph.
 %\PlainTeX\ sets |\parskip| to |0pt plus 0.1pt|.
-此参数设定“^{段落间距}”，即 \TeX\ 在段落开头插入的竖直\zglue 。
+此参数设定“^{段落间距}”，即 \TeX\ 在段落开头插入的竖直粘连。
 ^^{paragraphs//glue between}
 在 |\par| (\xref{\@par}) 那里介绍了 \TeX\ 开始新段落时所作的事情。
 \PlainTeX\ 设定 |\parskip| 为 |0pt plus 0.1pt|。
@@ -951,7 +951,7 @@ This explanation appears on page \folio\ of the book.
 |
 \endexample\enddesc
 
-\secondprinting{\vfill\eject}
+%\secondprinting{\vfill\eject}
 
 
 %==========================================================================
@@ -980,8 +980,8 @@ This explanation appears on page \folio\ of the book.
 例如数学公式或者用 |\hbox|、|\vbox| 或 |\vtop| 构造的\minref{盒子}。
 这是因为 \TeX\ 构造页面主盒子时将看不到这样的标记。
 但是，若你在普通水平\minref{模式}中用 |\mark|，
-或者在主垂直列的 hbox 中直接使用 |\mark|，
-该标记将会被转移到主\minref{垂直列}。
+或者在主竖直列的 hbox 中直接使用 |\mark|，
+该标记将会被转移到主\minref{竖直列}。
 在\knuth{第~259--260~页}中有如何使用 |\mark| 的例子。
 \enddesc
 
@@ -1085,7 +1085,7 @@ This explanation appears on page \folio\ of the book.
 这两个命令用于生成脚注。
 其中 \<argument$_1$> 是脚注的“^{参考符号}”，
 而 \<argument$_2$> 是脚注文本。
-脚注文本必要时可以包含多个段落，也可以包含展示公式等其他构造，
+脚注文本必要时可以包含多个段落，也可以包含陈列公式等其他构造，
 但不应该包含任何\minref{插入项}（比如其他脚注）。
 
 %You shouldn't use these commands inside a subformula of a math formula,
@@ -1261,10 +1261,10 @@ the Carpenter.
 %to an output page.
 %^^{output routine}
 设计文档的插入项时，不同的插入项需要分配不同的整数代码\footnote
-{\texbook{} 用“类别”这个术语称呼此代码。
-我们用不同的术语，以免和“类别”（\xref{class}）的其他意思混淆。}
+{\texbook{} 用“类”这个术语表示此代码。
+为避免和“类”（\xref{类}）的其他意思混淆，我们用不同的术语。}
 $n$，这个代码可以用 ^|\newinsert| 命令（\xref{\@newinsert}）得到。
-|\insert|命令本身仅添加 \<vertical mode material> 到当前水平列或\minref{垂直列}。
+|\insert|命令本身仅添加 \<vertical mode material> 到当前水平列或\minref{竖直列}。
 而\minref{输出例行程序}负责移动|\box|$\,n$中的插入内容到输出页面。
 ^^{输出例行程序}
 
@@ -1343,14 +1343,15 @@ $n$，这个代码可以用 ^|\newinsert| 命令（\xref{\@newinsert}）得到�
 %The output routine is also responsible for attaching things such as
 %headers and footers.
 %\enddesc
-
 \bix^^{输出例行程序}
 \begindesc
 \cts output {\param{token list}}
 \explain
-这个变量包含了当前的 \minref{输出例行程序}，也就是 \TeX\ 当发现一个断页点的时候会展开的一个符号列表。
-\TeX\ 把当前页面放入 ^|\box255|，所以 |\output| 负责对 |\box255| 进行处理——不管是把它输出到 dvi 还是把它放到别的什么地方去。
-输出例行程序也负责把天头或者地脚附加到页面上。
+这个参数包含了当前的 \minref{输出例行程序}，
+也就是 \TeX\ 当发现一个断页点的时候会展开的一个符号列表。
+\TeX\ 把当前页面放入 ^|\box255|，所以 |\output| 负责对 |\box255| 进行处理%
+——不管是把它输出到 dvi 还是把它放到别的什么地方去。
+输出例行程序也负责把页眉和页脚附加到页面上。
 \enddesc
 
 %\begindesc
@@ -1410,9 +1411,12 @@ $n$，这个代码可以用 ^|\newinsert| 命令（\xref{\@newinsert}）得到�
 \begindesc
 \cts deadcycles {\param{number}}
 \explain
-这个变量包含这 \TeX\ 在上次 ^^|\shipout| |\ship!-out| 后已经初始化的 \minref{输出例行程序} 的个数。
-\footnote{更加准确地说， \TeX\ 在执行 |\ship!-out| 的时候，把 |\dead!-cycles| 归 $0$，然后每次执行 |\output| 的时候把它增加 $1$。}
-如果 |\deadcycles| 变得太大，那你很有可能把 \TeX\ 弄死循环了，也就是说，循环往复地对同一个页面进行分页操作。
+这个参数包含这 \TeX\ 在上次 ^^|\shipout| |\ship!-out|
+后已经初始化的\minref{输出例行程序}的个数。
+\footnote{更加准确地说， \TeX\ 在执行 |\ship!-out| 的时候，
+把 |\dead!-cycles| 归 $0$，然后每次执行 |\output| 的时候把它增加 $1$。}
+如果 |\deadcycles| 变得太大，那你很有可能把 \TeX\ 弄死循环了，
+也就是说，循环往复地对同一个页面进行分页操作。
 \enddesc
 
 
@@ -1493,7 +1497,7 @@ $n$，这个代码可以用 ^|\newinsert| 命令（\xref{\@newinsert}）得到�
 
 %==========================================================================
 %\section {Splitting vertical lists}
-\section {分割垂直列表}
+\section {分割竖直列表}
 
 %\begindesc
 %\cts vsplit {\<number> {\bt to} \<dimen>}
@@ -1519,7 +1523,7 @@ $n$，这个代码可以用 ^|\newinsert| 命令（\xref{\@newinsert}）得到�
 这个命令使得 \TeX\ 把寄存器中编号为 \<number> 的\minref{盒子} $B_2$ 切割成两个部分。
 如果 $B_2$ 是一个页面，那这个命令会使用相同的算法来把这个页面分为两部分；
 这种情况下，分割处就是断页的地方。
-$B_2$这个盒子必须是个垂直盒子，不是水平盒子。
+$B_2$这个盒子必须是个竖直盒子，不是水平盒子。
 \TeX\ 把从开头到分割处的部分放到另一个盒子 $B_1$ 中，而把分割处到结尾的部分放到 $B_2$ 中。
 然后 |\vsplit| 就输出了 $B_1$ 这个盒子。
 一般情况下，你会用类似下面例子的方式，把 $B_1$ 盒子指定到另一个盒子寄存器中。
@@ -1536,10 +1540,10 @@ $B_2$这个盒子必须是个垂直盒子，不是水平盒子。
 %so insertions in the original vertical list of $B_2$ will be retained
 %but won't affect the split point.
 
-\TeX\ 使用它一贯的断页算法来分割这个垂直盒子。
+\TeX\ 使用它一贯的断页算法来分割这个竖直盒子。
 它使用 \<dimem> 的长度来指定 $B_1$ 盒子需要的高度 ^|\pagegoal|。
-而$B_1$ 的垂直长度未必就一定是 \<dimem>，因为 \TeX\ 不一定能完美地达到其分页的目标。
-\TeX\ 在计算这个垂直分割的时候，不考虑插入，因此 $B_2$ 插入的原本的垂直列表依然会被保留，但并不会受到分割的影响。
+而$B_1$ 的竖直长度未必就一定是 \<dimem>，因为 \TeX\ 不一定能完美地达到其分页的目标。
+\TeX\ 在计算这个竖直分割的时候，不考虑插入，因此 $B_2$ 插入的原本的竖直列表依然会被保留，但并不会受到分割的影响。
 
 
 %\example

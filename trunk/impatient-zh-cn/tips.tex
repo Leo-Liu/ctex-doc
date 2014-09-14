@@ -55,14 +55,14 @@
 % The vbox method has an important limitation:
 % you can't apply it to portions of text smaller than a paragraph.
 
-要强制 \TeX{} 把素材放在同一页上，最简单的办法是使用 |\vbox| 命令
-\ctsref{\vbox} 来使素材被封装在一个垂直盒子里。
+要强制 \TeX{} 把素材放在同一页上，最简单的办法是
+使用 |\vbox| 命令\ctsref{\vbox}来使素材被封装在一个竖直盒子里。
 ^^|\vbox//fixing page breaks with|
-这里使用垂直盒子比水平盒子要好，因为大多数情况下，需要放在一起的是垂
-直模式素材，比如连续的段落。垂直盒子的前后，你都要放一个隐含或明显的分
-段命令（或者空行，或者 |\par|）；否则的话，\TeX{} 会试图使垂直盒子成
-为相邻段落的一部分。垂直盒子的方法有一个重要的局限：不能用于不足一个段
-落的小部分文本。
+这里使用竖直盒子比水平盒子要好，因为大多数情况下，
+需要放在一起的是竖直模式素材，比如连续的段落。
+竖直盒子的前后，你都要放一个隐含或明显的分段命令（或者空行，或者 |\par|）；
+否则的话，\TeX{} 会试图使竖直盒子成为相邻段落的一部分。
+竖直盒子的方法有一个重要的局限：不能用于不足一个段落的小部分文本。
 
 
 % You can sometimes keep the lines of a single paragraph together by enclosing
@@ -75,10 +75,10 @@
 % However, if all the page breaks that \TeX\ can find are infinitely undesirable,
 % it may break the page within the paragraph anyway.
 
-有时候，要把一个自然段的各行放置在一起，你可以分组把它封装起来，并
-在组开始的地方（或者段落结束前的其它位置）令 |\interlinepenalty|
-\ctsref{\interlinepenalty} 的值为 $10000$。 这样就告诉了 \TeX{}，“绝对不
-能”在段内分页。但是，如果 \TeX{} 发现所有要分页的地方都是“绝对不要”，
+有时候，要把一个自然段的各行放置在一起，你可以把它封装在一个编组中，并
+在编组开始的地方（或者段落结束前的其它位置）令 |\interlinepenalty|%
+\ctsref{\interlinepenalty}的值为 $10000$。这样就告诉了 \TeX{}，“绝对不
+能”在段内分页。但是，如果 \TeX{} 发现所有要分页的地方都是“绝对不能”的，
 它可能不管三七二十一，就在自然段里分页。
 
 % A ^|\nobreak| command  (\xref{vnobreak})
@@ -99,12 +99,12 @@
 % the very first thing after the end of the paragraph or heading.
 
 在段落之后使用 ^|\nobreak| 命令 (\xref{vnobreak}) 会阻止 \TeX{} 在下一
-项内容之前分页（除非下一项恰好是一个小于 $10000$ 的 penalty）。这也是防
+项内容之前分页（除非下一项恰好是一个小于 $10000$ 的 惩罚项）。这也是防
 止在章节标题之后分页的最佳方案，因为章节标题通常类似于一个自然段落。
 |\nobreak| 需要放在段落结束的空行或者 |\par| 之后，从而避免 \TeX{} 将
 |\nobreak| 作为段落的一部分处理。 |\nobreak| 还需要出现在段落末尾所有
-适合分页的断点之前才有效。\TeX{} 插入在下一个段落之前的 glue 就是这样的
-一个断点，其他的还有你明确插入在段落后面的任何垂直 glue。 因
+适合分页的断点之前才有效。\TeX{} 插入在下一个段落之前的粘连就是这样的
+一个断点，其他的还有你明确插入在段落后面的任何竖直粘连。 因
 此，|\nobreak| 通常出现在段落或者标题结束之后的第一个位置。
 
 % You can use the ^|\eject| command \ctsref{\eject}
@@ -122,7 +122,7 @@
 % if the page boundaries in your document change,
 % the page breaks that you've inserted may no longer be where you want them.
 
-你可以使用 ^|\eject| 命令 \ctsref{\eject}，强制 \TeX{} 在特定的地方分
+你可以使用 ^|\eject| 命令\ctsref{\eject}，强制 \TeX{} 在特定的地方分
 页。在段落内部，你可以使用一个组合：`|\vadjust{\vfill\eject}|'
 \ctsref{\vadjust}
 ^^|\vadjust|
@@ -140,8 +140,8 @@
 % any of the methods mentioned above for enclosing
 % material that you want to keep together.
 
-如果你没有在 |\eject| 之后\footnote{Zhaopeng Xing: 疑为笔误，应该是"之
-  前"}使用 |\vfill| 命令，\TeX{} 将尽其所能地重新分配额外的空白间距，然后
+如果你没有在 |\eject| 之后\footnote{译注：疑为笔误，应该是“之前”。}使用 |\vfill| 命令，
+\TeX{} 将尽其所能地重新分配额外的空白间距，然后
 发牢骚：“an underfull |\vbox| (badness $10000$) has occurred while |\output| is
  active.”上面讲的封装素材在一起的任一方法中，类似的问题也会出现。
 
@@ -172,7 +172,7 @@
 
 ^|\filbreak| 命令 \ctsref\filbreak{}
 \xrdef{filbreak}
-提供了一种方式来把一个自然段或几个段落（或者其他垂直模式素材）放在同一
+提供了一种方式来把一个自然段或几个段落（或者其他竖直模式素材）放在同一
 页面上。当你用 |\filbreak| 来封闭一个自然段的时候，如果段落内容可以放
 置在一页， \TeX{} 会有效地忽略那些 |\filbreak|；如果不是，\TeX{} 将在
 第一个 |\filbreak| 之前分页。如果在连续段落中，每个自然段前后都有
@@ -201,11 +201,10 @@
 % You can get further information about \TeX's attempted line breaks by
 % setting |\tracingpages| (\xref\tracingpages) to $1$.
 
-有时，你会对一个或者几个自然段改变 ^|\looseness| 参数
-\ctsref\looseness{}，从而修改页面的长度。设置 |\looseness| 为负会让
-\TeX{} 试图缩减段落的行数；为正则增拓其行数。改变 |\looseness| 的缺点
-在于：受影响区域的单词间距不是最佳的。要了解更多的断行信息，可以设置
-|\tracingpages| (\xref\tracingpages) 为 $1$。
+有时，你可以改变一个或几个段落的 ^|\looseness| 参数\ctsref{\looseness}%
+以修改页面的长度。设置 |\looseness| 为负会让 \TeX{} 试图缩减段落的行数；
+为正则增加其行数。改变 |\looseness| 的缺点在于：受影响区域的单词间距不是最佳的。
+要了解更多的断行信息，可以设置 |\tracingpages|（\xref\tracingpages ）为 $1$。
 
 % \section Preserving the end of a page
 
@@ -249,7 +248,7 @@
 ^^|\vadjust|
 是一个捷径。但是，如果新的页面要长一些的话，问题就非常难办，因为
 \TeX{} 可能已经尽量使页面非常紧凑了。这时唯一的办法就是设定
-^|\looseness| \ctsref\looseness{} 为负值，来缩短页面上的一些垂直间距，
+^|\looseness|\ctsref\looseness{}为负值，来缩短页面上的一些竖直间距，
 如果 ^|\parskip| (\xref\parskip) 非零，压缩一下， 或者祭出压箱底的绝
 招：略微减小 |\baselineskip| \ctsref{\baselineskip}。
 ^^|\baselineskip//and preserving end of page|
@@ -271,11 +270,11 @@
 
 \null
 ^^{vertical space//reserving at top of page}
-通常你可以使用 |\vskip| 命令 \ctsref\vskip{} 在页面上添加空白垂直间距，但
-这一招对页首无效，因为在紧接着分页后的所有 glue, kerns 和 penalties，
+通常你可以使用 |\vskip| 命令\ctsref\vskip{} 在页面上添加空白竖直间距，
+但这一招对页首无效，因为在紧接着分页后的所有粘连，紧排和惩罚，
 都会被 \TeX{} 会丢弃。
 ^^{page breaks//glue at}
-一个替代：^|\topglue| 命令 \ctsref\topglue\ ，能产生永不消失的 glue。
+一个替代：^|\topglue| 命令 \ctsref\topglue\ ，能产生永不消失的粘连。
 \eix^^{page breaks//bad}
 
 % \section Correcting bad line breaks
@@ -306,13 +305,13 @@
 \bix^^{line breaks//bad}
 如果 \TeX{} 在需要放在一行的内容中间断行了，有好几种方法能纠正这种情况：
 \ulist\compact
-\li 你可以使用 |\break| 命令 (\xref{hbreaks})，在旁边强制断行。
+\li 你可以使用 |\break| 命令（\xref{hbreak}），在旁边强制断行。
  ^^|\break//correcting line breaks with|
-\li 你可以在两个单词之间插入一个系带 (|~|) (请看 \xref{@not})，来防止在它们之间断开。\ttidxref{~}
-\li 你可以在一些单词里插入一个或者多个临时的连字符，来告诉 \TeX{} 新的断词规则  (参考 |\-|, \xref{\@minus})。
+\li 你可以在两个单词之间插入一个带子(|~|)（见\xref{@not}），来防止在它们之间断开。\ttidxref{~}
+\li 你可以在一些单词里插入一个或者多个临时的连字符，来告诉 \TeX{} 新的断词规则（参考 |\-|，\xref{\@minus}）。
 \ctsidxref{-//in line breaking}
  ^^{discretionary hyphens//bad line breaks, correcting with}
-\li 你可以使用 ^|\hbox| 命令 \ctsref{\hbox}，把几个单词封装在一个水平盒子里。
+\li 你可以使用 ^|\hbox| 命令\ctsref{\hbox}，把几个单词封装在一个水平盒子里。
 \endulist
 
 % The disadvantage of all of these methods, except for inserting discretionary
@@ -408,11 +407,12 @@
 Underfull \vbox (badness 10000) has occurred
    while \output is active
 |
-表明 \TeX{} 因为没有足够的素材而没有填满一页。可能的原因是：你使用了垂
-直盒子来把素材放在一起，但是在接近页面的底部时， \TeX{} 遇到了一个不适
-合放在那里的垂直盒子。结果那个盒子被移至下一页，而在当前页上留下了太多
-空白。在这种情况下，或者你要在别的地方插入更多的空白，或者将那个垂直盒
-子打破，变得小一点。
+表明 \TeX{} 因为没有足够的素材而没有填满一页。可能的原因是：
+你使用了竖直盒子来把素材放在一起，但是在接近页面的底部时，
+\TeX{} 遇到了一个不适合放在那里的竖直盒子。
+结果那个盒子被移至下一页，而在当前页上留下了太多空白。
+在这种情况下，或者你要在别的地方插入更多的空白，
+或者将那个竖直盒子打破，变得小一点。
 
 % Another possible cause of this complaint is having a long paragraph
 % that occupies an entire page without a break.
@@ -424,10 +424,10 @@ Underfull \vbox (badness 10000) has occurred
 % the space between consecutive
 % baselines.
 
-出现这一抱怨信息的另一个可能原因是：一个长段落覆盖了整页而没有分段。通
-常 \TeX{} 不会自动调整基行距离，因此，在一页的末尾，就没法填满不足一个行间距的
-空白。如果页面长度（|\vsize| \ctsref{\vsize}）恰好不是基行距离
-（|\baselineskip| \ctsref{\baselineskip}）的整数倍，这种情况就会出现。
+出现这一抱怨信息的另一个可能原因是：一个长段落覆盖了整页而没有分段。
+通常 \TeX\ 不会自动调整基行距离，因此，在一页的末尾，就没法填满不足一个行间距的空白。
+如果页面长度 |\vsize|\ctsref{\vsize}恰好不是基线距离
+|\baselineskip|\ctsref{\baselineskip}的整数倍，这种情况就会出现。
 
 % Yet another cause of this complaint,
 % similar to the previous one, is setting ^|\parskip| \ctsref{\parskip},
@@ -435,9 +435,9 @@ Underfull \vbox (badness 10000) has occurred
 % stretch or shrink. You can fix these last two problems by increasing ^|\vfuzz|
 % \ctsref\vfuzz.
 
-关于这一抱怨信息还有一个原因：与上面相仿，段落间的 glue ^|\parskip|
-\ctsref{\parskip}，被固定为不能拉伸或挤压的值。后面的这两种情况，你可
-以增加 ^|\vfuzz| \ctsref\vfuzz 予以解决。
+关于这一抱怨信息还有一个原因：与上面相仿，
+段落间的粘连 ^|\parskip|\ctsref{\parskip}，被固定为不能拉伸或挤压的值。
+后面的这两种情况，你可以增加 ^|\vfuzz|\ctsref\vfuzz 予以解决。
 
 % \li The complaint
 % \csdisplay
@@ -452,7 +452,7 @@ Underfull \vbox (badness 10000) has occurred
 Overfull \vbox (296.30745pt too high) has occurred
    while \output is active
 |
-说的是你构造了一个长于一页的垂直盒子。弄短一点吧。
+说的是你构造了一个长于一页的竖直盒子。弄短一点吧。
 
 % \li
 % \bix^^|\hbox//overfull box from|
@@ -467,9 +467,9 @@ Overfull \vbox (296.30745pt too high) has occurred
 \li
 \bix^^|\hbox//overfull box from|
 \bix^^|\vbox//overfull box from|
-对于 |\hbox| 或 |\vbox| 命令 （\pp\xrefn\hbox， \xrefn\vbox） 所产生的
-溢出盒子问题，矫正的诀窍是：从盒子里拿一些东西出去；用^|\hss| 或 ^|\vss| (\xref\hss)
-插入负值的 glue；或者增加盒子的尺寸。
+对于 |\hbox| 或 |\vbox| 命令（第\xrefn\hbox ，\xrefn\vbox 页）所产生的
+溢出盒子问题，矫正的诀窍是：从盒子里拿一些东西出去；用 ^|\hss| 或 ^|\vss|（\xref\hss ）
+插入负值的粘连；或者增加盒子的尺寸。
 
 % \li If you encounter an underfull hbox or vbox that you've constructed
 % with |\hbox| or |\vbox|,
@@ -478,8 +478,8 @@ Overfull \vbox (296.30745pt too high) has occurred
 % \eix^^|\hbox//overfull box from|
 % \eix^^|\vbox//overfull box from|
 
-\li 对于 |\hbox| 或 |\vbox| 命令 （\pp\xrefn\hbox， \xrefn\vbox） 所产生的
-未满盒子问题，只需用 ^|\hfil| 或 ^|\vfil| (\xref\hfil) 来填满即可。
+\li 对于 |\hbox| 或 |\vbox| 命令（第\xrefn\hbox ，\xrefn\vbox 页）所产生的
+未满盒子问题，只需用 ^|\hfil| 或 ^|\vfil|（\xref\hfil ）来填满即可。
 \eix^^|\hbox//overfull box from|
 \eix^^|\vbox//overfull box from|
 
@@ -511,7 +511,7 @@ Overfull \vbox (296.30745pt too high) has occurred
 ^^{space//lost}
 ^^{words run together}
 如果你发现 \TeX{} 把两个单词连在一起，可能的原因是有一个控制序列吃掉
-了其后所有的空格。在那个控制序列后面放一个 ^{control space}
+了其后所有的空格。在那个控制序列后面放一个^{控制空格}
 (|\!visiblespace|) 即可。
 
 % \section Avoiding unwanted interword spaces
@@ -533,9 +533,9 @@ Overfull \vbox (296.30745pt too high) has occurred
 \null
 \bix^^{space//unwanted}\xrdef{unwantedspace}
 如果在文档中有不想要或者未预料到的空白，以我们的经验，最可能的原因是一
-行的结尾或大括号后的空格。
-^^{braces//space after}
-（当你用类别代码（category codes）来做华丽的效果时，
+行的结尾或大括号后的空格。%
+^^{braces//space after}%
+（当你用类别码来做华丽的效果时，
 ^^{category codes//cause of unwanted spaces}
 还会有其他许多类似的原因。）
 \TeX{} 通常将行尾处理为空格，并且会排出左右大括号后面的空格。
@@ -580,7 +580,7 @@ Overfull \vbox (296.30745pt too high) has occurred
 % that \TeX\ sees.
 
 当你不能准确在源文档中定位多余的空白的时候，可以尝试设置
-|\tracingcommands| \ctsref{\tracingcommands} 为 $2$。在 log 文件里，每
+|\tracingcommands|\ctsref{\tracingcommands}为 $2$。在日志文件里，每
 一处空格都会输出一个 |{blank space}| 命令。
 
 % It helps to know \TeX's rules for spaces:
@@ -615,7 +615,7 @@ Overfull \vbox (296.30745pt too high) has occurred
 \li 多于一个的空格，如果在一起，将被处理为一个空格。因此，引用一个宏之
 后的空格将不会和宏定义末尾的空格合并。你得到的是两个空格。
 \li 控制字符之后的空格将被忽略。
-\li 数字，尺寸以及 glue 设定中的 `|plus|' 和 `|minus|' 之后的空格在执行
+\li 数字，尺寸以及粘连设定中的 `|plus|' 和 `|minus|' 之后的空格在执行
 中也被忽略。%
 \footnote{实际上，\TeX{} 在这些地方只会忽略单个的空格。因为多个空格会
   被处理为一个空格，所以结果就是忽略所有空格。}
@@ -645,8 +645,8 @@ Overfull \vbox (296.30745pt too high) has occurred
 \null
 ^^{math display}
 如果在陈列公式之前有太多空白，有可能是因为你输入的时候在陈列公式之前留
-了一个空行。这个空行将开始一个新的段落，并且把 \TeX\ 转入垂直模式。当
-\TeX\ 在垂直模式里遇到一个 '|$|', 就会切换到水平模式并插入段间粘连
+了一个空行。这个空行将开始一个新的段落，并且把 \TeX\ 转入竖直模式。当
+\TeX\ 在竖直模式里遇到一个 '|$|', 就会切换到水平模式并插入段间粘连
 （|\parskip|），接下来又插入一个行间粘连（|\baselineskip|）。然后当显
 示开始的时候，它插入\emph{更多}粘连（或者是 ^|\abovedisplayskip| 或者
 是 ^|\abovedisplayshortskip|，取决于前一行的长度）。只有最后一个粘连是你想
@@ -679,8 +679,8 @@ Overfull \vbox (296.30745pt too high) has occurred
 % after the macro call---if you want a blank line just to make your input
 % more readable, start it with a `|%|'.
 
-如果使用宏得到的段落之后有太多垂直空白，可能里头包含了宏产生的段间粘
-连，一个空段，以及另外一个段间 glue。你可以通过在那个宏之后插入
+如果使用宏得到的段落之后有太多竖直空白，可能里头包含了宏产生的段间粘
+连，一个空段，以及另外一个段间粘连。你可以通过在那个宏之后插入
 \csdisplay
 \vskip -\parskip
 \vskip -\baselineskip
@@ -795,9 +795,9 @@ about going into it.}
 % Similarly, you can construct a vertical rule that looks horizontal
 % by making it short and fat.
 \ulist
-\li \TeX\ 处于垂直模式时，只能用 |\hrule|；\TeX\ 处于水平模式时，只能
-用 |\vrule|。所以你不能在水平盒子里使用横线或者在垂直盒子里使用竖线。
-然而，通过设定所有三个维度（dimension），你可以把横线画的又高又细，使
+\li \TeX\ 处于竖直模式时，只能用 |\hrule|；\TeX\ 处于水平模式时，只能
+用 |\vrule|。所以你不能在水平盒子里使用横线或者在竖直盒子里使用竖线。
+然而，通过设定所有三个尺寸（dimension），你可以把横线画的又高又细，使
 它看起来像竖线。类似的，你也可以把竖线画的又矮又宽，使它看起来像横线。
 
 % \li A horizontal rule inside a vbox
@@ -808,7 +808,7 @@ about going into it.}
 % If your rules are coming out too long or too short,
 % check the dimensions of the enclosing box.
 % \endulist
-\li 如果你没有明确设定宽度，垂直盒子里的横线就会和盒子一样宽。水平盒子
+\li 如果你没有明确设定宽度，竖直盒子里的横线就会和盒子一样宽。水平盒子
 里的竖线也类似。如果你得到的线太长或太短，请检查外面盒子的尺寸。
 \endulist
 
@@ -860,7 +860,7 @@ The following input will do it:
    \vskip 3pt \hrule}%
 \vrule}
 |
-我们需要把文本放到垂直盒子里来让 \TeX\ 把它当作段落处理。四层盒子是必
+我们需要把文本放到竖直盒子里来让 \TeX\ 把它当作段落处理。四层盒子是必
 要的---如果你有所怀疑，可以尝试在更少的盒子情况下运行这个例子。
 \eix^^{rules}
 
@@ -884,7 +884,7 @@ The following input will do it:
 \bix^^{footers//multiple-line}
 你可以使用 ^|\headline| 和 ^|\footline| 命令（\xref\footline）来创建页
 眉和页脚，但是处理多于一行的页眉和页脚，就不大灵光。然而，通过重新定义
-\TeX\ output routine 的一些宏，就可以实现。
+\TeX\ 的输出例行程序的一些宏，就可以实现。
 
 % For a multiline header, you need to do three things:
 % \olist\compact
@@ -911,8 +911,8 @@ The following input will do it:
 
 为了得到多行页眉，你需要做三件事：
 \olist\compact
-\li 重新定义 ^|\makeheadline| 宏，\TeX\ output routine 将会用到它。
-\li 把额外的行所需的垂直距离加给 ^|\voffset|。
+\li 重新定义 ^|\makeheadline| 宏，\TeX\ 的输出例行程序将会用到它。
+\li 把额外的行所需的竖直距离加给 ^|\voffset|。
 \li 对 ^|\vsize| 减少同样的大小。
 \endolist
 \noindent 下面的例子演示了你可以怎样做：
@@ -954,9 +954,9 @@ The following input will do it:
 
 对多行页脚的处理也类似：
 \olist
-\li 重新定义 ^|\makefootline| 宏，\TeX\ output routine 将会用到它。
-\li 把额外的行所需的垂直距离加给 ^|\voffset|。
-\li 从 ^|\vsize| 减去额外的行所需的垂直距离。
+\li 重新定义 ^|\makefootline| 宏，\TeX\ 的输出例行程序将会用到它。
+\li 把额外的行所需的竖直距离加给 ^|\voffset|。
+\li 从 ^|\vsize| 减去额外的行所需的竖直距离。
 \endolist
 \noindent 下面的例子演示了你可以怎样做：
 \csdisplay
@@ -1093,22 +1093,21 @@ ending）之间，你将从前三个伪装结尾的地方得到出错消息，�
 % |
 % \endolist
 % \eix^^{\<dimen>}
-
 \null
 \bix^^{\<dimen>}
-设置尺寸，最简单的办法是直接赋值，比如：
+设置尺寸的最简单办法是直接赋值，比如：
 \csdisplay
 \hsize = 6in
 |
-你也可以用其他的 dimension 来设定或者使用多种的长度单位，这要多费一
-点事。有两种方法来创建这样的尺寸组合：
+你也可以用其他尺寸来设定或者混用多种长度单位，这要多费一点事。
+有两种方法来创建这样的尺寸组合：
 \olist\compact
-\li 可以加一个 dimension 到一个 dimension 参数或者寄存器。例如：
+\li 你可以增加一个尺寸到另一个尺寸参数或寄存器。例如：
 \csdisplay
 \hsize = 6in \advance\hsize by 3pc % 6in + 3pc
 |
-\li 可以取一个 dimension、glue 的参数或寄存器的倍数。
-这时候，\TeX\ 将丢掉 glue 的延伸和压缩把它转换为 dimension。例如：
+\li 你可以将一个尺寸取为另一个尺寸（或粘连）参数或寄存器的倍数。
+这时候，\TeX\ 将丢掉粘连的伸长量和收缩量把它转换为尺寸。例如：
 \csdisplay
 \parindent = .15\hsize
 \advance\vsize by -2\parskip
@@ -1158,8 +1157,7 @@ F$, 它的字符基于一种字体 $f_1$，但是有一些来自另一种字体 
 要创建混合字体，你可以定义 $\cal F$ 为一个宏。宏定义中，首先选择字体
 $f_1$， 然后定义控制序列来产生从 $f_2$ 借来的字符。举个例子，假如你要创
 建一种混合字体 |\britrm|：基于 |cmr10| 但是其中的美元符号借用 |cmti10|
-的英
-磅符号. 英磅符号在 |cmti10| 的位置恰好跟美元符号在 |cmr10| 里的位置一样。
+的英镑符号. 英镑符号在 |cmti10| 的位置恰好跟美元符号在 |cmr10| 里的位置一样。
 你可以这样做：
 \csdisplay
 \def\britrm{%
@@ -1167,7 +1165,7 @@ $f_1$， 然后定义控制序列来产生从 $f_2$ 借来的字符。举个例�
    \def\${{\tenit\char `\$}}% \tenit names the cmti10 font.
 }
 |
-现在，当你使用 |\britrm| 字体的时候，|\$| 将生成英磅符号。
+现在，当你使用 |\britrm| 字体的时候，|\$| 将生成英镑符号。
 
 % You can also get the same effect by changing the category codes
 % of the characters in question to make those characters active and then
@@ -1190,7 +1188,7 @@ $f_1$， 然后定义控制序列来产生从 $f_2$ 借来的字符。举个例�
 
 % \eix^^{fonts//composite}
 
-另一种方法会有同样的效果：首先改动类别代码（category codes）来激活所考
+另一种方法会有同样的效果：首先改动类别码（category codes）来激活所考
 虑的字符，然后定义它们。例如：
 \csdisplay
 \catcode `* = \active
@@ -1235,9 +1233,9 @@ Debbie was the * of the show.
 原文是“输入什么样，就是什么样”的文本。比较常见的是排版计算机输入，包
 括计算机程序和 \TeX{} 输入。
 ^^{computer programs, typesetting}
-计算机输入难于以原文呈现的原因是：
+计算机输入不易以原文呈现的原因是：
 \olist\compact
-\li 有些字符（控制字符，逃逸字符，大括号等）在 \TeX{} 里有特殊的含义。
+\li 有些字符（控制字符，转义符，花括号等）在 \TeX{} 里有特殊的含义。
 \li 行尾和多个空格会被转换为一个空格。
 \endolist
 \noindent
@@ -1263,7 +1261,7 @@ Debbie was the * of the show.
 % operation.  We'll explain how to do that in a moment, after considering
 % the other problem: disabling the translation of spaces and ends of line.
 
-要取消特殊含义，你可以改变那些的字符类别代码。
+要取消特殊含义，你可以改变那些字符的类别码。
 ^^{category codes//for verbatim text}
 接下来的宏演示你如何做：
 \csdisplay
@@ -1276,8 +1274,8 @@ Debbie was the * of the show.
    \catcode`\^ = \other   \catcode`\_ = \other
 }
 |
-小心！一旦这样改变了类别代码，就不能再使用任何控制序列了，因为现在不
-再有逃逸字符了。你需要想法回到正常的操作模式。接下来，介绍完另一个问
+小心！一旦这样改变了类别码，就不能再使用任何控制序列了，因为现在不
+再有转义符了。你需要想法回到正常的操作模式。接下来，介绍完另一个问
 题：取消多个空格和行尾的转换以后，我们将予以解释。
 
 % \PlainTeX\ has two commands that together nearly solve the problem:
@@ -1288,9 +1286,9 @@ Debbie was the * of the show.
 % For that you need stronger measures---which are provided by
 % the ^|\obeywhitespace| macro that we are about to define.
 
-\PlainTeX{} 有两个命令：^|\obeyspaces| \ctsref{\obeyspaces} 和
-^|\obeylines| \ctsref{\obeylines}， 几乎已经解决了上述问题， 除了两件
-事：保留行首的空格以及保留多个空白行。对此，你需要更强大的方法---使用
+\PlainTeX{} 有两个命令：^|\obeyspaces|\ctsref{\obeyspaces}和
+^|\obeylines|\ctsref{\obeylines}， 几乎已经解决了上述问题， 除了两件
+事：保留行首的空格以及保留多个空白行。对此，你需要更强大的方法——使用
 我们将要定义的 ^|\obeywhitespace| 宏。
 
 % \TeX\ normally insists on collecting lines into paragraphs. One way to
@@ -1329,8 +1327,7 @@ Debbie was the * of the show.
 
 \TeX{} 总是收集多行文本为段落。为了原文呈现各行，一个办法是把每一行转换
 为独立的段落。\footnote{%
-另一个办法是把行尾字符变为 |\break| 命令，并且在每一行尾施加无穷大的
-glue。
+另一个办法是把行尾字符变为 |\break| 命令，并且在每一行尾施加无穷大的粘连。
 ^^|\break//end of line as|
 }
 你可以重新定义行尾字符来产生一个控制序列 |\par|。下面三个宏定义演示了如
@@ -1375,9 +1372,8 @@ glue。
 % will do the trick.  Within the verbatim text, you can use a double
 % vertical bar (|!|!||) to denote a single one, and you end the verbatim text
 % with |!|endverbatim|.
-
 为了在原文文本之后回到正常的操作模式，你需要选定一个原文文本中几乎不用
-的字符来作为临时的逃逸字符。竖线（|!||）经常是一个好的选择。为此，需要宏定
+的字符来作为临时的转义符。竖线（|!||）经常是一个好的选择。为此，需要宏定
 义：
 \csdisplay
 \def\verbatim{\par\begingroup\deactivate\obeywhitespace
@@ -1388,8 +1384,8 @@ glue。
 
 \def\!|{!|}
 |
-在原文文档中，你可以用双竖线（|!|!||）来代表单竖线，并用
-|!|endverbatim| 来结束原文部分。
+在原文文本中，你可以用双竖线（|!|!||）表示单竖线，
+并用 |!|endverbatim| 来结束原文部分。
 
 % There are many variations on this technique:
 % \ulist
@@ -1414,7 +1410,7 @@ glue。
 这个技巧可以有很多变化：
 \ulist
 \li 如果一种编程语言有关键字，你可以把关键字变为一个命令，来产生粗体的
-关键字。这时候每一个关键字前面都要跟一个临时逃逸字符。
+关键字。这时候每一个关键字前面都要跟一个临时转义符。
 \li 如果有一个字符（假设是竖线）在原文文本中从来没有用到，你可以激活它
 并且用它结束原文部分。宏定义将类似于：
 \csdisplay
@@ -1471,14 +1467,14 @@ Addison-Wesley, 1990.\par}
 
 \null
 ^^{forbidden control sequence}^^{incomplete conditional}
-如果 \TeX{} 警告 ``forbidden control sequence''，很有可能你在非 outer 环境
-使用了 outer 宏\seeconcept{outer}。
+如果 \TeX{} 警告 ``forbidden control sequence''，很有可能你在非外部环境中
+使用了外部宏\seeconcept{外部的}。
 ^^{macros//outer}
-一个 outer 宏的定义总是以 ^|\outer| 开始. outer 宏不能被用于宏参量
-（argument）、宏定义、对齐内容的导言或者条件文本：只有当某个条件检
+一个外部宏的定义总是以 ^|\outer| 开始. 外部宏不能被用于宏参量
+（argument）、宏定义、阵列的导言或者条件文本：只有当某个条件检
 验有特定的结果是才展开的文本。
 ^^{alignments//outer control sequence in}
-有些宏被以 outer 的方式定义是因为我们不想在这些环境里使用它们，一旦使用，必
+有些宏被以外部的方式定义是因为我们不想在这些环境里使用它们，一旦使用，必
 定出错。解决的办法就是重新定义宏或者移动它们到合适的环境里。
 
 % Using an outer macro in an improper context can also cause
@@ -1491,15 +1487,15 @@ Addison-Wesley, 1990.\par}
 % will show you the definition of |\a| and also tell you
 % if |\a| is outer.
 
-在不恰当的环境使用 outer 宏，还会引起 \TeX{} 警告：不受控制（runaway）的情
+在不恰当的环境使用外部宏，还会引起 \TeX\ 警告：不受控制（runaway）的情
 形或者不完备的条件。因为错误消息提供不了线索，这些问题通常难于诊断。如
-果你得到了这样的错误消息，找找看哪里用了 outer 宏。可能你并不知道那些宏
-属于 outer，  `^|\show||\a|' \ctsref{\show} 将显示 |\a| 的定义，并告之 |\a|
-是否 outer 宏。
+果你得到了这样的错误消息，找找看哪里用了外部宏。可能你并不知道那些宏
+属于外部的，`^|\show||\a|'\ctsref{\show} 将显示 |\a| 的定义，并告之 |\a|
+是否外部宏。
 
 
 %\section Changing category codes
-\section 改变类别代码
+\section 改变类别码
 
 % \null
 % \bix^^{category codes//changing}
@@ -1513,7 +1509,7 @@ Addison-Wesley, 1990.\par}
 
 \null
 \bix^^{category codes//changing}
-有时候需要在文档的部分内容里局部的改变类别代码。例如，排版一个计算机程
+有时候需要在文档的部分内容里局部的改变类别码。例如，排版一个计算机程
 序 ^^{computer programs, typesetting} 或者将激活的字符用于专门目的。你需
 要反激活那些字符来使 \TeX{} 可以像其他字符一样使用它们。
 
@@ -1521,7 +1517,7 @@ Addison-Wesley, 1990.\par}
 % you may sometimes be dismayed to find that
 % \TeX\ seems to be paying no attention whatsoever to your change.
 % Two aspects of \TeX's behavior are likely causes:
-如果局部地改变了类别代码，你可能会悲哀地发现 \TeX{} 没有理会你的努力。通
+如果局部地改变了类别码，你可能会悲哀地发现 \TeX{} 没有理会你的努力。通
 常，原因有两个：
 % \olist
 % \li \TeX\ determines the category code of an input character
@@ -1538,11 +1534,11 @@ Addison-Wesley, 1990.\par}
 % when the tilde is part of an argument to a macro
 % and the macro itself changes the category code of tilde.
 \olist
-\li \TeX{} 决定输入字符 ^^{input characters} 的类别代码，读到字符的
-时候就贴上相应的类别代码。假设读到波浪符（|~|），但是在 \TeX{} 的胃还
-没有实际消化\emph{那个}波浪符之前改变了它的类别代码\seeconcept{\anatomy}。
-\TeX{} 将会继续认定原来贴上的类别代码。这样的问题通常是因为波浪符是一个
-宏定义的一部分，而那个宏里改变了波浪符的类别代码。
+\li \TeX{} 决定输入字符^^{input characters}的类别码，读到字符的
+时候就贴上相应的类别码。假设读到波浪符（|~|），但是在 \TeX{} 的胃还
+没有实际消化\emph{那个}波浪符之前改变了它的类别码\seeconcept{\anatomy}。
+\TeX{} 将会继续认定原来贴上的类别码。这样的问题通常是因为波浪符是一个
+宏定义的一部分，而那个宏里改变了波浪符的类别码。
 
 
 % \li When \TeX\ is matching a call of a macro to the definition of that macro,
@@ -1572,21 +1568,19 @@ Addison-Wesley, 1990.\par}
 % perhaps just by ending a group.
 % \eix^^{category codes//changing}
 
-\li 当 \TeX{} 匹配一个宏引用和它的定义时，匹配的不仅仅是参数的字符而且包括他们的类
-别代码。
+\li 当 \TeX{} 匹配一个宏引用和它的定义时，匹配的不仅仅是参数的字符而且包括他们的类别码。
 ^^{macros//arguments of}
 ^^{macros//parameters of}
-如果定义里字符的类别代码与宏引用里的不同，\TeX{} 不会认为字符匹配正确。
-这样的效果匪夷所思，因为\emph{看起来}是匹配的。例如，如果你已经定义了
-宏：
+如果定义里字符的类别码与宏引用里的不同，\TeX{} 不会认为字符匹配正确。
+这样的效果匪夷所思，因为\emph{看起来}是匹配的。例如，如果你已经定义了宏：
 \csdisplay
 \def\eurodate#1/#2/#3{#2.#1.#3}
 |
-然后斜线字符在引用和定义 |\eurodate| 的时候必须有相同的类别代码。
+然后斜线字符在引用和定义 |\eurodate| 的时候必须有相同的类别码。
 \endolist
 如果问题是因为嫌疑字符作为宏参量（argument），诊治方法是重新定义宏为一
-对宏 |\mstart| 和 |\mfinish|，分别在参量文本的前后应用。|\mstart| 设定类
-别代码而 |\mfinish| 结束这一群组来取消变动。
+对宏 |\mstart| 和 |\mfinish|，分别在参量文本的前后应用。
+|\mstart| 设定类别码而 |\mfinish| 结束这一编组来取消变动。
 \eix^^{category codes//changing}
 
 %\section Making macro files more readable
@@ -1607,7 +1601,7 @@ Addison-Wesley, 1990.\par}
 
 \null
 \bix^^{macros//making readable}
-为了使得宏文档易读，你可以在文档开头设定空格的类别代码为 $9$（忽略字符），^|\endlinechar|
+为了使得宏文档易读，你可以在文档开头设定空格的类别码为 $9$（忽略字符），^|\endlinechar|
 \ctsref{\endlinechar}为 $-1$。然后，你就可以自由地使用空格和断行而不必
 担心产生多余的空白。忽略字符不会产生空白，但仍然决定控制序列定义。如果
 你真的需要一个空格，可以用 ^|\space| 命令\ctsref\space。
@@ -1618,9 +1612,9 @@ Addison-Wesley, 1990.\par}
 % restoring the values explicitly.  If you choose to enclose the file in a group,
 % then you should also set ^|\globaldefs| to $1$ so that
 % all the macro definitions will be global and thus visible outside of the group.
-当然在文档最后，你需要恢复空格和行尾的类别代码（分别是 $10$ 和 $5$）：可
-以把整个文档封装在一个群组里，也可以明确地恢复其正常值。如果使用群组封
-装，你还需要设定 ^|\globaldefs| 为 $1$ 以使得整个宏定义是全局的，在群组之
+当然在文档最后，你需要恢复空格和行尾的类别码（分别是 $10$ 和 $5$）：可
+以把整个文档封装在一个编组里，也可以明确地恢复其正常值。如果使用编组封
+装，你还需要设定 ^|\globaldefs| 为 $1$ 以使得整个宏定义是全局的，在编组之
 外可见。
 
 % A miniature example of a macro file of this form is:
@@ -1674,7 +1668,7 @@ Addison-Wesley, 1990.\par}
 \catcode `\  = 10  \endlinechar = `\^^M
 |
 \noindent
-不改变类别代码的话，这些宏需要写的更加紧凑，使用很少的空格和行尾更多的
+不改变类别码的话，这些宏需要写的更加紧凑，使用很少的空格和行尾更多的
 `|%|'。
 \eix^^{macros//making readable}
 
