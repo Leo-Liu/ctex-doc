@@ -3,29 +3,41 @@
 % Copyright (C) 2003 Paul W. Abrahams, Kathryn A. Hargreaves, Karl Berry.
 % See file fdl.tex for copying conditions.
 
-\input macros 
+\input macros
 %\chapter{A compendium \linebreak of useful macros}
 \chapter{实用宏集概述}
 
 \chapterdef{eplain}
 
-This section describes |eplain.tex|, a collection of macros and other
-definitions that extend  plain \TeX.
+%This section describes |eplain.tex|, a collection of macros and other
+%definitions that extend  plain \TeX.
+%\bix^^|eplain.tex|
+%The descriptions of the various macros explain their purposes,
+%but usually do not explain how they
+%work or provide explicit details on
+%how to use them.  That information is contained in the source files for
+%|eplain.tex| and in the documentation that comes with it.
+%See \headcit{Resources}{resources} for how to obtain |eplain.tex|.
+这一章描述 |eplain.tex|，一组用于扩展 plain \TeX\ 的宏和其他定义。
 \bix^^|eplain.tex|
-The descriptions of the various macros explain their purposes,
-but usually do not explain how they
-work or provide explicit details on
-how to use them.  That information is contained in the source files for
-|eplain.tex| and in the documentation that comes with it.
-See \headcit{Resources}{resources} for how to obtain |eplain.tex|.
+对各种宏的描述解释了它们的目的，但通常不解释它们的工作原理或给出如何使用它们的详情。
+那些信息包含在 |eplain.tex| 源码文件以及它的文档中。
+在\headcit{资源}{resources}中介绍了获取 |eplain.tex| 的方法。
 
 
-\section{Preliminaries}
+%\section{Preliminaries}
+\section{预备定义}
 
-We start with some macros for changing category codes and convenient
-definitions for two of the commonly used ones.
+%We start with some macros for changing category codes and convenient
+%definitions for two of the commonly used ones.
+%^^{category codes//useful definitions for}
+我们先介绍几个修改类别码及定义两种常用类别码的宏。
 ^^{category codes//useful definitions for}
 
+%\pix^^|\makeactive|
+%\pix^^|\letter|
+%\pix^^|\other|
+%\pix^^|\uncatcodespecials|
 \pix^^|\makeactive|
 \pix^^|\letter|
 \pix^^|\other|
@@ -39,18 +51,29 @@ definitions for two of the commonly used ones.
    \dospecials}% Defined in plain.
 |
 
-In order to define `|^^M|' as an active character, you need to encase
-the definition in a group and invoke some extra machinery.
+%In order to define `|^^M|' as an active character, you need to encase
+%the definition in a group and invoke some extra machinery.
+%\ttidxref{^^M}
+%The \pix^|\letreturn| macro lets you define `|^^M|' without that
+%extra machinery (which you can see in the definition below).
+为了将 `|^^M|' 定义为活动字符，你需要将定义放在编组中，并借助某些额外机制。
 \ttidxref{^^M}
-The \pix^|\letreturn| macro lets you define `|^^M|' without that
-extra machinery (which you can see in the definition below).
+\pix^|\letreturn| 宏让你无需额外机制就可以定义 `|^^M|'（它的定义在下面可以看到）。
 
 \csdisplay
 {\makeactive\^^M \long\gdef\letreturn#1{\let^^M = #1}}%
 |
 
-These macros consume one, two, or three arguments.
+%These macros consume one, two, or three arguments.
+这些宏用于吸收一个、两个或三个参量。
 
+%\pix^^|\gobble|
+%\pix^^|\gobbletwo|
+%\pix^^|\gobblethree|
+%\csdisplay
+%\def\gobble#1{}\def\gobbletwo#1#2{}%
+%\def\gobblethree#1#2#3{}%
+%|
 \pix^^|\gobble|
 \pix^^|\gobbletwo|
 \pix^^|\gobblethree|
@@ -59,11 +82,15 @@ These macros consume one, two, or three arguments.
 \def\gobblethree#1#2#3{}%
 |
 
-Now we establish some conventions for reading the rest of the file.
-Within the file we allow ``private'' control sequences that contain
-`|@|' in their names.
-These control sequences aren't accessible outside of this file (unless
-you change the category code of `|@|' again).
+%Now we establish some conventions for reading the rest of the file.
+%Within the file we allow ``private'' control sequences that contain
+%`|@|' in their names.
+%These control sequences aren't accessible outside of this file (unless
+%you change the category code of `|@|' again).
+%\xrdef{eplainconv}
+现在我们建立一些惯例，用于读取这个文件的其他部分。
+在这个文件中我们允许名称带有 `|@|' 的``私有''控制序列。
+这些控制序列在这个文件之外无法使用（除非你再次修改 `|@|' 的类别码）。
 \xrdef{eplainconv}
 
 \csdisplay
@@ -73,13 +100,17 @@ you change the category code of `|@|' again).
 \newlinechar = `^^J
 |
 
-The next two macros provide convenient forms of diagnostic output.
-\pix^|\loggingall|  turns on all tracing, but causes the trace
-output to appear only in the log file and not at your terminal.
-\pix^|\tracingboxes| causes boxes to be displayed completely when
-they're traced.  (\TeX\ normally shows only three levels of boxing
-and five items within each box.)
-
+%The next two macros provide convenient forms of diagnostic output.
+%\pix^|\loggingall|  turns on all tracing, but causes the trace
+%output to appear only in the log file and not at your terminal.
+%\pix^|\tracingboxes| causes boxes to be displayed completely when
+%they're traced.  (\TeX\ normally shows only three levels of boxing
+%and five items within each box.)
+接下来两个宏提供了诊断输出的便捷方式。
+\pix^|\loggingall| 打开所有追踪，
+但让追踪输出仅写在日志文件中，而不在终端上显示。
+\pix^|\tracingboxes| 使得盒子被追踪时其内容完全显示。%
+（\TeX\ 通常只显示嵌套到三层的盒子，每个盒子显示五个项目。）
 
 \csdisplay
 \def\loggingall{\tracingcommands\tw@\tracingstats\tw@
@@ -91,19 +122,25 @@ and five items within each box.)
    \showboxdepth = \maxdimen}%
 |
 
-
-The default thickness of rules is $0.4$\pt.
-You can produce rules of any default thickness you choose by redefining
-|\vruledefaultwidth|, |\hruledefaultheight|, and |\hruledefaultdepth|
-and then using
-\pix^^|\ehrule|
-|\eh!-rule|
-and \pix^|\evrule|
-instead of |\hrule| and |\vrule|. (The `e'  stands for
-``eplain''.)
+%The default thickness of rules is $0.4$\pt.
+%You can produce rules of any default thickness you choose by redefining
+%|\vruledefaultwidth|, |\hruledefaultheight|, and |\hruledefaultdepth|
+%and then using
+%\pix^^|\ehrule|
+%|\eh!-rule|
+%and \pix^|\evrule|
+%instead of |\hrule| and |\vrule|. (The `e'  stands for
+%``eplain''.)
+%^^{rules//thickness of}
+%If you give an explicit
+%dimension (e.g., |\ehrule height 16pt|), \TeX\ will use it.
+标线的默认厚度为 $0.4$\pt 。
+要生成默认厚度为任何值的标线，
+你可以重新定义 |\vruledefaultwidth|、|\hruledefaultheight| 及 |\hrule!-defaultdepth|，
+并将 |\hrule| 和 |\vrule| 换为 \pix^|\ehrule| 和 \pix^|\evrule|。%
+（名称中的 `e' 代表 ``eplain''。）%
 ^^{rules//thickness of}
-If you give an explicit
-dimension (e.g., |\ehrule height 16pt|), \TeX\ will use it.
+如果你显式给出尺寸（比如 |\ehrule height 16pt|），\TeX\ 将使用它。
 
 \csdisplay
 \newdimen\hruledefaultheight  \hruledefaultheight = 0.4pt
@@ -114,13 +151,18 @@ dimension (e.g., |\ehrule height 16pt|), \TeX\ will use it.
 \def\evrule{\vrule width\vruledefaultwidth}%
 |
 
-The |\%| convention for writing a `|%|' character doesn't work when you 
-want to include that character in the token list of |\write|.
+%The |\%| convention for writing a `|%|' character doesn't work when you
+%want to include that character in the token list of |\write|.
+%^^|\write//writing \b\tt\%\e\ with|
+%^^|%//writing out|
+%You can use ^|\percentchar| to achieve this.
+%We also redefine ^|^^L| to be nonouter so that you can use it in a
+%macro definition or argument.
+|\%| 通常用于写出 `|%|' 字符，但它无法包含在 |\write| 的记号列中。
 ^^|\write//writing \b\tt\%\e\ with|
 ^^|%//writing out|
-You can use ^|\percentchar| to achieve this.
-We also redefine ^|^^L| to be nonouter so that you can use it in a
-macro definition or argument.
+你可以用 ^|\percentchar| 达到此目的。
+我们还将 ^|^^L| 重新定义为非外部宏，因此你可以在宏定义或者参量中使用它。
 
 \csdisplay
 {\catcode`\% = \other \gdef\percentchar{%}}%
@@ -128,17 +170,23 @@ macro definition or argument.
 }%
 |
 
-\pix^|\tokstostring| converts its argument into a list of ^{character
-tokens}.  
-It uses only expansions that are handled in \TeX's gullet.
-This property is necessary
-for it to work with |\edef|.  It is used by the cross-referencing
-macros (\xref{xrefs}).
+%\pix^|\tokstostring| converts its argument into a list of ^{character
+%tokens}.
+%It uses only expansions that are handled in \TeX's gullet.
+%This property is necessary
+%for it to work with |\edef|.  It is used by the cross-referencing
+%macros (\xref{xrefs}).
+\pix^|\tokstostring| 将它的参量转换为一列^{字符记号}。
+它仅用到在 \TeX\ 的食道中处理的展开。
+此特性是和 |\edef| 一起使用时所必需的。它用于宏的交叉引用（\xref{xrefs}）。
 
-In order to split the argument up at spaces, we have to use two
-subsidiary macros. |\@ttsA| finds the spaces, and |\@ttsB| handles a
-token sequence without any spaces.  Each space is replaced by the
-expansion of \pix^|\spacesub|.
+%In order to split the argument up at spaces, we have to use two
+%subsidiary macros. |\@ttsA| finds the spaces, and |\@ttsB| handles a
+%token sequence without any spaces.  Each space is replaced by the
+%expansion of \pix^|\spacesub|.
+为了将参量在空格处分开，我们要用到两个子宏。
+|\@ttsA| 用于寻找空格，而 |\@ttsB| 用于处理不带空格的控制序列。
+每个空格都被替换为 \pix^|\spacesub| 的展开。
 
 \csdisplay
 \def\tokstostring#1{\@ttsA#1 \ttsmarkA}%
@@ -153,8 +201,10 @@ expansion of \pix^|\spacesub|.
 \def\spacesub{+}%
 |
 
+%\noindent
+%\pix^|\ifempty| tests if its argument is empty.
 \noindent
-\pix^|\ifempty| tests if its argument is empty.
+\pix^|\ifempty| 检测它的参量是否为空。
 
 \csdisplay
 \def\ifempty#1{\@ifempty #1\@emptymarkA\@emptymarkB}%
@@ -162,9 +212,11 @@ expansion of \pix^|\spacesub|.
 \def\@emptymarkA{\@emptymarkA}%
 |
 
-The ^|\for|  macro implements a \TeX\ version of the ^{for loop} in
-traditional programming languages.  These macros come directly from
-\LaTeX.
+%The ^|\for|  macro implements a \TeX\ version of the ^{for loop} in
+%traditional programming languages.  These macros come directly from
+%\LaTeX.
+^|\for| 宏实现了其他传统编程语言中的^{for循环}的 \TeX\ 版本。
+这些宏直接取自 \LaTeX 。
 
 \csdisplay
 \def\for#1:=#2\do#3{\edef\@fortmp{#2}%
@@ -175,19 +227,28 @@ traditional programming languages.  These macros come directly from
 \def\@forloop#1,#2,#3\@@#4#5{\def#4{#1}\ifx #4\@nnil
    \else #5\def#4{#2} ifx #4\@nnil \else
       #5\@iforloop #3\@@#4{#5}\fi\fi}%
-\def\@iforloop#1,#2\@@#3#4{\def#3{#1}\ifx #3\@nnil 
+\def\@iforloop#1,#2\@@#3#4{\def#3{#1}\ifx #3\@nnil
    \let\@nextwhile=\@fornoop \else #4\relax
       \let\@nextwhile=\@iforloop\fi
          \@nextwhile#2\@@#3{#4}}%
 |
 
-\pix^|\obeywhitespace| is useful for reproducing line breaks, blank lines,
-and spaces in your input. It combines the effects of |\obey!-lines| and
-|\obey!-spaces|,
+%\pix^|\obeywhitespace| is useful for reproducing line breaks, blank lines,
+%and spaces in your input. It combines the effects of |\obey!-lines| and
+%|\obey!-spaces|,
+%^^|\obeylines| ^^|\obeyspaces|
+%and also causes spaces at the start of a line to
+%be printed. Tab characters are not affected by this; they still produce
+%normal glue.
+%\xrdef{ewhitesp}
+%^^{space characters}
+%^^|\fontdimen|
+%^^|\font|
+%^^|\letreturn|
+\pix^|\obeywhitespace| 用于重新生成你的输入中的换行、空行和空格。
+它结合了|\obey!-lines| 和 |\obey!-spaces| 的效果，
 ^^|\obeylines| ^^|\obeyspaces|
-and also causes spaces at the start of a line to
-be printed. Tab characters are not affected by this; they still produce
-normal glue.
+并把行首的空格也打印出来。制表符不受它影响；它们仍然生成正常的粘连。
 \xrdef{ewhitesp}
 ^^{space characters}
 ^^|\fontdimen|
@@ -204,10 +265,13 @@ normal glue.
 \def\@removebox{\setbox0=\lastbox}
 |
 
-\pix^|\frac| is a good way to print fractions in text when you don't
-want to use |\over| and
-``1/2'' just doesn't look right.  This macro is the answer to
-\knuth{Exercise~11.6}.^^{fractions//slashed form}
+%\pix^|\frac| is a good way to print fractions in text when you don't
+%want to use |\over| and
+%``1/2'' just doesn't look right.  This macro is the answer to
+%\knuth{Exercise~11.6}.^^{fractions//slashed form}
+当你不想用 |\over|，而 ``1/2'' 看来又不够好时，
+你最好用 \pix^|\frac| 在正文中打印分式。
+这个宏是\knuth{练习~11.6}的答案。^^{fractions//slashed form}
 
 \csdisplay
 \def\frac#1/#2{\leavevmode
@@ -216,12 +280,26 @@ want to use |\over| and
    \kern-.15em \lower .25ex \hbox{\the\scriptfont0 #2}}%
 |
 
-The following macros produce logos that are useful in the \TeX\ world.
-The \AMSTeX\ logo is from \knuth{page~420}.  The \LaTeX\ logo is
-slightly modified from the one in |latex.tex| (we use a different font
-for the `A'); similarly, the \BibTeX\ logo uses |\sevenrm| instead of a
-true caps-and-small-caps font. The |.mf| source file for the \MF\ logo
-is given in the \MF\ manual:
+%The following macros produce logos that are useful in the \TeX\ world.
+%The \AMSTeX\ logo is from \knuth{page~420}.  The \LaTeX\ logo is
+%slightly modified from the one in |latex.tex| (we use a different font
+%for the `A'); similarly, the \BibTeX\ logo uses |\sevenrm| instead of a
+%true caps-and-small-caps font. The |.mf| source file for the \MF\ logo
+%is given in the \MF\ manual:
+%\smallskip
+%{\narrower\noindent
+%^{Knuth, Donald E.},{\sl The {\logosl METAFONT}book}.
+%  Reading, Mass.: Addison-Wesley, 1986.\par}
+%\smallskip
+%\pix^^|\LaTeX|
+%\pix^^|\AMSTeX|
+%\pix^^|\BibTeX|
+%\pix^^|\MF|
+下面这些宏生成 \TeX\ 圈中常用的标识。
+\AMSTeX\ 标识取自 \knuth{第~420~页}。
+\LaTeX\ 标识取自 |latex.tex| 并稍作修改（我们修改了 `A' 的字体）；
+类似地，\BibTeX\ 标识用 |\sevenrm| 字体代替真正的小型大写字体。
+\MF\ 标识的 |.mf| 源文件出现在 \MF\ 手册中：
 \smallskip
 {\narrower\noindent
 ^{Knuth, Donald E.},{\sl The {\logosl METAFONT}book}.
@@ -244,11 +322,15 @@ is given in the \MF\ manual:
 \def\MF{{\mflogo META}{\tenrm \-}{\mflogo FONT}}%
 |
 
-The next two macros produce boxes.  \pix^|\blackbox| produces a ``square
-bullet'', used in the list macros (\xref{listmacs}).
-\pix^|\makeblankbox| (from \knuth{page~311}) produces an unfilled
-rectangle, with the thickness of the border rules given by the
-arguments.
+%The next two macros produce boxes.  \pix^|\blackbox| produces a ``square
+%bullet'', used in the list macros (\xref{listmacs}).
+%\pix^|\makeblankbox| (from \knuth{page~311}) produces an unfilled
+%rectangle, with the thickness of the border rules given by the
+%arguments.
+接下来的两个宏用于生成盒子。
+\pix^|\blackbox| 生成一个方块，它用在列表宏中（\xref{listmacs}）。
+\pix^|\makeblankbox|（取自\knuth{第~311~页}）生成一个空心矩形，
+它的边框厚度由参量指定。
 
 \csdisplay
 \def\blackbox{\vrule height .8ex width .6ex depth -.2ex}%
@@ -266,9 +348,11 @@ arguments.
    \advance\dimen0 by #2 \vrule width\dimen0}\kern-#2}%
 |
 
-\pix^|\numbername| produces the written-out form of a number.  (If the
-number is greater than ten, the macro just reproduces the numerals
-of its argument.)
+%\pix^|\numbername| produces the written-out form of a number.  (If the
+%number is greater than ten, the macro just reproduces the numerals
+%of its argument.)
+\pix^|\numbername| 从数字生成其书面名称%
+（若数字大于十，这个宏仅重新生成参量的数值。）
 
 \csdisplay
 \def\numbername#1{\ifcase#1%
@@ -276,11 +360,15 @@ of its argument.)
    \or six\or seven\or eight\or nine\or ten\or #1\fi}%
 |
 
-\pix^|\testfileexistence| determines whether a file |\jobname.#1| is
-non\-empty and sets |\if!-fileexists| appropriately.
+%\pix^|\testfileexistence| determines whether a file |\jobname.#1| is
+%non\-empty and sets |\if!-fileexists| appropriately.
+%^^{files//testing for existence of}
+%The file name in the argument need not end in a space token since
+%the macro provides the space token.
+\pix^|\testfileexistence| 判定文件 |\jobname.#1| 是否非空，
+并相应地设定 |\if!-fileexists| 的值。
 ^^{files//testing for existence of}
-The file name in the argument need not end in a space token since
-the macro provides the space token.
+参量中的文件名无需以空格记号结尾，因为这个宏已经提供了空格记号。
 
 \csdisplay
 \newif\iffileexists
@@ -293,22 +381,32 @@ the macro provides the space token.
 |
 
 
-\section Displays
+%\section Displays
+\section 陈列公式
 
-By default, \TeX\ centers displayed material (the material between
-|$$|'s).  ^^{displays, formatting} \pix^|\leftdisplays| causes displays
-to be left-justified by default.  You can return to centered displays
-with \pix^|\centereddisplays|.
+%By default, \TeX\ centers displayed material (the material between
+%|$$|'s).  ^^{displays, formatting} \pix^|\leftdisplays| causes displays
+%to be left-justified by default.  You can return to centered displays
+%with \pix^|\centereddisplays|.
+\TeX\ 默认将陈列公式（放在 |$$| 之间的公式）居中显示。
+^^{displays, formatting}\pix^|\leftdisplays| 让陈列公式默认为左对齐显示。
+你也可以用 \pix^|\centereddisplays| 命令恢复居中显示。
 
-The macros here are more general than they need to be just for doing
-left-justified displays.  For every display,
-\pix^|\ifeqno| will be true if an |\eqno| occurred in the display.
-\pix^|\ifleqno| will be true if an |\leqno| occurred.  If either
-kind of equation number occurred, \pix^|\eqn| produces the text of the
-equation number.  \pix^|\eq|  always produces the text of the
-equation itself.
+%The macros here are more general than they need to be just for doing
+%left-justified displays.  For every display,
+%\pix^|\ifeqno| will be true if an |\eqno| occurred in the display.
+%\pix^|\ifleqno| will be true if an |\leqno| occurred.  If either
+%kind of equation number occurred, \pix^|\eqn| produces the text of the
+%equation number.  \pix^|\eq|  always produces the text of the
+%equation itself.
+这些宏提供让陈列公式左对齐显示之外的更多功能。
+对每个陈列公式，若 |\eqno| 存在则 \pix^|\ifeqno| 为真，
+若 |\leqno| 存在则 \pix^|\ifleqno| 为真。
+如果其中一种公式编号存在，\pix^|\eqn| 将排印公式编号的内容。
+而 \pix^|\eq| 始终排印公式本身的内容。
 
-These macros are based on the code on \knuth{page~376}.
+%These macros are based on the code on \knuth{page~376}.
+这些宏基于\knuth{第~376~页}中的代码。
 
 \csdisplay
 \newif\ifeqno \newif\ifleqno
@@ -334,20 +432,24 @@ These macros are based on the code on \knuth{page~376}.
    \fi}%
 |
 
-You can format displays differently by defining your own macro,
-analogous to \pix^|\leftdisplays|.
-The macro definition must 
-place a call on |\display!-setup| in |\every!-display| ^^|\everydisplay|
-so as to ensure
-that |\dis!-play!-setup| ^^|\displaysetup| is called at the start of
-every display. The macro definition must also include a definition of
-^|\generaldisplay|.
+%You can format displays differently by defining your own macro,
+%analogous to \pix^|\leftdisplays|.
+%The macro definition must
+%place a call on |\display!-setup| in |\every!-display| ^^|\everydisplay|
+%so as to ensure
+%that |\dis!-play!-setup| ^^|\displaysetup| is called at the start of
+%every display. The macro definition must also include a definition of
+%^|\generaldisplay|.
+通过自己定义类似 \pix^|\leftdisplays| 的宏，你可以给陈列公式设定不同的形式。
+这个宏定义中必须在 |\every!-display| ^^|\everydisplay|中调用 |\display!-setup|，
+以确保 |\dis!-play!-setup| ^^|\displaysetup|在每个陈列公式开始都被调用。
+这个宏定义必须也包含 ^|\generaldisplay| 的定义。
 
 \csdisplay
 \newtoks\previouseverydisplay
 \def\leftdisplays{%
    \previouseverydisplay = \everydisplay
-   \everydisplay = 
+   \everydisplay =
      {\the\previouseverydisplay \displaysetup}%
    \def\generaldisplay{%
       \leftline{%
@@ -368,17 +470,25 @@ every display. The macro definition must also include a definition of
 \def\centereddisplays{\let\displaysetup = \relax}%
 |
 
-\filbreak
-\pix^|\leftdisplays| must go to some pains to make sure that
-|\dis!-play!-lines|, ^^|\displaylines|
-^|\eqalignno|,  and ^|\leqalignno| still work properly.
-|\eq| is typeset in math mode,
-and |\halign| is illegal in math mode.
+%\filbreak
+%\pix^|\leftdisplays| must go to some pains to make sure that
+%|\dis!-play!-lines|, ^^|\displaylines|
+%^|\eqalignno|,  and ^|\leqalignno| still work properly.
+%|\eq| is typeset in math mode,
+%and |\halign| is illegal in math mode.
+%^^|\halign//illegal in math mode|
+%We use ^|\vcenter| to change the context so that  |\halign| becomes
+%legal again. We also remove the |\hfil| commands at the left of the template
+%to obtain the flush left formatting. Other than those changes, the macros
+%are the same as in |plain.tex|.
+%\filbreak
+\pix^|\leftdisplays| 必须历经辛苦地确保 |\dis!-play!-lines|^^|\displaylines|、
+^|\eqalignno| 和 ^|\leqalignno| 还能正常使用。
+|\eq| 在数学模式中排版，而 |\halign| 在数学模式中是不合法的。
 ^^|\halign//illegal in math mode|
-We use ^|\vcenter| to change the context so that  |\halign| becomes
-legal again. We also remove the |\hfil| commands at the left of the template
-to obtain the flush left formatting. Other than those changes, the macros
-are the same as in |plain.tex|.
+我们用 ^|\vcenter| 改变环境，以让 |\halign| 重新变成合法的。
+我们还去掉模板左边的 |\hfil| 命令以得到左对齐格式。
+除这些改变之外，这些宏与 |plain.tex| 中的相同。
 
 \csdisplay
 \def\@redefinealignmentdisplays{%
@@ -405,16 +515,22 @@ are the same as in |plain.tex|.
 |
 
 
-\section Time of day
+%\section Time of day
+\section 日期时间
 
-When \TeX\ starts up, it sets the values of the
-^|\time|, ^|\day|, ^|\month|, and ^|\year| parameters.
+%When \TeX\ starts up, it sets the values of the
+%^|\time|, ^|\day|, ^|\month|, and ^|\year| parameters.
+%^^{time of day}^^{date}
+%\pix^|\monthname|
+%produces the name of the month, abbreviated to three letters.
+%\pix^|\timestring| produces the current time, as in ``1:14\thinspace
+%p.m.''. \pix^|\timestamp| produces the text of the complete date, as
+%in ``23 Apr 1964\quad 1:14\thinspace p.m.''.
+\TeX\ 开始运行时设定了 ^|\time|、^|\day|、^|\month| 和 ^|\year| 参数的值。
 ^^{time of day}^^{date}
-\pix^|\monthname|
-produces the name of the month, abbreviated to three letters.
-\pix^|\timestring| produces the current time, as in ``1:14\thinspace
-p.m.''. \pix^|\timestamp| produces the text of the complete date, as
-in ``23 Apr 1964\quad 1:14\thinspace p.m.''.
+\pix^|\monthname| 排印月份名称的三字母缩写。
+\pix^|\timestring| 排印类似当前时间，类似于 ``1:14\thinspace p.m.''。
+\pix^|\timestamp| 排印完整日期文本，类似于 ``23 Apr 1964\quad 1:14\thinspace p.m.''。
 
 \csdisplay
 \def\monthname{%
@@ -443,47 +559,69 @@ in ``23 Apr 1964\quad 1:14\thinspace p.m.''.
 |
 
 
-\section Lists
+%\section Lists
+\section 列表
 
+%\null
+%\xrdef{listmacs}
+%\bix^^{itemized lists}
+%\bix^^{enumerations}
+%\pix^|\numberedlist| produces numbered lists; |\endnumberedlist| ends
+%them.
+%\pix^|\unorderedlist| is analogous.
+%For either of these, items inside the lists begin
+%with \pix^|\li| (``list item'').  You can put \pix^|\listcompact|
+%at the beginning of a list if
+%you don't want any additional space between the items of that list.
+%Lists can be nested arbitrarily.
 \null
 \xrdef{listmacs}
 \bix^^{itemized lists}
 \bix^^{enumerations}
-\pix^|\numberedlist| produces numbered lists; |\endnumberedlist| ends
-them.
-\pix^|\unorderedlist| is analogous.
-For either of these, items inside the lists begin
-with \pix^|\li| (``list item'').  You can put \pix^|\listcompact|
-at the beginning of a list if
-you don't want any additional space between the items of that list. 
-Lists can be nested arbitrarily.
+\pix^|\numberedlist| 排印编号列表；|\endnumberedlist| 结束该列表。
+类似地，\pix^|\unorderedlist| 排印无序列表。
+这两种列表中的项目以 \pix^|\li|（``list item''）开头。
+如果不需要列表项目间的额外间隔，你可以在列表开始处加上 \pix^|\listcompact|。
+列表可以任意嵌套。
 
-You can control the spacing between the items more generally by
-assigning values to the registers listed below.  If the items in
-your lists tend to be long, you might want to make |\interitemskip|
-nonzero.
-The left indentation of each list item is given by |\par!-indent| plus
-|\list!-left!-indent|; the right indentation of each list item
-is given by |\list!-right!-indent|.
+%You can control the spacing between the items more generally by
+%assigning values to the registers listed below.  If the items in
+%your lists tend to be long, you might want to make |\interitemskip|
+%nonzero.
+%The left indentation of each list item is given by |\par!-indent| plus
+%|\list!-left!-indent|; the right indentation of each list item
+%is given by |\list!-right!-indent|.
+更一般地，你可以通过改变下列寄存器的值控制列表项目间的间隔。
+如果列表项目经常比较长，你也许希望设定非零的 |\interitemskip|。
+各列表项目的左缩进量等于 |\par!-indent| 加 |\list!-left!-indent|；
+各列表项目的右缩进量等于 |\list!-right!-indent|。
 
 \csdisplay
-\newskip\abovelistskip  \abovelistskip = .5\baselineskip 
+\newskip\abovelistskip  \abovelistskip = .5\baselineskip
 \newskip\interitemskip  \interitemskip = 0pt
 \newskip\belowlistskip  \belowlistskip = .5\baselineskip
-\newdimen\listleftindent  \listleftindent = \parindent   
-\newdimen\listrightindent \listrightindent = 0pt        
+\newdimen\listleftindent  \listleftindent = \parindent
+\newdimen\listrightindent \listrightindent = 0pt
 \def\listcompact{\interitemskip = 0pt \relax}%
 |
 
-Both numbered and unnumbered lists use the macros that follow.
-We don't change |\parindent|, since many existing macros, e.g., 
-|\footnote|, depend on |\parindent|.
-We must account for the
-possibility that items are more than one paragraph long. In this case, all
-paragraphs after the first will be indented.
-We use 
-|\leftskip| and |\rightskip| to indent the list items.
-Indentation of displays is accounted for by changes to |\every!-dis!-play|.
+%Both numbered and unnumbered lists use the macros that follow.
+%We don't change |\parindent|, since many existing macros, e.g.,
+%|\footnote|, depend on |\parindent|.
+%We must account for the
+%possibility that items are more than one paragraph long. In this case, all
+%paragraphs after the first will be indented.
+%We use
+%|\leftskip| and |\rightskip| to indent the list items.
+%Indentation of displays is accounted for by changes to |\every!-dis!-play|.
+%^^|\everydisplay|
+编号列表和无序列表都使用下面这些宏。
+我们并不改变 |\parindent| 的值，
+因为很多现有的宏比如 |\footnote| 依赖于 |\parindent|。
+我们必须考虑到项目包含不止一个段落的可能性。
+在这种情形中，除第一个之外的所有段落都将被缩进。
+我们用 |\leftskip| 和 |\rightskip| 缩进列表项目。
+我们通过改变 |\every!-dis!-play| 设定陈列公式的缩进。
 ^^|\everydisplay|
 
 \csdisplay
@@ -506,9 +644,12 @@ Indentation of displays is accounted for by changes to |\every!-dis!-play|.
 \def\endlist{\vskip\belowlistskip}%
 |
 
+%\noindent
+%You can change the way the item labels are typeset by
+%redefining the |\numbered!-marker| macro.
+%\pix^^|\numberedmarker|
 \noindent
-You can change the way the item labels are typeset by
-redefining the |\numbered!-marker| macro.
+通常重新定义 |\numbered!-marker| 宏，你可以改变项目标签的样式。
 \pix^^|\numberedmarker|
 
 \csdisplay
@@ -523,9 +664,11 @@ redefining the |\numbered!-marker| macro.
    \fi}%
 |
 
-\noindent Here are the definitions of |\numberedlist| and
-|\unorderedlist|.
-Both definitions have the same structure.
+%\noindent Here are the definitions of |\numberedlist| and
+%|\unorderedlist|.
+%Both definitions have the same structure.
+\noindent 这里是 |\numberedlist| 和 |\unorderedlist| 的定义。
+这两个定义的结构是相同的。
 
 \csdisplay
 \def\numberedlist{\environment{@numbered-list}%
@@ -562,22 +705,31 @@ Both definitions have the same structure.
    \endenvironment{@unordered-list}\endlist}%
 |
 
+%\eix^^{itemized lists}
+%\eix^^{enumerations}
 \eix^^{itemized lists}
 \eix^^{enumerations}
 
 
-\section Verbatim listing
+%\section Verbatim listing
+\section 原文呈现
 
-The \pix^|\listing| macro produces a verbatim listing of a specified
-file in the |\tt| font.
-It is based on the code on \knuth{page~380}.
-Tabs produce a fixed amount of space, and form
-feeds produce a page break.  Other control characters produce whatever
-happens to be at that font position, which is generally not very useful.
-By redefining |\setup!-listing!-hook|,
-\pix^^|\setuplistinghook|
-you can take additional actions that are appropriate for your particular
-fonts and\slash or environment before the file is read in.
+%The \pix^|\listing| macro produces a verbatim listing of a specified
+%file in the |\tt| font.
+%It is based on the code on \knuth{page~380}.
+%Tabs produce a fixed amount of space, and form
+%feeds produce a page break.  Other control characters produce whatever
+%happens to be at that font position, which is generally not very useful.
+%By redefining |\setup!-listing!-hook|,
+%\pix^^|\setuplistinghook|
+%you can take additional actions that are appropriate for your particular
+%fonts and\slash or environment before the file is read in.
+\pix^|\listing| 宏用 |\tt| 字体排印指定文件的原文呈现。
+它基于\knuth{第~380~页}中的代码。
+制表符生成固定大小的间隔，而换页符生成一个分页。
+其他控制字符生成该字体所在位置的字符，这通常不太有用。
+通过重新定义 |\setup!-listing!-hook|\pix^^|\setuplistinghook|，
+你可以在读入文件前针对特别字体和\slash 或使用环境作额外定制。
 
 \csdisplay
 \def\listing#1{%
@@ -593,37 +745,50 @@ fonts and\slash or environment before the file is read in.
 |
 
 
-\section Tables of contents
+%\section Tables of contents
+\section 目录
 
+%\null ^^{table of contents}
+%The macro \pix^|\writetocentry| writes a macro call to the file
+%|\jobname.toc|.  The first argument of |\writetocentry|, e.g.,
+%``chapter'', is used to compose the name of the called macro. The second
+%argument is the text to appear in the table of contents entry.
+%|\writetocentry| appends the page number to the macro call.  For
+%example:
 \null ^^{table of contents}
-The macro \pix^|\writetocentry| writes a macro call to the file
-|\jobname.toc|.  The first argument of |\writetocentry|, e.g.,
-``chapter'', is used to compose the name of the called macro. The second
-argument is the text to appear in the table of contents entry.
-|\writetocentry| appends the page number to the macro call.  For
-example: 
+\pix^|\writetocentry| 宏在 |\jobname.toc| 文件中写入一个宏调用。
+|\write!-tocentry| 的第一个参量，比如``chapter''，用于构成所调用的宏的名称。
+第二个参量是显示在目录项中的文本。
+|\writetocentry| 添加页码到宏调用中。例如：
 \csdisplay
 \writetocentry{chapter}{Introduction}
 |
+%\noindent
+%will produce the line:
 \noindent
-will produce the line:
+将生成下列这行：
 \csdisplay
 \tocchapterentry{Introduction}{2}
 |
-\noindent in the |.toc| file, indicating
-that `Introduction' started on page 2.
+%\noindent in the |.toc| file, indicating
+%that `Introduction' started on page 2.
+\noindent 到 |.toc| 文件中，表示 `Introduction' 从第2页开始。
 
-You can use |\writenumberedtocentry| to provide a third parameter, such
-as a chapter number. For example:
+%You can use |\writenumberedtocentry| to provide a third parameter, such
+%as a chapter number. For example:
+利用 |\writenumberedtocentry| 你还可以提供第三个参数，比如章编号。例如：
 \csdisplay
 \writenumberedtocentry{chapter}{The second chapter}{2}
 |
-\noindent will write a line:
+%\noindent will write a line:
+\noindent 将写入这一行：
 \csdisplay
 \tocchapterentry{The second chapter}{2}{14}
 |
+%\noindent
+%You can also |\write| to |\tocfile| yourself.
 \noindent
-You can also |\write| to |\tocfile| yourself.
+你也可以自己用 |\write| 命令写入 |\tocfile|。
 
 \csdisplay
 \newwrite\tocfile \newif\iftocfileopened
@@ -645,13 +810,18 @@ You can also |\write| to |\tocfile| yourself.
 \ignorespaces\fi}%
 |
 
-To produce a table of contents, read the |.toc| file with
-\pix^|\readtocfile|. You should call |\read!-tocfile| before the first
-|\write!-toc!-entry|.  When you're processing the table of contents
-without regenerating it, you should not rewrite
-the |.toc| file---if you do, its contents will be lost.
-The command
-|\rewrite!-tocfile!-false| will prevent the rewrite.
+%To produce a table of contents, read the |.toc| file with
+%\pix^|\readtocfile|. You should call |\read!-tocfile| before the first
+%|\write!-toc!-entry|.  When you're processing the table of contents
+%without regenerating it, you should not rewrite
+%the |.toc| file---if you do, its contents will be lost.
+%The command
+%|\rewrite!-tocfile!-false| will prevent the rewrite.
+要排印出目录，只需用 \pix^|\readtocfile| 读取 |.toc| 文件。
+你应该在首次使用 |\write!-toc!-entry| 之前调用 |\read!-tocfile|。
+在处理目录且不想重新生成它时，
+务必不要改写 |.toc| 文件——如果你这样做，文件内容将会丢失。
+命令 |\rewrite!-tocfile!-false| 将禁止这种改写。
 
 \csdisplay
 \newif\ifrewritetocfile \rewritetocfiletrue
@@ -662,9 +832,11 @@ The command
    \fi}%
 |
 
-Here are some definitions of possible |\toc|\dots|entry| macros.  These
-definitions are meant only as examples---running leaders across the line
-is usually not the best way to typeset a table of contents.
+%Here are some definitions of possible |\toc|\dots|entry| macros.  These
+%definitions are meant only as examples---running leaders across the line
+%is usually not the best way to typeset a table of contents.
+这里给出可能出现的 |\toc|\dots|entry| 宏的一些定义。
+这些定义只是作为例子而已——在目录中使用指引线通常不是最好的做法。
 
 \csdisplay
 \def\tocchapterentry#1#2{\line{\bf #1 \dotfill\ #2}}%
@@ -675,24 +847,37 @@ is usually not the best way to typeset a table of contents.
 |
 
 
-\section Cross-references
+%\section Cross-references
+\section 交叉引用
 
+%\null ^^{cross-references}
+%\xrdef{xrefs}
+%The macros that follow provide symbolic
+%cross-referencing, so that you can refer to something in another part of
+%a document by name instead of by its actual page number.
+%\pix^|\xrdef||{foo}| defines a label |foo| to be the current page
+%number, and \pix^|\xrefn||{foo}| produces that page number, e.g., $77$.
+%More often you'll want to say something like ``see p.\thinspace77'', so
+%\pix^|\xref||{foo}| produces ``p.\thinspace 77''.  If |foo| is not
+%defined, a warning message will be given.  |\xrefwarningfalse|
+%suppresses the warning.
 \null ^^{cross-references}
 \xrdef{xrefs}
-The macros that follow provide symbolic
-cross-referencing, so that you can refer to something in another part of
-a document by name instead of by its actual page number.
-\pix^|\xrdef||{foo}| defines a label |foo| to be the current page
-number, and \pix^|\xrefn||{foo}| produces that page number, e.g., $77$.
-More often you'll want to say something like ``see p.\thinspace77'', so
-\pix^|\xref||{foo}| produces ``p.\thinspace 77''.  If |foo| is not
-defined, a warning message will be given.  |\xrefwarningfalse|
-suppresses the warning.
+接下来的宏提供了符号式的交叉引用，
+让你可以在文档中通过名称而非实际页码提及其它部分的东西。
+\pix^|\xrdef||{foo}| 定义标签 |foo| 为当前页码，
+而 \pix^|\xrefn||{foo}| 生成该页码，比如 $77$。
+你更常用的是类似 ``see p.\thinspace77'' 的写法，
+因此 \pix^|\xref||{foo}| 生成 ``p.\thinspace 77''。
+如果 |foo| 未定义，就会得到一个警告信息。
+|\xrefwarningfalse| 取消这种警告。
 
-These macros provide no protection against duplicate definitions.  You can
-check for duplicate definitions by sorting the cross-reference file and
-checking, either mechanically or by eye, for adjacent definitions of
-the same symbol.
+%These macros provide no protection against duplicate definitions.  You can
+%check for duplicate definitions by sorting the cross-reference file and
+%checking, either mechanically or by eye, for adjacent definitions of
+%the same symbol.
+这些宏没有提供对重复定义的保护。要检查重复定义，
+你可以将交叉引用文件排序，并用工具或肉眼检查同一个符号的相邻定义。
 
 \csdisplay
 \newif\ifxrefwarning  \xrefwarningtrue
@@ -708,7 +893,7 @@ the same symbol.
 \def\xrefnumber#1{%
    \xrlabel{#1}%
    % \@xrlabeltoks now has the control sequence name.
-   \toks0 = 
+   \toks0 =
       \expandafter{\csname\the\@xrlabeltoks\endcsname}%
    \expandafter \ifx\the\toks0\relax
       \ifxrefwarning \message{Undefined label
@@ -721,9 +906,11 @@ the same symbol.
 \def\xrefn#1{\xrefnumber{#1}}%
 |
 
-This macro turns a label into a list of character tokens in the token
-register |\labeltoks|.  A label can include blanks and control sequences in
-it as well as normal characters, but it can't include braces.
+%This macro turns a label into a list of character tokens in the token
+%register |\labeltoks|.  A label can include blanks and control sequences in
+%it as well as normal characters, but it can't include braces.
+这个宏将一个标签转换为一列字符记号，并放在寄存器 |\labeltoks| 中。
+除了普通字符之外，标签还可以包含空格和控制序列，但不能包含花括号。
 
 \csdisplay
 \newtoks\@xrlabeltoks
@@ -733,11 +920,15 @@ it as well as normal characters, but it can't include braces.
    \endgroup}%
 |
 
-It takes two passes to get the cross-references right, since the
-definitions are written out to the auxiliary file |\jobname.aux|.
-\pix^|\readreffile| reads them back in. If you don't issue this command
-before the first definition, you'll lose all the definitions from the
-previous run.
+%It takes two passes to get the cross-references right, since the
+%definitions are written out to the auxiliary file |\jobname.aux|.
+%\pix^|\readreffile| reads them back in. If you don't issue this command
+%before the first definition, you'll lose all the definitions from the
+%previous run.
+需要运行两遍才能得到正确的交叉引用，
+因为这些定义是写出到辅助文件|\jobname.aux| 里的。
+\pix^|\readreffile| 命令用于将它们读取回来。
+如果你不在第一个定义之前执行此命令，你将丢失上一遍运行得到的定义。
 
 \csdisplay
 \newwrite\reffile \newif\ifreffileopened
@@ -769,10 +960,13 @@ previous run.
    \catcode`( = \letter \catcode`) = \letter}%
 |
 
+%^^{equations, labelling}
+%You can give symbolic names to equations in a similar way, using
+%\pix^|\eqdef| and \pix^|\eqref|.  |\eqdef| inserts its own |\eqno|
+%command, so it must be invoked in a place where |\eqno| is legal.
 ^^{equations, labelling}
-You can give symbolic names to equations in a similar way, using
-\pix^|\eqdef| and \pix^|\eqref|.  |\eqdef| inserts its own |\eqno|
-command, so it must be invoked in a place where |\eqno| is legal.
+按同样的方式，你可以用 \pix^|\eqdef| 和 \pix^|\eqref| 给出公式的符号式名称。
+|\eqdef| 插入自己的 |\eqno| 命令，因此它必须用在能用 |\eqno| 的地方。
 
 \csdisplay
 \newcount\eqnumber
@@ -786,10 +980,13 @@ command, so it must be invoked in a place where |\eqno| is legal.
    \eqprint{\the\eqnumber}}%
 |
 
-|\eqref| produces ``(equation number)''.  You can handle fancier
-formatting by redefining \pix^|\eqprint|. For example, you could redefine
-it so that the equation numbers include
-the chapter number.
+%|\eqref| produces ``(equation number)''.  You can handle fancier
+%formatting by redefining \pix^|\eqprint|. For example, you could redefine
+%it so that the equation numbers include
+%the chapter number.
+|\eqref| 生成``(公式编号)''。
+通过重新定义 \pix^|\eqprint|，你可以实现更加复杂的格式。
+举个例子，你可以重新定义它，使得公式编号中包含章编号。
 
 \csdisplay
 \def\eqref#1{%
@@ -803,23 +1000,34 @@ the chapter number.
 |
 
 
-\section Environments
+%\section Environments
+\section 环境
 
-\null ^^{environments} These macros let you define your own named groups
-(environments) for parts of your manuscript.  Like \TeX\ groups, these
-groups can be nested, and in fact their nesting can be intertwined with
-the nesting of \TeX\ groups.  If the names at the beginning and end of
-an environment don't match, you'll get an error message. The macros are
-designed so that the message you get when such an error occurs will give
-you a good chance of localizing the cause of the error easily.
+%\null ^^{environments} These macros let you define your own named groups
+%(environments) for parts of your manuscript.  Like \TeX\ groups, these
+%groups can be nested, and in fact their nesting can be intertwined with
+%the nesting of \TeX\ groups.  If the names at the beginning and end of
+%an environment don't match, you'll get an error message. The macros are
+%designed so that the message you get when such an error occurs will give
+%you a good chance of localizing the cause of the error easily.
+\null ^^{environments}这些宏让你可以将手稿的一部分定义为命名编组（环境）。
+类似 \TeX\ 的编组，这些编组也可以嵌套，
+而且实际上它们的嵌套可以与 \TeX\ 编组的嵌套相互交织。
+如果开始的名称和结束的名称不匹配，你将得到一个错误信息。
+这些宏如此设计，使得当你得到这种错误信息时，你有机会方便地定位错误的来源。
 
-You begin an environment with
-\pix^^|\environment|
-|\envi!-ron!-ment| |{foo}| and end it with |\endenvironment{foo}|, where
-|foo| is the name of the environment.  Our macros slightly improve on
-the answer to Exercise~5.7 of \texbook, by doing some checks on
-|\begingroup| and |\endgroup| pairs, as well as making sure
-|\environment| and |\endenvironment| pairs match.
+%You begin an environment with
+%\pix^^|\environment|
+%|\envi!-ron!-ment| |{foo}| and end it with |\endenvironment{foo}|, where
+%|foo| is the name of the environment.  Our macros slightly improve on
+%the answer to Exercise~5.7 of \texbook, by doing some checks on
+%|\begingroup| and |\endgroup| pairs, as well as making sure
+%|\environment| and |\endenvironment| pairs match.
+用 \pix^^|\environment||\envi!-ron!-ment| |{foo}| 开始一个环境，
+用 |\endenvironment{foo}| 结束该环境，其中 |foo| 是该环境的名称。
+我们的宏稍微改进了 \texbook\ 练习~5.7，
+添加对 |\begingroup| 和 |\endgroup| 是否配对的检查，
+并确保 |\environment| 和 |\endenvironment| 能够匹配。
 
 \csdisplay
 \def\environment#1{\ifx\@groupname\undefined\else
@@ -847,13 +1055,15 @@ the answer to Exercise~5.7 of \texbook, by doing some checks on
    \let\@groupname = \undefined \ignorespaces}%
 |
 
-We also define help messages for each of the errors above.
+%We also define help messages for each of the errors above.
+%^^|\newhelp|
+你也可以给上述这些错误定义它们各自的帮助信息。
 ^^|\newhelp|
 
 \csdisplay
 \newhelp\@unnamedendgrouphelp{%
    Most likely, you just forgot an^^J%
-   \string\endenvironment. 
+   \string\endenvironment.
    Maybe you should try inserting another^^J%
    \string\endgroup to recover.}%
 \newhelp\@isolatedendenvironmenthelp{%
@@ -871,12 +1081,15 @@ We also define help messages for each of the errors above.
    of the names.}%
 |
 
-Some environments should not be allowed to occur within
-another environment.  Let's call these environments
-``outer environments''. |\check!-env| checks that no outer environment
-is currently in effect and complains if one is. To use |\check!-env|, you
-must issue the command |\environment!-true| at the beginning of every
-outer environment.
+%Some environments should not be allowed to occur within
+%another environment.  Let's call these environments
+%``outer environments''. |\check!-env| checks that no outer environment
+%is currently in effect and complains if one is. To use |\check!-env|, you
+%must issue the command |\environment!-true| at the beginning of every
+%outer environment.
+某些环境应当不允许出现在其他环境内部。我们称这些环境为``外部环境''。
+|\check!-env| 检测是否不存在当前有效的外部环境，若存在的话给出警告信息。
+要使用 |\checkenv|，你必须在每个外部环境开头处执行 |\environment!-true| 命令。
 
 \csdisplay
 \newif\ifenvironment
@@ -893,19 +1106,29 @@ outer environment.
 |
 
 
-\section Justification
+%\section Justification
+\section 对齐
 
+%\bix^^{flush left}
+%\bix^^{flush right}
+%\bix^^{centered text}
+%The three macros \pix^|\flushleft|, \pix^|\flushright|, and
+%\xrdef{eplaincenter}
+%\pix^|\center| justify  the text on the following lines in the indicated way.
+%The command should appear on a line by itself.
+%Both the command and the text should be enclosed in a group---%
+%the end of the group indicates the end of the text.
+%The entire group is set as a single paragraph, with lines filled out
+%on one side or another as appropriate.  Blank lines are reproduced.
 \bix^^{flush left}
 \bix^^{flush right}
 \bix^^{centered text}
-The three macros \pix^|\flushleft|, \pix^|\flushright|, and
-\xrdef{eplaincenter}
-\pix^|\center| justify  the text on the following lines in the indicated way.
-The command should appear on a line by itself.
-Both the command and the text should be enclosed in a group---%
-the end of the group indicates the end of the text.
-The entire group is set as a single paragraph, with lines filled out
-on one side or another as appropriate.  Blank lines are reproduced.
+这三个宏 \pix^|\flushleft|、\pix^|\flushright| 和
+\xrdef{eplaincenter}\pix^|\center| 将后面各行文本以指定方式对齐。
+这种命令必须单独写在一行中。
+命令和文本应该包含在一个编组中——编组的结束就表示文本的结束。
+整个编组作为一个段落排版，各行视情况在一边或两边用空白填充。
+空行依原样显示。
 
 \csdisplay
 \begingroup
@@ -926,10 +1149,13 @@ on one side or another as appropriate.  Blank lines are reproduced.
 \endgroup
 |
 
-The following commands are called as a result of the |\after!-group|
-^^|\aftergroup|
-in the definitions of |\flush!-left|, |\flush!-right|, and |\center|.
-They perform the necessary cleanup operations.
+%The following commands are called as a result of the |\after!-group|
+%^^|\aftergroup|
+%in the definitions of |\flush!-left|, |\flush!-right|, and |\center|.
+%They perform the necessary cleanup operations.
+在 |\flush!-left|、|\flush!-right| 和 |\center| 的定义中，
+下述这些命令出现在 ^|\aftergroup| 的后面；
+它们在编组结束后被调用，以执行一些必需的清理工作。
 
 \csdisplay
 \def\@endflushleft{\unpenalty
@@ -953,31 +1179,45 @@ They perform the necessary cleanup operations.
    \checkenv \environmenttrue}%
 |
 
+%\eix^^{flush left}
+%\eix^^{flush right}
+%\eix^^{centered text}
 \eix^^{flush left}
 \eix^^{flush right}
 \eix^^{centered text}
 
 
-\section Tables
+%\section Tables
+\section 表格
 
-The \pix^|\makecolumns| macro enables you to give all the entries in a
-table without having to worry about where the columns break.  For
-example, if you're typing a long alphabetical list that will be
-formatted in several columns, you usually won't know in advance where
-one column ends and the next begins.  Moreover, if another item gets
-added, the column breaks will change.
+%The \pix^|\makecolumns| macro enables you to give all the entries in a
+%table without having to worry about where the columns break.  For
+%example, if you're typing a long alphabetical list that will be
+%formatted in several columns, you usually won't know in advance where
+%one column ends and the next begins.  Moreover, if another item gets
+%added, the column breaks will change.
+\pix^|\makecolumns| 宏允许你给出表格的所有元素，而无需担心如何分栏。
+例如，在输入一个冗长的按字母排序的名单，并分多栏显示时，
+你通常不知道在何处结束一栏开始下一栏。
+另外，如果添加了另一项，各栏的划分将会改变。
 
-|\makecolumns| takes two (delimited) arguments: the total number of
-entries in the table and the number of columns in the table.  For
-example, `|\makecolumns 37/3:|' specifies a three-column table whose
-entries are the next $37$ lines.  You can adjust the positioning of the
-table on the page by changing |\parindent|, which determines the space
-to the left, and |\hsize|, which determines the space from the left
-margin of the page to the right of the block.  You can allow a page
-break above the |\valign|
-^^|\valign//used in {\tt\\makecolumns}|
-by changing
-\pix^|\abovecolumnspenalty|.
+%|\makecolumns| takes two (delimited) arguments: the total number of
+%entries in the table and the number of columns in the table.  For
+%example, `|\makecolumns 37/3:|' specifies a three-column table whose
+%entries are the next $37$ lines.  You can adjust the positioning of the
+%table on the page by changing |\parindent|, which determines the space
+%to the left, and |\hsize|, which determines the space from the left
+%margin of the page to the right of the block.  You can allow a page
+%break above the |\valign|
+%^^|\valign//used in {\tt\\makecolumns}|
+%by changing
+%\pix^|\abovecolumnspenalty|.
+|\makecolumns| 有两个（定界）参量：表格元素的总数以及表格的栏数。
+例如，`|\makecolumns 37/3:|' 指定一个三栏表格，其元素为接下来的 $37$ 行。
+要调整表格在页面上的位置，你可以修改 |\parindent| 以确定表格左侧的空白，
+以及 |\hsize| 以确定从页面左边缘到表格右侧的距离。
+要允许在 |\valign| ^^|\valign//used in {\tt\\makecolumns}| 之前分页，
+你可以修改 \pix^|\abovecolumnspenalty|。
 
 \csdisplay
 \newcount\abovecolumnspenalty
@@ -993,7 +1233,7 @@ by changing
    \divide \@columndepth by #2
    \@linestogoincolumn = \@columndepth \@linestogo = #1
    \def\@endcolumnactions{%
-      \ifnum \@linestogo<2 
+      \ifnum \@linestogo<2
          \the\crtok \egroup \endgroup \par
             % End \valign and \makecolumns.
       \else
@@ -1016,21 +1256,32 @@ by changing
 |
 
 
-\section Footnotes
+%\section Footnotes
+\section 脚注
 
+%\null ^^{footnotes}
+%Footnotes are most commonly typeset by using a raised number as the
+%reference mark.  We define the \pix^|\numberedfootnote| macro to do
+%this.  It also redefines ^|\vfootnote| to allow slightly more general
+%formatting of footnotes than \plainTeX\ does. The dimension register
+%\pix^^|\footnotemarkseparation| |\foot!-note!-mark!-sepa!-ra!-tion|
+%controls the space between the footnote mark (e.g., the number) and the
+%beginning of the text. The \pix^|\everyfootnote| tokens are inserted
+%before producing the footnote.
 \null ^^{footnotes}
-Footnotes are most commonly typeset by using a raised number as the
-reference mark.  We define the \pix^|\numberedfootnote| macro to do
-this.  It also redefines ^|\vfootnote| to allow slightly more general
-formatting of footnotes than \plainTeX\ does. The dimension register
-\pix^^|\footnotemarkseparation| |\foot!-note!-mark!-sepa!-ra!-tion|
-controls the space between the footnote mark (e.g., the number) and the
-beginning of the text. The \pix^|\everyfootnote| tokens are inserted
-before producing the footnote.
+脚注通常用升高的数字作为参考符号。
+我们定义的 \pix^|\numberedfootnote| 宏就是这样的。
+它还重新定义了 ^|\vfootnote|，以支持比 \plainTeX\ 更一般的脚注格式。
+尺寸寄存器 \pix^^|\footnotemarkseparation| |\foot!-note!-mark!-sepa!-ra!-tion|
+控制脚注符号（比如数字）与脚注文本之间的间隔。
+\pix^|\everyfootnote| 记号在每个脚注之前插入。
 
-The \plainTeX\ definitions of |\footnote| and |\vfootnote| are
-preserved in |\@plain!-footnote| and |\@plain!-vfootnote| in case you should
-need them.
+%The \plainTeX\ definitions of |\footnote| and |\vfootnote| are
+%preserved in |\@plain!-footnote| and |\@plain!-vfootnote| in case you should
+%need them.
+\PlainTeX\ 中的 |\footnote| 和 |\vfootnote| 定义保留在
+|\@plain!-footnote| 和 |\@plain!-vfootnote| 中，以备不时之需。
+
 \csdisplay
 \newcount\footnotenumber \newtoks\everyfootnote
 \newdimen\footnotemarkseparation
@@ -1052,19 +1303,26 @@ need them.
 |
 
 
-\section Double columns
+%\section Double columns
+\section 双栏
 
-\null ^^{double columns} The |\doublecolumns| command begins
-double-column output, while the |\single!-column|
-\pix^^|\singlecolumn|
-command restores
-single-column output.  You can switch back and forth between them
-on a single page.
-The glue specified by |\above!-double!-column!-skip| and
-|\below!-double!-column!-skip| is inserted before and after the
-double-column material.
+%\null ^^{double columns} The |\doublecolumns| command begins
+%double-column output, while the |\single!-column|
+%\pix^^|\singlecolumn|
+%command restores
+%single-column output.  You can switch back and forth between them
+%on a single page.
+%The glue specified by |\above!-double!-column!-skip| and
+%|\below!-double!-column!-skip| is inserted before and after the
+%double-column material.
+\null ^^{double columns} |\doublecolumns| 命令开始双栏输出，
+而 |\single!-column| \pix^^|\singlecolumn| 命令恢复单栏输出。
+两者可以在同个页面上相互切换。
+用 |\above!-double!-column!-skip| 和 |\below!-double!-column!-skip|
+指定的粘连插入到双栏素材的前面和后面。
 
-The approach is derived from \knuth{page~417}.
+%The approach is derived from \knuth{page~417}.
+它们的实现方式来源于\knuth{第~417~页}。
 
 \csdisplay
 \newskip\abovedoublecolumnskip
@@ -1088,13 +1346,18 @@ The approach is derived from \knuth{page~417}.
    \hsize = \doublecolumnhsize \vsize = 2\vsize}%
 |
 
-The |\@double!-column!-split| macro does the actual splitting.
-Insertions are assumed to be single-column material.  If you don't want
-this to be the case, you'll have to modify the output routine.  After
-|\@double!-column!-split| has done its work, |\box255| will have the
-double-column material.  The double-column material will be preceded by
-any single-column material that was typeset before |\doublecolumns| was
-invoked. |\box4| will have the material that didn't fit on the page.
+%The |\@double!-column!-split| macro does the actual splitting.
+%Insertions are assumed to be single-column material.  If you don't want
+%this to be the case, you'll have to modify the output routine.  After
+%|\@double!-column!-split| has done its work, |\box255| will have the
+%double-column material.  The double-column material will be preceded by
+%any single-column material that was typeset before |\doublecolumns| was
+%invoked. |\box4| will have the material that didn't fit on the page.
+|\@double!-column!-split| 宏执行实际的分栏。插入项被当作单栏素材；
+如果这不是你想要的，你需要修改输出例行程序。
+在 |\@double!-column!-split| 完成之后，|\box255| 将包含双栏素材。
+双栏素材前面是调用 |\doublecolumns| 前的单栏素材。
+|\box4| 将包含无法放入该页面的素材。
 
 \csdisplay
 \def\@doublecolumnsplit{%
@@ -1115,9 +1378,12 @@ invoked. |\box4| will have the material that didn't fit on the page.
       \hbox to \singlecolumnhsize{\box1\hfil\box3}%
       \vfill}}%
 |
+%\needspace{.5in}
+%|\double!-column!-out!-put| is the real output routine.  We call the old
+%|\output| to do the work of actually shipping out the box.
 \needspace{.5in}
-|\double!-column!-out!-put| is the real output routine.  We call the old
-|\output| to do the work of actually shipping out the box.
+|\double!-column!-out!-put| 是真正的输出例行程序。
+我们调用 |\output| 执行实际的盒子送出工作。
 
 \csdisplay
 \def\doublecolumnoutput{\@doublecolumnsplit
@@ -1125,8 +1391,9 @@ invoked. |\box4| will have the material that didn't fit on the page.
    \previousoutput \unvbox4}%
 |
 
-|\singlecolumn| resumes typesetting in one column.  It assumes that
-|\doublecolumns| has been called.
+%|\singlecolumn| resumes typesetting in one column.  It assumes that
+%|\doublecolumns| has been called.
+|\singlecolumn| 恢复单栏排版。它假定已调用了 |\doublecolumns|。
 
 \csdisplay
 \def\singlecolumn{\par % Don't start in horizontal mode.
@@ -1146,14 +1413,18 @@ invoked. |\box4| will have the material that didn't fit on the page.
    \unvbox255}%
 |
 
+%\margin{`Sensible paragraph skips' section deleted}
 \margin{`Sensible paragraph skips' section deleted}
 
 
-\section Finishing up
+%\section Finishing up
+\section 收尾
 
-We now must undo the changes that we made when we started (see
-\xref{eplainconv}).  We also give a version identification, which is
-subsequently available in |\fmt!-name| and |\fmt!-version|.
+%We now must undo the changes that we made when we started (see
+%\xref{eplainconv}).  We also give a version identification, which is
+%subsequently available in |\fmt!-name| and |\fmt!-version|.
+现在我们必须撤销开始的修改（见\xref{eplainconv}）。
+我们还给出版本标识，它可以在 |\fmt!-name| 和 |\fmt!-version| 中得到。
 
 \csdisplay
 \let\wlog = \@plainwlog \catcode`@ = \other
@@ -1164,6 +1435,7 @@ subsequently available in |\fmt!-name| and |\fmt!-version|.
 }%
 |
 
+%\eix^^|eplain.tex|
 \eix^^|eplain.tex|
 
 \endchapter
