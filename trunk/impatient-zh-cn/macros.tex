@@ -35,7 +35,7 @@
 \endgroup
 
 % This must come before config.tex.
-\input eplain
+\input eplain3
 
 % Define configuration switches and then read their values.
 %
@@ -48,6 +48,8 @@
 \newif\iftrimpage
 \newif\ifadobefont
 \newif\ifxecjk
+\newif\ifoldeplain \ifx\undefined\interitemskipamount\oldeplaintrue\fi
+\newif\ifwriteidx \writeidxtrue % disable some index items for new eplain
 
 %\xrefwarningfalse
 
@@ -66,6 +68,23 @@
 % Initial definitions.  (These should come before \input fonts.)
 %
 \catcode`\@ = \letter % For the macro file only.
+
+% Dirty hacks for eplain 2.0+
+\ifoldeplain\else
+   \let\oldxrdef = \xrdef
+   \def\xrdef#1{\oldxrdef{\tokstostring{#1}}}%
+   \let\oldxrefn = \xrefn
+   \def\xrefn#1{\oldxrefn{\tokstostring{#1}}}%
+   \let\old@definelabel = \@definelabel
+   \def\@definelabel#1{\old@definelabel{\tokstostring{#1}}}
+   \def\LaTeX{L\kern -.26em \raise .6ex \hbox{\sevenrm A}\kern -.15em \TeX}%
+   % setup hyperlinks
+   \enablehyperlinks[dvipdfm]
+   \beginpackages\usepackage{color}\endpackages
+   \definecolor{teal}{rgb}{0,0.5,0.5}
+   \hlopts{colormodel=,color=teal}
+   \hlopts{bwidth=0}
+\fi
 
 % We don't want register allocation information in the log,
 % so we redefine the relevant macro from plain.tex.
@@ -294,9 +313,18 @@
 
 \footnotemarkseparation = .16666em
 
-\abovelistskip = \smallskipamount
-\interitemskip = \tinyskipamount
-\belowlistskip = \smallskipamount
+\ifoldeplain % eplain 1.9
+  \let\abovelistskipa = \abovelistskip
+  \let\interitemskipa = \interitemskip
+  \let\belowlistskipa = \belowlistskip
+\else % eplain 2.0+
+  \let\abovelistskipa = \abovelistskipamount
+  \let\interitemskipa = \interitemskipamount
+  \let\belowlistskipa = \belowlistskipamount
+\fi
+\abovelistskipa = \smallskipamount
+\interitemskipa = \tinyskipamount
+\belowlistskipa = \smallskipamount
 \listleftindent = 0pt
 
 % Displays involve text and math.  We don't want as much flexibility in
@@ -1051,10 +1079,25 @@
 
 % Indexing macros for external use.
 
+% replace // in index string with ! for new eplain
+%
+\def\replaceit#1{\@replace#1//\@replaceMark}
+\def\@replace#1//#2\@replaceMark{%
+  \ifempty{#2}\noexpand#1\else#1!\@replace#2\@replaceMark\fi
+}
+
 % \idxref generates an index entry for #1. If #1 contains any control
 % sequences, they are treated literally.
 %
-\def\idxref#1{\indexwrite{#1}N\ignorespaces}
+\def\idxref#1{%
+  \ifoldeplain\indexwrite{#1}N\ignorespaces\else
+    \begingroup
+    \let\b\begingroup\let\e\endgroup\let\tt\eighttt
+    \edef\z{\replaceit{#1}}%
+    \expandafter\sidx\expandafter{\z}%
+    \endgroup
+  \fi
+}
 
 
 % For creating an index entry for control space.
@@ -1104,14 +1147,22 @@
 % \ttidxref generates an index entry for #1 in the program font.
 % If #1 contains any control sequences, they are treated literally.
 %
-\def\ttidxref#1{\indexwrite{#1}T\ignorespaces}
-
+\def\ttidxref#1{%
+  \ifoldeplain\indexwrite{#1}T\ignorespaces\else
+    %\sidx{\tt\tokstostring{#1}\rm}%
+  \fi
+}
 
 % \ctsidxref generates an index entry for a control sequence.  #1
 % should not have a preceding backslash, so that the proper call for
 % indexing \alpha is \ctsidxref{alpha}.
 %
-\def\ctsidxref #1{\indexwrite{#1}C\ignorespaces}
+\def\ctsidxref #1{%
+  \ifoldeplain\indexwrite{#1}C\ignorespaces\else\ifwriteidx
+    \edef\z{\noexpand\tt\noexpand\\\replaceit{#1}\noexpand\rm}%
+    \expandafter\sidx\expandafter{\z}%
+  \fi\fi
+}
 
 % \indexchar is needed to generate index entries for three especially
 % difficult single characters: {, }, and \.  They are blank-delimited.
@@ -1195,8 +1246,8 @@
    \backfalse
    \shorttocfonts
    \let\tocchapterentry = \shorttocchapter
-   \let\tocsectionentry = \gobblethree
-   \let\tocsubsectionentry = \gobblethree
+   \let\tocsectionentry = \gobbletwo
+   \let\tocsubsectionentry = \gobbletwo
    \halign{\hfil\strut##&\strut ##\hfil\cr
       \readtocfile
    \crcr}}%
@@ -1242,13 +1293,13 @@
    \noalign{\nobreak\vskip2pt}%
 }
 
-\def\tocsectionentry#1#2#3{%
+\def\tocsectionentry#1#2{%
    \noalign{\penalty-500 \vskip\medsmallskipamount}%
-   &\it #1\quad \openbox$\,\,$\rm #3\cr
+   &\it #1\quad \openbox$\,\,$\rm #2\cr
 }
 
-\def\tocsubsectionentry#1#2#3{%
-   &\qquad #1\quad $\cdot\,$#3\cr
+\def\tocsubsectionentry#1#2{%
+   &\qquad #1\quad $\cdot\,$#2\cr
 }
 
 \def\openbox{\ht0 = 1.75pt \dp0 = 1.75pt \wd0 = 3.5pt
@@ -1261,7 +1312,7 @@
 % chapters (really, only the index).
 %
 \def\backmatter{\write\tocfile{\noexpand\setback}\backtrue}
-\def\setback{\noalign{\bigskip\global\backtrue}}
+\def\setback{\ifoldeplain\noalign{\bigskip\global\backtrue}\fi}
 
 
 
@@ -1382,7 +1433,7 @@
    \xdef\examplepage{\number\count255}%
    \markinfo{例#1: #2}
    \ifrewritetocfile
-      \write\tocfile{\string\tocsectionentry{#2}{}{\examplepage}}%
+      \write\tocfile{\string\tocsectionentry{#2}{\examplepage}}%
    \fi
 }
 % Let's number examples automatically; it makes it easier to move them
@@ -1798,7 +1849,7 @@
 \def\ctspecial{\begingroup \deactivate \ctspecialA}
 \def\ctspecialA#1 {\endgroup
    \ctsbasic{\\#1}{}%
-   \pix\ctsidxref{#1}%
+   \pix\ifoldeplain\ctsidxref{#1}\fi%
 }
 
 % \ctspecialx is like \ctspecial, but leaves more space after its
@@ -1809,7 +1860,7 @@
 \def\ctspecialx{\begingroup \deactivate \mapquotes \ctspecialxA}
 \def\ctspecialxA#1 {\endgroup
    \ctsbasic{\\#1}{}\quad
-   \pix\ctsidxref{#1}%
+   \pix\ifoldeplain\ctsidxref{#1}\fi%
 }
 
 % \ctsdisplay has a blank-delimited argument consisting of a control
@@ -2014,6 +2065,10 @@
    \endit{INDEX ENTRY}%
 }
 
+\ifoldeplain\else
+   \hookaction{beginindex}{\let \b = \bgroup \let \e = \egroup}
+\fi
+
 % Nah, let's forget printing the initial.
 %
 \def\indexgroup#1{%
@@ -2124,7 +2179,7 @@
 \def\mud{\thinspace {\rm mu}} % can't use \mu; it'a a Greek letter!
 \def\newTeX{新 \TeX}
 \def\p{页 \thinspace}
-\def\pkfile{{\tt .pk} file}
+\def\pkfile{{\tt .pk} 文件}
 \def\plainTeX{plain \TeX}
 \def\PlainTeX{Plain \TeX}
 \def\pp{页}
@@ -2342,7 +2397,9 @@
 
 % Read the cross-reference definitions.
 %
+\catcode `\_ = \letter % for new eplain
 \readauxfile
+\catcode `\_ = 8 % for new eplain
 
 \catcode`\@ = \other  % Make @ an `other' character again.
 \catcode`\^ = \active % Make ^'s do indexing outside of math mode.
