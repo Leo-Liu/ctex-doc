@@ -19,22 +19,30 @@
 
 % Computer Modern fonts.
 %
-\ifadobefont
+\chardef\chinesefont = 2
+\ifcase\chinesefont
   \def\song{Adobe Song Std}
   \def\hei{Adobe Heiti Std}
   \def\kai{Adobe Kaiti Std}
   \def\fang{Adobe Fangsong Std}
-\else
+\or
   \def\song{SimSun}
   \def\hei{SimHei}
   \def\kai{KaiTi}
   \def\fang{FangSong}
+\or
+  \def\song{FandolSong}
+  \def\hei{FandolHei}
+  \def\kai{FandolKai}
+  \def\fang{FandolFang}
 \fi
 %
+\newif\ifxecjk \xecjktrue
 \ifxecjk
   \font\CJKfont="\song" at 10pt
   \input xeCJK-base
   \def\letfont{\let\CJKfont}
+  \xeCJKenablechecksingle
   \normalspacedchars{-}
 \else
   \font\zhfont="\song" at 10pt
